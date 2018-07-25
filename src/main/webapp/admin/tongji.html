@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>网站标题</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script type="text/javascript" src="js/echarts.common.min.js"></script>
+</head>
+<style>
+
+.list_tit {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 20px;
+	border-bottom: #dddee1 1px solid;
+}
+
+.list_tit .text {
+	font-size: 18px;
+	font-weight: bold;
+	float: left;
+	line-height: 46px;
+}
+
+.list_tit .list {
+	float: left;
+	display: inline;
+	margin-left: 30px;
+	margin-top: 10px;
+}
+
+.list_tit .list ul li {
+	width: auto;
+	height: 24px;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: hidden;
+	line-height: 24px;
+	margin-right: 20px;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+.list_tit .list ul li.on {
+	background: #62af5a;
+	color: #ffffff;
+}
+
+.list_tit .list ul li.on a {
+	color: #ffffff;
+}
+
+</style>
+<body>
+<div class="place">当前位置：工作台 / <b>问答管理</b></div>
+<div class="pageMain">
+    
+    <div class="list_tit">
+		<div class="text">问答分析</div>
+		<div class="list">
+			<ul>
+				<li class="on"><a href="">统计图</a></li>
+				<li ><a href="tongjitable.html">统计列表</a></li>
+				<li><a href="tongjigpc.html">高频词列表</a></li>
+			</ul>
+		</div>
+	</div>
+    
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 40px; margin-bottom: 40px;">
+        <tr>
+            <td width="70%" align="left" valign="top">
+                <div class="fwl_warp">
+                    <div class="tit">
+                        <div class="biaoti fl">
+                            <div class="pic">
+                                <i class="iconfont icon-kaoshifenxi"></i>
+                            </div>
+                            问答量统计
+                        </div>
+                        <div class="hd fr">
+                            <ul>
+                                <li id="week" class="on"><a href="#">周问答量</a></li>
+                                <li id="month"><a href="#">月问答量</a></li>
+                                <li id="YCount"><a href="#">问答总量：</a></li>
+                            </ul>
+                        </div>
+                        <p class="clear"></p>
+                    </div>
+                    <div class="bd tabBox content">
+                        <div class="tabList">
+                            <div id="weeks" style="height: 410px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td width="30%" align="right" valign="top">
+                <div class="manyidu">
+                    <div class="tit">
+                        <div class="biaoti fl">
+                            <div class="pic">
+                                <i class="iconfont icon-icon-xiugai"></i>
+                            </div>
+                            满意度调查
+                        </div>
+                        <p class="clear"></p>
+                    </div>
+                    <div class="content">
+                        <div id="manyidu" style="height: 410px;"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div style="margin:0 auto; width:95%;">
+	<h4 class="hfw"><b>高频词：</b></h4>
+</div>
+<script type="text/javascript">
+	var dom = document.getElementById("weeks");
+	var myChart = echarts.init(dom),option = null;
+	var manyidu = document.getElementById("manyidu");
+    var manyiduChart = echarts.init(manyidu);
+    
+    (function () {
+       
+        var app = {};
+        var DateAry = [];
+        var valueAry = [];
+        var recordList = [];
+        var monthDate = [];
+        
+        $.ajax({
+    	    type:"post",
+    	    url : "/eprobot/record/getRecordTotalList",
+    	    dataType: "json",
+    	    data : {
+				"startDate" : "",
+				"endDate" : ""
+			},
+    	    cache:false,
+    	    async:false,
+    	    success:function(data){
+    	    	if(data.result != "error"){
+    	    		recordList = data.recordList;
+    	    		var weekList = data.weekCountList;
+    	    		$("#YCount a").text("浏览总量："+data.YCount);
+    	    		for(var key in weekList){
+    	    			DateAry.push(key);
+    	    		    valueAry.push(weekList[key]);
+    	    		}
+    	    		
+    	    	}else{
+    	    		console.log("查询访问量失败");
+    	    	}
+    	    }
+    	});
+        
+        $.ajax({
+    	    type:"post",
+    	    url : "/eprobot/hfw/getTopEleven",
+    	    dataType: "json",
+    	    cache:false,
+    	    async:false,
+    	    success:function(data){
+    	    	for(var i=0; i<data.length; i++){
+    	    	$(".hfw").append("<span>"+data[i].words+"</span>&emsp;");
+    	    	}
+    	    }
+    	});
+        
+        $("#week").click(function(){
+        	$(".fr ul li").removeClass("on");
+        	$(this).addClass("on");
+        	option.xAxis.data = DateAry;
+        	option.series = [{
+                data:valueAry,
+                type: 'line',
+                areaStyle: {
+                    color:"#e7f3ff"
+                },
+                itemStyle: {
+                    normal: {
+                        color: "#51a3f4",
+                        lineStyle: {
+                            color: "#51a3f4"
+                        }
+                    }
+                }
+            }]
+        	 myChart.setOption(option, true);
+        });
+        $("#month").click(function(){
+        	
+        	monthDate = [];
+        	//获取当前日期
+			var myDate = new Date();
+			var nowY = myDate.getFullYear();
+			var nowM = myDate.getMonth()+1;
+			var nowD = myDate.getDate();
+			var enddate = nowY+"-"+(nowM<10 ? "0" + nowM : nowM)+"-"+(nowD<10 ? "0"+ nowD : nowD);//当前日期
+			monthDate.push(enddate);
+			
+        	for(var i=1; i<31; i++){
+				//获取三十天前日期
+				var lw = new Date(myDate - 1000 * 60 * 60 * 24 * i);//最后一个数字30可改，30天的意思
+				var lastY = lw.getFullYear();
+				var lastM = lw.getMonth()+1;
+				var lastD = lw.getDate();
+				var startdate=lastY+"-"+(lastM<10 ? "0" + lastM : lastM)+"-"+(lastD<10 ? "0"+ lastD : lastD);//三十天之前日期
+        		monthDate.push(startdate);//添加
+        		
+        	}
+        	var listNum = [];
+        	for(var i=0; i<monthDate.length; i++){
+        		var num = 0;
+        		for(var j=0; j<recordList.length; j++){
+        			if(recordList[j].indexOf(monthDate[i]) != -1){
+        				num++;
+        			}
+        		}
+        		var obj = {};
+        		obj.name = monthDate[i];
+        		obj.value = num;
+        		listNum.push(num);
+        	}
+        	monthDate = monthDate.reverse();
+        	listNum = listNum.reverse();
+        	option.xAxis.data = monthDate;
+        	option.series = [{
+                data:listNum,
+                type: 'line',
+                areaStyle: {
+                    color:"#e7f3ff"
+                },
+                itemStyle: {
+                    normal: {
+                        color: "#51a3f4",
+                        lineStyle: {
+                            color: "#51a3f4"
+                        }
+                    }
+                }
+            }]
+        	myChart.setOption(option, true);
+        	$(".fr ul li").removeClass("on");
+        	$(this).addClass("on");
+        });
+        option = {
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+        		data: DateAry
+            },
+            yAxis: {
+                type: 'value'
+            },
+            tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            series: [{
+                data:valueAry,
+                type: 'line',
+                areaStyle: {
+                    color:"#e7f3ff"
+                },
+                itemStyle: {
+                    normal: {
+                        color: "#51a3f4",
+                        lineStyle: {
+                            color: "#51a3f4"
+                        }
+                    }
+                }
+            }]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+            
+        var app = {};
+        option1 = null;
+        var satisfy = 1;
+        var unsatisfy =1;
+        
+        $.ajax({
+    	    type:"post",
+    	    url : "/eprobot/praise/selectPraiseTotal",
+    	    dataType: "json",
+    	    cache:false,
+    	    async:false,
+    	    success:function(data){
+    	    	if(data.result = "success"){
+    	    		satisfy = data.list.satisfy;
+    	    		unsatisfy = data.list.unsatisfy;
+    	    	}else{
+    	    		console.log("查询满意度失败");
+    	    	}
+    	    }
+    	});
+        
+        option1 = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{b}: {c} ({d}%)"
+            },
+            legend: {
+                bottom: 10,
+                left: 'center',
+                data: ['满意', '不满意']
+            },
+            series : [
+                {
+                    name:'满意度调查',
+                    type: 'pie',
+                    radius : '65%',
+                    center: ['50%', '50%'],
+                    selectedMode: 'single',
+                    data:[
+                        {value:satisfy, name: '满意'},
+                        {value:unsatisfy, name: '不满意'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ],
+            color:['#217cd5', '#6cb6ff']
+        };
+        if (option1 && typeof option1 === "object") {
+        	manyiduChart.setOption(option1, true);
+        }
+     
+        // 增加监听事件
+        manyiduChart.on("click", eConsole);
+        
+    }());
+    // 监听捕捉点击事件
+    function eConsole(param) {
+      if (typeof param.seriesIndex == 'undefined') {
+    	return;
+      }
+      if (param.type == 'click') {
+    	  var pageNumber = 10;
+    	  var pageSize = 1;
+    	  var pStatus;
+    	  if(param.name == "满意"){
+    		  pStatus = 1;
+    		  
+    	  }else{
+    		  pStatus = 0;
+    	  }
+    	  $('#mainright iframe', window.parent.document).attr("src","praise.html?"+pStatus);
+    	  
+    	  
+    	//everyClick(param); // 对应触发事件
+      }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>四川省环保厅智能问答管理平台</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+     <script type="text/javascript" src="js/echarts.common.min.js"></script>
+ 
+</head>
+
+<body>
+<!--header-->
+<div class="header" id="topframe">
+    <div class="logo fl">四川省环保厅智能问答管理平台</div>
+    <div class="topR fr">
+        <ul>
+            <li class="name">
+                <div class="pic"><img src="images/raw_1525759264.png" alt=""></div>
+                <div class="text userNamess">Rayghost</div>
+            </li>
+            <li class="pwd">
+                <div class="pic"><i class="iconfont icon-icon-xiugai"></i></div>
+                <div class="text"><a class="passWord" style="cursor:pointer">修改密码</a></div>
+            </li>
+            <li class="pwd">
+                <div class="pic"><i class="iconfont icon-tuichu"></i></div>
+                <div class="text"><a id="loginOut" style="cursor:pointer">安全退出</a></div>
+            </li>
+        </ul>
+    </div>
+    <p class="clear"></p>
+</div>
+<!--header end-->
+<div class="backmain">
+    <div id="leftframe" class="fl">
+        <ul class="ul1">
+            <li class="on">
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-chutizujuan"></i></div>
+                    <div class="text">标准问题</div>
+                </a>
+            </li>
+            
+            <li>
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-kaoshizuoda"></i></div>
+                    <div class="text">知识点分类</div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-shougongzujuan"></i></div>
+                    <div class="text">联想词管理</div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-icon-xiugai"></i></div>
+                    <div class="text">同义词管理</div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-shitishoucang"></i></div>
+                    <div class="text">问答记录</div>
+                </a>
+            </li>
+            <li class="users">
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-banjiguanli"></i></div>
+                    <div class="text">用户管理</div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="pic"><i class="iconfont icon-kaoshifenxi"></i></div>
+                    <div class="text">统计分析</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="mainright" class="fr">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><iframe src="biaozhun.html" name="MainFrame" id="MainFrame" frameborder="no" scrolling="auto"  marginwidth="0"  marginheight="0" width="100%" height="500"></iframe></td>
+            </tr>
+        </table>
+    </div>
+    <p class="clear"></p>
+</div>
+<!--添加成功-->
+<div class="modelSuccess addsuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-emizhifeiji"></i>
+    </div>
+    <div class="text">添加成功</div>
+</div>
+<!--添加成功 end-->
+<!--删除提示-->
+<div class="modelDel" style="display: none">
+    <div class="content">
+        <div class="pic">
+            <i class="iconfont icon-shanchu1"></i>
+        </div>
+        <div class="text">确定删除所选数据？</div>
+        <div class="close"><a href="#">×</a></div>
+    </div>
+    <div class="submit">
+        <ul>
+            <li class="on"><a href="#">确 定</a></li>
+            <li><a href="#">取 消</a></li>
+        </ul>
+    </div>
+</div>
+<!--删除提示 end-->
+<!--删除成功-->
+<div class="modelSuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-shanchu1"></i>
+    </div>
+    <div class="text">删除成功</div>
+</div>
+<!--删除成功 end-->
+<!--添加知识点-->
+<div style="display: none" class="addK">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMainK">
+        <div class="title">添加知识点 <div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div></div>
+        <div class="content">
+            <div class="text">请输入知识点名称</div>
+            <div class="textInput"><input type="text" class="inputs addKnowss" value=""></div>
+            <div class="text">请输入访问地址</div>
+            <div class="textInput"><input type="text" class="inputs addurl" value=""></div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a class="addKnows">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi1" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--添加知识点 end-->
+
+<!--修改知识点-->
+<div style="display: none" class="editK">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMainK">
+        <div class="title">修改知识点 <div class="close"><a href="#">×</a></div></div>
+        <div class="content">
+            <div class="text">知识点名称</div>
+            <input type="hidden" id="types" value="0"/>
+            <input type="hidden" id="parentId"/>
+            <div class="textInput"><input type="text" class="inputs updateKnows"></div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--修改知识点 end-->
+
+<!--添加问题-->
+<div class="addE" style="display: none;">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">添加问题 <div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div>
+    </div>
+        <div class="content">
+            <div class="text">问题</div>
+            <div class="textInput"><input type="text" class="inputs" id="qaQuestion"></div>
+            <div class="text">关键字</div>
+            <div class="textInput"><input type="text" class="inputs" id="kewwords"></div>
+            <div class="text">来源</div>
+            <div class="textInput"><input type="text" class="inputs" id="resource"></div>
+            <div class="text">知识点</div>
+            <div class="textInput" style="border:0; height:32px;">
+                <input type="text"  class="qaKnowledgeFl addQafl" placeholder="点击选择分类" readonly="readonly ">
+				<select class="qaKnowledgePoint" id="qaKnowledgePoint">
+					
+				</select>
+            </div>
+            
+            <div class="text">标准答案</div>
+            <div class="textArea">
+                <textarea id="qaAnswer" style="font-size:12px; font-family:'Microsoft YaHei',Arial,Helvetica,sans-serif;"></textarea>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a class="saveQa">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi1" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!--问题详情-->
+
+<div style="display: none;" class="details">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain" style="height:450px;">
+        <div class="title">详情<div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div></div>
+        <div class="content" style="height:360px;overflow-y:hidden;">
+            <div class="text question">问题：四大飞洒地方</div>
+            <div class="text">
+                <div style="float:left;width:40%;" class="keywords">关键字：</div>
+                <div style="float:left;width:40%" class="resourse">来源：</div>
+                <div style="float:left;width:20%" class="creator">创建人：</div>
+            </div>
+            <div class="text">
+                <div style="float:left;width:40%;" class="enterstutas">输入方式：</div>
+                <div style="float:left;width:40%" class="filename">批量导入文件名：无</div>
+                <div style="float:left;width:20%" class="createTime">创建时间：</div>
+            </div>
+            <div class="text knowledge">知识点：</div>
+            <div class="text">标准答案</div>
+            <div class="textArea answer">
+
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a style="cursor:pointer" class="guanbi1">
+                        <i class="iconfont icon-emizhifeiji"></i> 关闭
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!--问题详情    end-->
+<!-- 修改問題 -->
+<div style="display: none" class="editE">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">修改问题 <div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div></div>
+        <div class="content">
+            <div class="text">问题</div>
+            <div class="textInput"><input type="text" class="inputs edit_name"></div>
+            <div class="text">关键字</div>
+            <div class="textInput"><input type="text" class="inputs keyword1"></div>
+             <div class="text">来源</div>
+            <div class="textInput"><input type="text" class="inputs resources1"></div>
+          <!--   <div class="text">知识点</div>
+            <input type="hidden" class="hidden_knowId"/>
+            <div class="textInput">
+                <select id="edt_qaKnowledgePoint">
+                    <option>大气、水、土地</option>
+                </select>
+            </div> -->
+           <!--   <div class="text">知识点</div>
+              <input type="hidden" class="hidden_knowId"/>
+            <div class="textInput" style="width:94%;height:32px;overflow:hidden;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:0; ">
+                <input type="text"  class="qaKnowledgeFl" title="" style="cursor:pointer;" class="updateQafl" placeholder="点击选择分类" readonly="readonly ">
+				<select id="edt_qaKnowledgePoint" class='qaKnowledgePoint'></select>
+            </div> -->
+            <input type="hidden" class="hidden_knowId"/>
+             <div class="text">知识点</div>
+            <div class="textInput" style="border:0; height:32px;">
+                <input type="text"  class="qaKnowledgeFl updateQafl" placeholder="点击选择分类" readonly="readonly ">
+				<select class="qaKnowledgePoint" id="edt_qaKnowledgePoint">
+					
+				</select>
+            </div>
+            
+            <div class="text">标准答案</div>
+            <div class="textArea">
+                <textarea class="edit_answer"></textarea>
+            </div>
+           
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a id="edt_qa" style="cursor:pointer">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi1" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--修改记录 start-->
+<div style="display: none" class="editR">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">修改记录 <div class="close"><a class="guanbi7" style="cursor:pointer">×</a></div></div>
+        <div class="content">
+            <div class="text">问题</div>
+            <div class="textInput"><input type="text" class="inputs edit_record"></div>
+            <div class="text">关键字</div>
+            <div class="textInput"><input type="text" class="inputs recordkey"></div>
+            <div class="text">来源</div>
+            <div class="textInput"><input type="text" class="inputs recordresource"></div>
+           <!--  <div class="text">知识点</div>
+            <input type="hidden" class="hidden_recordknow"/>
+            <div class="textInput">
+                <select id="edt_recordknow">
+                    <option>大气、水、土地</option>
+                </select>
+            </div> -->
+             <!-- <div class="text">知识点</div>
+              <input type="hidden" class="hidden_recordknow"/>
+            <div class="textInput" >
+                <input type="text"  class="qaKnowledgeFl setQafl" title="" style="cursor:pointer;" placeholder="点击选择分类" readonly="readonly ">
+				<select id="edt_recordknow" class='qaKnowledgePoint'></select>
+            </div> -->
+            <input type="hidden" class="hidden_recordknow"/>
+              <div class="text">知识点</div>
+            <div class="textInput" style="border:0; height:32px;">
+                <input type="text"  class="qaKnowledgeFl setQafl" placeholder="点击选择分类" readonly="readonly ">
+				<select class="qaKnowledgePoint" id="edt_recordknow">
+					
+				</select>
+            </div>
+            
+            <div class="text">标准答案</div>
+            <div class="textArea">
+                <textarea class="recordanswer"></textarea>
+            </div>
+           
+        </div>
+        <input type="hidden" class="recordId"/>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a class="edt_re" style="cursor:pointer">
+                        <i class="iconfont icon-emizhifeiji"></i> 设为标准问题
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi7" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 修改记录 end -->
+<!--添加用戶-->
+<div style="display: none" class="addU">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">添加用戶 <div class="close"><a class="guanbi2" style="cursor:pointer">×</a></div></div>
+        <div class="content">
+            <div class="text">用户名</div>
+            <div class="textInput"><input type="text" class="inputs" id="name" name="name" ></div>
+            <div class="text">密码</div>
+            <div class="textInput"><input type="password" class="inputs" id="pwd"></div>
+            <div class="text">再次密码</div>
+            <div class="textInput"><input type="password" class="inputs" id="twoPwd"></div>
+            <div class="text">邮箱</div>
+            <div class="textInput"><input type="text" class="inputs" id="email"></div>
+            <div class="text">角色</div>
+            <div class="textInput">
+                <select id="roleId">
+                	<option value="0">管理员</option>
+                    <option value="1">普通用戶</option>
+                </select>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a onclick="saveUser()">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi2" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 修改用戶 -->
+<div style="display: none" class="editU">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">修改用户 <div class="close"><a class="guanbi2" style="cursor:pointer">×</a></div></div>
+        <div class="content">
+            <div class="text">用户名</div>
+            <div class="textInput"><input type="text" class="inputs" id="edit_name"></div>
+            <input type="hidden" id="hidden_id">
+            <div class="text">角色</div>
+            <input type="hidden" class="hidden_knowId"/>
+            <div class="textInput">
+                <select id="edt_roleId">
+                  <option value="0">管理員</option>
+                  <option value="1">普通用戶</option>
+                </select>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a id="updateUser">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi2" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!-- 批量導入 -->
+<div style="display: none" class="piLiang">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">批量导入 <div class="close"><a class="guanbi4" style="cursor:pointer">×</a></div></div>
+        <form id="fileform" method="post" enctype="multipart/form-data">
+	        <div class="content">
+	        		<div class="text">文件</div>
+		            <div class="textInput"><input type="file" class="inputs fileval" name="file"></div>
+	        </div>
+	        <div class="submit">
+	            <ul>
+	                <li class="on ">
+	                    <a class="upfile">
+	                        <i class="iconfont icon-emizhifeiji"></i>上传
+	                    </a>
+	                </li>
+	                <li>
+	                    <a class="guanbi4" style="cursor:pointer">
+	                        <i class="iconfont icon-guanbi"></i> 取消
+	                    </a>
+	                </li>
+	            </ul>
+	        </div>
+	    </form>
+    </div>
+</div>
+
+<!-- 修改密碼 -->
+<div style="display: none" class="editP">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+     <div class="field" style="padding:0 30px" >
+        <div class="title">修改密码 <div class="close"><a class="guanbi3" style="cursor:pointer">×</a></div></div>
+        <div class="content" style="width:650px;overflow-y: hidden;">
+            <div class="text">原密码</div>
+            <div class="textInput"><input type="password" class="inputs" id="oldPwd"></div>
+            <div class="text">新密码</div>
+            <div class="textInput"><input type="password" class="inputs" id="newPwd"></div>
+            <div class="text">再次新密码</div>
+            <div class="textInput"><input type="password" class="inputs" id="twonewPwd"></div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a id="updatePwd">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li>
+                    <a class="guanbi3" style="cursor:pointer">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+<!--栏目结构-->
+<div style="display:none" class="lm">
+    <div class="modelAskBg"></div>
+    <div class="modelLanmu">
+        <div class="title">分类结构 <div class="close"><a href="#" class="guanbi5">×</a></div></div>
+        <div class="content" id="lm_slide">
+            <!--<div class="lm_menu fl hd" id="lm_menu">
+                <ul>
+                    <li><a href="#">市州环保局</a></li>
+                </ul>
+            </div>-->
+            <div class="bd">
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_01">
+                        <ul>
+                            <!--<li><a href="#">市州环保局</a></li>
+                            <li><a href="#">市州环保局</a></li>-->
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_02">
+                        <ul>
+                            <!--<li><a href="#">市州环保局</a></li>
+                            <li><a href="#">市州环保局</a></li>
+                            <li><a href="#">市州环保局</a></li>-->
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_03">
+                        <ul>
+                            <!--<li><a href="#">市州环保局</a></li>
+                            <li><a href="#">市州环保局</a></li>
+                            <li><a href="#">市州环保局</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li>
+                    <a href="#" class="guanbi5">
+                        <i class="iconfont icon-guanbi"></i> 关闭
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--栏目结构 end-->
+
+<!--添加热词-->
+<div class="addR" style="display: none">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain" style="height: 356px;">
+        <div class="title">添加热词 <div class="close"><a href="#">×</a></div></div>
+        <div class="content"  style="height: 270px;overflow-y: hidden;">
+            <div class="text">问题描述</div>
+            <div class="textInput"><input type="text" class="inputs cRc" style="margin-top: 5px;"></div>
+            <div class="text">标准答案
+                <!--<input type="radio" name="radio" value="2" checked="checked" onclick="show1()" style="margin-left: 30px;">文本-->
+                <!--<input type="radio" name="radio" value="1" onclick="show2()" style="margin-left: 30px;">链接-->
+            </div>
+            <div class="textArea">
+                <textarea id="r1" ></textarea>
+            </div>
+            <input id="r2" class="lianjie" type="text" value="http://" />
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on" id="rcAdd">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="guanbi6">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--添加热词 end-->
+
+<!--修改热词-->
+<div class="editRC" style="display: none">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain" style="height: 356px;">
+        <div class="title">修改热词 <div class="close"><a href="#">×</a></div></div>
+        <div class="content"  style="height: 270px;overflow-y: hidden;">
+            <div class="text">问题描述</div>
+            <div class="textInput"><input type="text" class="inputs cRc" style="margin-top: 5px;"></div>
+            <div class="text">标准答案
+                <!--<input type="radio" name="radio" value="2" checked="checked" onclick="show1()" style="margin-left: 30px;">文本-->
+                <!--<input type="radio" name="radio" value="1" onclick="show2()" style="margin-left: 30px;">链接-->
+            </div>
+            <div class="textArea">
+                <textarea id="r3" ></textarea>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on" id="rcChange">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="guanbi7">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--修改热词 end-->
+
+<!-- <div style="display:none" class="knowjg">
+    <div class="modelAskBg"></div>
+    <div class="modelLanmu">
+        <div class="title">知识点结构 <div class="close"><a href="#" class="guanbi6">×</a></div></div>
+        <div class="content" id="know_slide">
+            <div class="lm_menu fl hd" id="know_menu">
+                <ul>
+                   
+                </ul>
+            </div>
+            <div class="bd">
+                <div class="list">
+                    <div class="lm_cont" id="know_cont_01">
+                        <ul>
+                           
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="know_cont_02">
+                        <ul>
+                            
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="know_cont_03">
+                        <ul>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div> -->
+<script type="text/javascript">
+    function rz(){
+        var h=$(window).height()-$("#topframe").height();
+        $("#leftframe").height(h);
+        $("#mainright").width($(window).width()-130);
+        $("#MainFrame").height(h-10);
+        $(".modelAskBg").height($(window).height());
+    }
+    rz();
+    $("#lm_menu").panel({iWheelStep:32});
+    $("#lm_cont_01").panel({iWheelStep:32});
+    $("#lm_cont_02").panel({iWheelStep:32});
+    $("#lm_cont_03").panel({iWheelStep:32});
+    
+    $("#know_menu").panel({iWheelStep:32});
+    $("#know_cont_01").panel({iWheelStep:32});
+    $("#know_cont_02").panel({iWheelStep:32});
+    $("#know_cont_03").panel({iWheelStep:32});
+
+    
+</script>
+    <script type="text/javascript" src="js/index.js"></script>
+<!--footer-->
+
+<!--footer end-->
+</body>
+</html>

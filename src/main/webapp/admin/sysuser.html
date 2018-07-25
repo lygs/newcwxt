@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用戶管理</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/pageNav.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script src="js/pageNav.js"></script>
+    <script type="text/javascript" src="js/sysuser.js"></script>
+</head>
+<body>
+<div class="place">当前位置：<b>用戶管理</b></div>
+<div class="pageMain">
+    <div class="title">
+        <div class="text">用戶管理</div>
+    </div>
+    <div class="caozuo">
+        <div class="ico fl">
+            <ul>
+                <li><a class="tj" style="cursor:pointer"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
+            </ul>
+        </div>
+        <div class="fr">
+            <div class="search">
+                <div class="textInput"><input type="text" placeholder="请输入用戶名" id="searchName" class="inputs"></div>
+                <div class="submit"><input type="submit" class="btn"> <i class="iconfont icon-sousuo"></i></div>
+            </div>
+        </div>
+        <p class="clear"></p>
+    </div>
+    <div class="tableMain">
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+            <thead>
+            <tr style="font-size: 14px; font-weight: bold;">
+                <td width="10%" height="50" align="center" bgcolor="#F2F2F2">序号</td>
+                <td width="20%" height="50" align="center" bgcolor="#F2F2F2">用戶名</td>
+                <td width="15%" height="50" align="center" bgcolor="#F2F2F2">创建时间</td>
+                <td width="15%" height="50" align="center" bgcolor="#F2F2F2">角色</td>
+                <td width="11%" height="50" align="center" bgcolor="#F2F2F2">操作</td>
+            </tr>
+            </thead>
+            <tbody id="listShow">
+
+            </tbody>
+
+        </table>
+    </div>
+    <div class="pages">
+        <ul>
+            <nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

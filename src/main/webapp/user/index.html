@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/tjtable_style.css">
+ <script type="text/javascript" src="../lib/jquery-1.10.1.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+<script type="text/javascript" src="js/index.js"></script>
+
+<script src=""></script>
+</head>
+
+<body>
+<div class="head"></div>
+<div class="menu">
+    <div class="menu_1">
+        <div class="left">系统管理</div>
+        <div class="right">
+            <a class="user" href="#">当前用户</a>
+            <a class="passWord">修改密码</a>
+            <a class="exit" id="loginOut">退出</a>  
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+<div class="content">
+    <div class="contentBox">
+        <div class="menu_2">
+            <ul>
+                <li>啊啊啊啊啊1</li>
+                <li>啊啊啊啊啊2</li>
+                <li>啊啊啊啊啊3</li>
+                <li>啊啊啊啊啊4</li>
+                <li>啊啊啊啊啊5</li>    
+            </ul>
+        </div>
+        <div class="wenzhang">
+            <ul>
+                <li class="wenzhang_1"><!--内容开始-->
+                    <div class="biaoti">问答管理1</div>
+                    <div class="dangqian">当前位置：工作台>问答管理</div>
+                    <div class="chuangjian">
+                        <a href="#">创建</a>
+                        <div class="search">
+                            <input id="search" type="text" placeholder="搜索文章" />
+                            <input id="search_bt" type="button" class="btn" value="搜索"/>   
+                        </div>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="nr">
+                        <div class="cq_tj_table">
+                            <table cellpadding='0' cellspacing='0' width='100%'>
+                                <thead>
+                                    <tr>
+                                        <td>序号</td>
+                                        <td>问题</td>
+                                        <td>赞</td>
+                                        <td>不赞</td>
+                                        <td>提问量</td>
+                                        <td>创建时间</td>
+                                        <td>常见问题</td>
+                                        <td>操作</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>重庆市气象局与腾讯公司合作共维“互联网+气象”智慧服务</td>
+                                        <td>123</td>
+                                        <td>123</td>
+                                        <td>123</td>
+                                        <td>2017-01-01</td>
+                                        <td style=" padding-top:13px"><input style=" zoom:1.5;" type="checkbox" /></td>
+                                        <td><a href="#">编辑</a>|<a href="#">删除</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="cq_tj_table">
+                        <div class="pag">
+                            <ul>
+                                <li><a href="#">首页</a></li>
+                                <li><a href="#">上一页</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">...</a></li>
+                                <li><a href="#">6</a></li>
+                                <li><a href="#">下一页</a></li>
+                                <li><a href="#">尾页</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li><!--内容结束-->
+            </ul>	
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+<div class="bg-mask"><!--创建问题-->
+			<div class="personal-center-modal personal-center-login" style="color:#444">
+                    <div style="background:#2f9fed;padding:10px 30px;color:#fff;">
+                        <img class="guanbi" style="float:right; width:4%; margin-top:8px; cursor:pointer" src="images/guanbi.jpg">
+                        <h4>创建问题</h4>
+                    </div>
+				
+                <div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">问题描述：</h5>
+					<div class="formitem">
+                        <input style="width:86%; float:right; height:30px" type="text" class="text" />
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+				<div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">知识点：</h5>
+					<div class="formitem" style="width:82%; float:right; height:35px">
+                        <select style="height:35px;line-height:35px;width:100%;"><option>aaaaaaaaa</option></select>
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+                <div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">标准答案：</h5>
+					<div class="formitem">
+                        <textarea style="width:86%; float:right; height:100px" type="text" class="text"></textarea>
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+				<div class="field_1">
+					<button class="btn"><h4>确定</h4></button>
+					<button class="btn"><h4>取消</h4></button>
+				</div>
+			</div>
+		</div>
+
+<div class="bg-mask"><!--创建问题-->
+			<div class="personal-center-modal personal-center-login" style="color:#444">
+                    <div style="background:#2f9fed;padding:10px 30px;color:#fff;">
+                        <img class="guanbi" style="float:right; width:4%; margin-top:8px; cursor:pointer" src="images/guanbi.jpg">
+                        <h4>创建问题</h4>
+                    </div>
+				
+                <div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">问题描述：</h5>
+					<div class="formitem">
+                        <input style="width:86%; float:right; height:30px" type="text" class="text" />
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+				<div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">知识点：</h5>
+					<div class="formitem" style="width:82%; float:right; height:35px">
+                        <select style="height:35px;line-height:35px;width:100%;"><option>aaaaaaaaa</option></select>
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+                <div class="field" style="padding:0 30px" >
+                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">标准答案：</h5>
+					<div class="formitem">
+                        <textarea style="width:86%; float:right; height:100px" type="text" class="text"></textarea>
+					</div>
+                    <div style="clear:both"></div>
+				</div>
+				<div class="field_1">
+					<button class="btn"><h4>确定</h4></button>
+					<button class="btn"><h4>取消</h4></button>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="ee" style="display:none">
+			<div class="personal-center-modal personal-center-login" style="color:#444">
+			  <div style="background:#2f9fed;padding:10px 30px;color:#fff;">
+                      <img class="guanbi" style="float:right; width:4%; margin-top:8px; cursor:pointer" src="images/guanbi.jpg">
+                      <h4>修改密码</h4>
+	           </div>
+				<form method="post">
+				 
+				   <div class="field" style="padding:0 30px" >
+	                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">原密码：</h5>
+						<div class="formitem">
+	                        <input style="width:86%; float:right; height:30px" type="password" class="text" id="oldPwd"/>
+						</div>
+	                    <div style="clear:both"></div>
+					</div>
+					 <div class="field" style="padding:0 30px" >
+	                	<h5 style="float:left;height:30px; line-height:30px; width:16%;">新密码：</h5>
+						<div class="formitem">
+	                        <input style="width:86%; float:right; height:30px" type="password" class="text" id="newPwd" />
+						</div>
+	                    <div style="clear:both"></div>
+					</div>
+					 <div class="field" style="padding:0 10px" >
+	                	<h5 style="float:left;height:30px; line-height:30px; width:18%;">确认新密码：</h5>
+						<div class="formitem">
+	                        <input style="width:80%; float:right; height:30px;padding-left:5px;" type="password" class="text" id="twonewPwd"/>
+						</div>
+	                   <!--  <div style="clear:both"></div> -->
+					</div>
+					<div class="field_1">
+						<button class="btn" id="updatePwd"><h4>确定</h4></button>
+						<button class="btn"><h4>取消</h4></button>
+					</div>
+	  			</form>
+			</div>
+		</div>
+</body>
+<script>
+	$(document).ready(function(e) {
+		$(".wenzhang_1").hide();
+        $(".wenzhang_1:eq(0)").show();
+		$(".menu_2 li:eq(0)").css({"background-color":"#1e8fed","color":"#fff"});
+		//点击事件
+		$(".menu_2 li").click(function(e) {
+			$(".wenzhang_1").hide();
+			$(".menu_2 li").css({"background-color":"#f1f8ff","color":"#000"});
+			Num=$(".menu_2 li").index(this);
+			$(".wenzhang_1:eq("+Num+")").show();
+			$(".menu_2 li:eq("+Num+")").css({"background-color":"#1e8fed","color":"#fff"});
+		});
+		
+		//创建问题
+		$(".bg-mask").hide();
+		$(".chuangjian a").click(function(e) {
+            $(".bg-mask").show();
+        });
+		$(".guanbi").click(function(e) {
+            $(".bg-mask").hide();
+            $(".ee").hide();
+        });
+		
+		$(".passWord").click(function(){
+			$(".ee").show();
+		});
+		
+    });
+</script>
+</html>

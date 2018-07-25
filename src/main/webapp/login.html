@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="admin/login.js"></script>
+<title>四川环保厅智能问答管理平台</title>
+<style>
+*{padding:0px; margin:0px;overflow:hidden;}
+#login_wiap{
+	width:1024px;
+	height:687px;
+	background:url(images/login.jpg) no-repeat center top;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin-left: -512px;
+}
+#login_main{
+	width: 1024px;
+	height:687px;
+	margin:0 auto;
+
+}
+#login_main ul{
+	list-style-type:none;
+	clear:both;
+}
+#login_main ul li.t1{
+	width:132px;
+	height:21px;
+	margin-left:46.2%;
+	margin-top:286px;
+
+}
+#login_main ul li.t1 input{
+	width:132px;
+	height:21px;
+	border:0;
+	line-height:20px;
+	overflow:hidden;
+
+}
+#login_main ul li.t2{
+	width:132px;
+	height:21px;
+	margin-left:46.2%;
+	margin-top:12.5px;
+}
+#login_main ul li.t2 input{
+	width:132px;
+	height:21px;
+	background:none;
+	border:0;
+	line-height:20px;
+	overflow:hidden;
+}
+#login_main ul li.t3{
+	width:71px;
+	height:21px;
+	margin-left:44%;
+	margin-top:16px;
+	float: left;
+}
+
+#login_main ul li.t3e{
+	width:56px;
+	height:21px;
+	margin-left:53.5%;
+	margin-top:16px;
+}
+#login_main ul li.t3 input{
+	width:71px;
+	height:21px;
+	background:none;
+	border:0;
+	overflow:hidden;
+	line-height:20px;
+}
+#login_main ul li.t4{
+	width:65px;
+	height:26px;
+	margin-left:450px;
+	margin-right:11px;
+	margin-top:16px;
+	float:left;
+}
+#login_main ul li.t4 input{
+	width:65px;
+	height:26px;
+	display:block;
+	overflow:hidden;
+	text-indent:-9999px;
+	cursor:pointer;
+	background:none;
+	border:0;
+}
+
+#login_main ul li.t5{
+	width:65px;
+	height:26px;
+	margin-top:16px;
+}
+
+#login_main ul li.t5 input{
+	width:65px;
+	height:26px;
+	display:block;
+	overflow:hidden;
+	text-indent:-9999px;
+	cursor:pointer;
+	background:none;
+	border:0;
+}
+</style>
+
+</head>
+
+<body style="background:url(images/bg.jpg) repeat-x center top;background-color: #099fde;">
+  <div id="login_wiap">
+     <div id="login_main">
+      <form class="form">
+         <ul>
+            <li class="t1">
+            	<input type="text" value="" id="name"/>
+            </li>
+            <li class="t2"><input type="password" id="pwd" value=""/></li>
+            <li class="t3"><input  name="code" id="validateCode" type="text" /></li>
+            <li class="t3e">
+            <a href="#">
+             	<img src="codeMsg.jsp" width="56" height="24" onclick="changeCode()" id="codeImg"/>
+            </a>
+            </li>
+            <li class="t4"><input name="" type="button" id="login"/></li>
+            <li class="t5">
+            	<input name="btn"  type="reset" />
+            </li>
+         </ul>
+         </form>
+    </div>
+         
+  </div>
+</body>
+</html>

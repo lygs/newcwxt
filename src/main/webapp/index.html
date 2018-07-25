@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>四川省环保厅智能机器人</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script src="lib/Events_Base.js"></script>
+    <script type="text/javascript" src="lib/jquery.SuperSlide.2.1.1.source.js"></script>
+
+    <script src="js/CPT/CPT_Question/CPT_Question_View.js"></script>
+    <script src="js/CPT/CPT_Question/CPT_Question_Main.js"></script>
+    <script type="text/javascript" src="js/CPT/CPT_Question/CPT_CommQuestion/CPT_CommQuestion_Content/CPT_CommQuestion_Content_View.js"></script>
+    <script type="text/javascript" src="js/CPT/CPT_Question/CPT_CommQuestion/CPT_CommQuestion_Content/CPT_CommQuestion_Content_List.js"></script>
+    <script type="text/javascript" src="js/CPT/CPT_Question/CPT_CommQuestion/CPT_CommQuestion_Content/CPT_CommQuestion_Content_Title.js"></script>
+    <script type="text/javascript" src="js/CPT/CPT_Question/CPT_CommQuestion/CPT_CommQuestion_Main.js"></script>
+    <script src="js/init.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script> 
+    <script type="text/javascript">  
+       // alert('IP地址:' + returnCitySN["cip"] + ', CID:' + returnCitySN["cid"] + ', 地区:' + returnCitySN["cname"]);
+    </script>
+    <style type="text/css">
+    	.footer {
+  width: 1050px;
+  height: auto;
+  overflow: hidden;
+  padding: 20px 0px;
+  font-size: 12px;
+  color: #6abcff;
+  line-height: 28px;
+  margin: 0 auto; }
+  .footer img {
+    float: left;
+    width: 56px;
+    height: 64px;
+    margin-left: 30px;
+    margin-top: 20px; }
+    
+  .footer .cont {
+    float: left;
+    margin-left: 14px; }
+    .footer .cont a {
+      color: #6abcff; }
+.p_footer a{
+	color: #fff !important;
+}
+.p_footer {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background: #348fd9;
+  font-size: 12px;
+  color: #fff ;!important;
+  line-height: 28px;
+  border-top: 3px solid #0c71c4;
+  padding-bottom: 20px; }
+  .p_footer .link {
+    width: 980px;
+    height: auto;
+    overflow: hidden;
+    margin: 20px auto; }
+    .p_footer .link select {
+      width: 180px;
+      height: 25px;
+      overflow: hidden;
+      margin-right: 9px;
+      margin-left: 2px; }
+  .p_footer .p_footer_cont {
+    width: 1050px;
+    height: auto;
+    overflow: hidden;
+    margin: 0px auto;
+    padding-top: 10px;
+    background: url("../images/page/footer_line.png") no-repeat; }
+    .p_footer .p_footer_cont img {
+      float: left;
+      width: 56px;
+      height: 64px;
+      margin-top: 20px; }
+      .p_footer .p_footer_cont img.t2{
+        float: right;
+        width: 110px;
+        height: 55px;
+
+      }
+    .p_footer .p_footer_cont .cont {
+      float: left;
+      margin-left: 14px; }
+
+        .answer .text{
+            font-size:14px;
+
+        }
+        .answer .text span{
+            font-size:14px;
+            display:block;
+            line-height: 30px;
+        }
+        .Gd{
+            height: 40px;
+            margin: auto;
+            margin-top: 5px;
+            margin-left: 10px;
+            font-size: 14px;
+            color: #333333;
+        }
+    </style>
+
+</head>
+<body>
+<div class="blankH251"></div>
+<div class="warp">
+    <div class="banner">您好！欢迎使用“四川省环境保护厅”智能机器人为您提供的智能咨询服务！</div>
+    <div class="blankH20"></div>
+    <div class="contWrap">
+        <div class="contL">
+            <div class="Container">
+                <div id="Scroller-1">
+                    <div style="width: 100%;" id="content">
+                        <div class="answer">
+                            <div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>
+                            <div class="text">嗨！四川环保欢迎您，希望能为您提供满意的服务。
+                                <div class="jt"></div>
+                            </div>
+                            <p class="clear"></p>
+                        </div>
+                        <!-- <div class="ask">
+                             <div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>
+                             <div class="text">环保厅各处室联系方式环保厅各处室联系方式环保厅各处室联系方式环保厅各处室联系方式环保厅各处室联系方式环保厅各处室联系方式环保厅各处室联系方式
+                                 <div class="jt"></div>
+                             </div>
+                             <p class="clear"></p>
+                         </div>
+                         <div class="answer">
+                             <div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>
+                             <div class="text">2017年9月28日，四川省环境保护厅在乐山市召开四川省第二次全国
+                                 污染源普查（伴生放射性矿）试点工作会议。<br>您可能在找以下问题：<br>
+                                 <a href="#">辐射安全性许可？</a><br>
+                                 <a href="#"> 建设项目环境保护设施竣工验收？</a><br>
+                                 <div class="jt"></div>
+                             </div>
+                             <p class="clear"></p>
+                             <div class="more">
+                                 <ul>
+                                     <li class="t1"><a href="#">不满意</a></li>
+                                     <li class="t2"><a href="#">满意</a></li>
+                                     <li class="t3">您对此答案是否满意？</li>
+                                 </ul>
+                             </div>
+                         </div>
+                         <div style="height: 160px;"></div>-->
+                    </div>
+                    <div class="other">
+                        <!--<ul>
+                            <li><a href="#">环保厅<em>联系方式</em>环查询</a></li>
+                            <li><a href="#">环保厅<em>联系方式</em>环查询</a></li>
+                            <li><a href="#">环保厅<em>联系方式</em>环查询是好多？d网站举报网址是？</a></li>
+                        </ul>-->
+                    </div>
+                </div>
+            </div>
+            <div class="askSubmit">
+                <textarea placeholder='请简要描述您要咨询的问题，如“联系方式”'></textarea>
+            </div>
+            <div class="askTj">
+                <div class="text">您还可以输入50字</div>
+                <div class="btn"><input type="submit" value="发 送"></div>
+            </div>
+        </div>
+        <div class="contR">
+            <div class="rightList" id="question"></div>
+            <div class="rightList" id="knowledge"></div>
+        </div>
+        <p class="clear"></p>
+    </div>
+</div>
+<!-- <div class="footer"><img src="images/jqr_pic_04.png" width="52" height="64" align="left" alt="">
+    <p style="font-weight: bold;">
+        <a href="#">联系我们 | <a href="#">网站地图</a> | 使用帮助 | 网站说明 | 免责说明</a> | 网站地图 | 使用帮助 | 网站说明 | 免责说明</p>
+    地址：中国成都高新区科园南路88号A2　　办公室电话：028—80589003，传真：028—80589008，值班室电话：028—80589003(白天)，028—80589100 (夜间)<br>
+    网址：www.schj.gov.cn　　版权所有：四川省环境保护厅　　技术支持：四川凯普顿信息技术股份有限公司 　蜀ICP备05008542号
+</div> -->
+<div class="p_footer" style="padding-bottom: 10px;">
+    <div class="link">
+        <select tyle="width: 181px;">
+            <option>直属单位</option>
+			
+			<option value="./stjs/jgsz/zsdw/shjjczfj/">四川省环境监察执法局(四川省环境应急与事故调查中心)</option>
+                             
+			<option value="http://www.scaes.cn/">四川省环境保护科学研究院</option>
+                             
+			<option value="http://www.scemc.cn/">四川省环境监测总站</option>
+                             
+			<option value="http://www.scre.cn/">四川省辐射环境管理监测中心站</option>
+                             
+			<option value="./stjs/jgsz/zsdw/shjbhtjgfwzx/">四川省环境保护厅机关服务中心</option>
+                             
+                             <option value="http://www.sceic.org.cn/">四川省环境信息中心</option>
+                              
+			<option value="./stjs/jgsz/zsdw/sjdcpwjkzx/">四川省机动车排污监控中心</option>
+			
+			<option value="./stjs/jgsz/zsdw/scshbxcjy/">四川省环境保护宣传教育服务中心</option>
+			
+			<option value="./stjs/jgsz/zsdw/shjbhdwjlhzzx/">四川省环境保护对外交流合作中心(四川省环保投资评估与绩效评价中心)</option>
+			
+			<option value="http://www.sc-eia.com/">四川省环境工程评估中心</option>
+			
+			<option value="./stjs/jgsz/zsdw/sgtfwyhxpglzx/">四川省固体废物与化学品管理中心</option>
+			
+        </select>
+        <select tyle="width: 181px;">
+            <option>省内环保</option>
+			
+			<option value="http://www.cdepb.gov.cn/">成都市环保局</option>
+			
+			<option value="http://www.zg.gov.cn/web/shbj/">自贡市环保局</option>
+			
+			<option value="http://www.pzhhb.gov.cn/">攀枝花市环保局</option>
+			
+			<option value="http://hbj.luzhou.gov.cn/">泸州市环保局</option>
+			
+			<option value="http://www.dyhb.gov.cn/">德阳市环保局</option>
+			
+			<option value="http://hbj.my.gov.cn/">绵阳市环保局</option>
+			
+			<option value="http://hbj.cngy.gov.cn/">广元市环保局</option>
+			
+			<option value="http://www.snhb.gov.cn/">遂宁市环保局</option>
+			
+			<option value="http://hbj.neijiang.gov.cn/008510910/">内江市环保局</option>
+			
+			<option value="http://www.lsshbj.gov.cn/siteHuanbaoju/index.aspx">乐山市环保局</option>
+			
+			<option value="http://www.nchbj.gov.cn/">南充市环保局</option>
+			
+			<option value="http://www.ybhb.gov.cn">宜宾市环保局</option>
+			
+			<option value="http://www.gahb.gov.cn">广安市环保局</option>
+			
+			<option value="http://www.dzhb.gov.cn">达州市环保局</option>
+			
+			<option value="http://www.yahb.gov.cn/index.html">雅安市环保局</option>
+			
+			<option value="http://hjbhj.cnbz.gov.cn/">巴中市环保局</option>
+			
+			<option value="http://shjbhj.ms.gov.cn/">眉山市环保局</option>
+			
+			<option value="http://www.zyshbj.gov.cn/Index.Asp">资阳市环保局</option>
+			
+			<option value="http://www.abzhbj.gov.cn/">阿坝州环保局</option>
+			
+			<option value="http://www.gzzhb.gov.cn/">甘孜州环保局</option>
+			
+			<option value="http://www.lshj.gov.cn">凉山州环保局</option>
+			
+        </select>
+        <select tyle="width: 181px;">
+            <option>国内环保</option>
+			
+			<option value="http://www.zhb.gov.cn/">生态环境部</option>
+			
+			<option value="http://www.bjepb.gov.cn">北京市环境保护局</option>
+			
+			<option value="http://www.sepb.gov.cn">上海市环境保护局</option>
+			
+			<option value="http://hjbh.tj.gov.cn/">天津市环境保护局</option>
+			
+			<option value="http://www.cepb.gov.cn">重庆市环境保护局</option>
+			
+			<option value="http://www.hb12369.net">河北省环境保护厅</option>
+			
+			<option value="http://www.sxhb.gov.cn/">山西省环境保护厅</option>
+			
+			<option value="http://www.jshb.gov.cn">江苏省环境保护厅</option>
+			
+			<option value="http://www.zjepb.gov.cn">浙江省环境保护厅</option>
+			
+			<option value="http://www.aepb.gov.cn">安徽省环境保护厅</option>
+			
+			<option value="http://www.fjepb.gov.cn">福建省环境保护厅</option>
+			
+			<option value="http://hbj.jl.gov.cn">吉林省环境保护厅</option>
+			
+			<option value="http://www.lnepb.gov.cn">辽宁省环境保护厅</option>
+			
+			<option value="http://www.jxepb.gov.cn">江西省环境保护厅</option>
+			
+			<option value="http://www.hnep.gov.cn">河南省环境保护厅</option>
+			
+			<option value="http://www.sdein.gov.cn">山东省环境保护厅</option>
+			
+			<option value="http://www.hbepb.gov.cn">湖北省环境保护厅</option>
+			
+			<option value="http://www.hbt.hunan.gov.cn/">湖南省环境环保厅</option>
+			
+			<option value="http://www.gdep.gov.cn">广东省环境保护厅</option>
+			
+			<option value="http://www.gzhjbh.gov.cn">贵州省环境保护厅</option>
+			
+			<option value="http://www.ynepb.gov.cn">云南省环境保护厅</option>
+			
+			<option value="http://www.snepb.gov.cn">陕西省环境保护厅</option>
+			
+			<option value="http://www.gsep.gansu.gov.cn">甘肃省环境保护厅</option>
+			
+			<option value="http://www.nxep.gov.cn">宁夏自治区环境保护厅</option>
+			
+			<option value="http://www.xjepb.gov.cn">新疆自治区环境保护厅</option>
+			
+			<option value="http://www.nmgepb.gov.cn">内蒙古自治区环境保护厅</option>
+			
+			<option value="http://www.hnsthb.gov.cn/">海南省生态环境保护厅</option>
+			
+			<option value="http://www.hljdep.gov.cn/">黑龙江省环境保护厅</option>
+			
+			<option value="http://www.xzep.gov.cn/">西藏自治区环境保护厅</option>
+			
+			<option value="http://www.qhepb.gov.cn/">青海省环境保护厅</option>
+			
+			<option value="http://www.gxepb.gov.cn/">广西壮族自治区环境保护厅</option>
+			
+        </select>
+        <select style="width: 181px;">
+            <option>环保相关</option>
+			
+			<option value="http://www.schjkxxh.org.cn/">四川省环境科学学会</option>
+			
+			<option value="http://www.scepi.com.cn/">四川省环保产业协会</option>
+			
+        </select>
+        <select style="width: 181px;margin-right:0px;">
+            <option>其他</option>
+			
+			<option value="http://www.gov.cn">中央人民政府</option>
+			
+			<option value="http://www.mfa.gov.cn">外交部</option>
+			
+			<option value="http://www.moe.gov.cn">教育部</option>
+			
+			<option value="http://www.most.gov.cn">科技部</option>
+			
+			<option value="http://www.seac.gov.cn">国家民委</option>
+			
+			<option value="http://www.mps.gov.cn">公安部</option>
+			
+			<option value="http://www.ccdi.gov.cn/">监察部</option>
+			
+			<option value="http://www.mca.gov.cn">民政部</option>
+			
+			<option value="http://www.moj.gov.cn">司法部</option>
+			
+			<option value="http://www.mof.gov.cn">财政部</option>
+			
+			<option value="http://www.mohrss.gov.cn">人力资源社会保障部</option>
+			
+			<option value="http://www.mlr.gov.cn">国土资源部</option>
+			
+			<option value="http://www.mohurd.gov.cn">住房城乡建设部</option>
+			
+			<option value="http://www.mot.gov.cn">交通运输部</option>
+			
+			<option value="http://www.mwr.gov.cn">水利部</option>
+			
+			<option value="http://www.sc.gov.cn">四川省人民政府</option>
+			
+			<option value="http://www.sczfcg.com">四川政府采购网</option>
+			
+			<option value="http://www.scdrc.gov.cn">四川省发改委员会</option>
+			
+			<option value="http://www.scjm.gov.cn">四川省经济委员会</option>
+			
+			<option value="http://www.scjc.gov.cn">四川省监察厅</option>
+			
+			<option value="http://www.scgis.net/SCGCMap/map.html">天地图四川</option>
+			
+			<option value="http://sgzj.sc.gov.cn:48080/agent/public">行政审批中介机构目录</option>
+			
+        </select>
+    </div>
+    <div class="p_footer_cont" style="width:970px;">
+        <div class="cont white" align="center" style="float:none;margin-left: 0px;">
+		  <strong><a href="http://www.schj.gov.cn/wzdt/" target="_blank" title="网站地图">网站地图</a> | <a href="http://www.schj.gov.cn/wzsm/201707/t20170724_244488.html" target="_blank" title="网站声明">网站声明</a></strong><br>
+            环保投诉热线：12369；办公室电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)；传真：028—80589008(昼)、80589101(夜/节假日)；<br>
+            地址：中国成都高新区科园南路88号A2； 版权所有：四川省环境保护厅； 技术支持：四川省环境信息中心； 网站标识码：5100000086； <a href="http://www.miitbeian.gov.cn" target="_blank"> 蜀ICP备05008542号-1</a>
+        </div>
+		<div align="center">
+		<a href="http://bszs.conac.cn/sitename?method=show&amp;id=06C8ACEC63CF7ACBE053022819ACA811" target="_blank" style="display: inline-block;margin: auto 60px auto 0px;" title="全国党政机关事业单位互联网网站标识管理服务平台"><img src="./images/fot_ico.png" alt="" style="margin-top: 10px;"></a>
+        <!--<a href="#" title="" style="display: inline-block;margin: 4px auto;width: 110px;"><img src="./images/fot_ico_02.png" class="t2" /></a>-->
+                
+		<script id="_jiucuo_" sitecode="5100000086" src="./images/jiucuo.js"></script><span id="_span_jiucuo" style="display: inline-block;margin: 4px auto;width: 110px;"><img onclick="Link('5100000086')" style="width: 110px;height: 55px;margin-top: 0px;cursor: pointer;" src="http://pucha.kaipuyun.cn/exposure/images/jiucuo.png?v=5100000086"></span>
+		</div>
+    </div>
+</div><script type="text/javascript">
+    $(function () {
+        $("#Scroller-1").panel({iWheelStep: 32});
+        selectLink();
+    });
+    var rootPath = window.location.host;
+    function selectLink(){
+    	  $("select").change(function(){
+    	    if((($(this).val().indexOf("http"))!=-1)&&(($(this).val().indexOf(rootPath))==-1)){
+    		  if(confirm("您即将离开“四川省环境保护厅网站”，访问“"+$.trim(this.options[this.selectedIndex].text)+"”，是否继续？")){
+    	      //  event.returnValue = true;
+    	      window.open($(this.options[this.selectedIndex]).val());
+    	        //selectForword(this);
+    	      }else{
+    	      //  event.returnValue = false;
+    	        window.location.href=window.location.href;
+    	      }
+    	    }else{
+    		  selectForword(this);
+    		}
+    	  });
+    	}
+</script>
+</body>
+</html>

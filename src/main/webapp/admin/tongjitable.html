@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="js/tableExport/tableExport.min.js"></script>
+<script type="text/javascript" src="js/tableExport/xlsx.core.min.js"></script>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "微软雅黑";
+	color: #333333;
+	font-size: 14px;
+}
+
+a {
+	color: #333333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #333333;
+	text-decoration: underline;
+}
+
+ul {
+	list-style: none;
+	clear: both;
+}
+
+li {
+	float: left;
+	display: inline;
+}
+
+.list_tit {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 20px;
+	border-bottom: #dddee1 1px solid;
+}
+
+.list_tit .text {
+	font-size: 18px;
+	font-weight: bold;
+	float: left;
+	line-height: 46px;
+}
+
+.list_tit .list {
+	float: left;
+	display: inline;
+	margin-left: 30px;
+	margin-top: 10px;
+}
+
+.list_tit .list ul li {
+	width: auto;
+	height: 24px;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: hidden;
+	line-height: 24px;
+	margin-right: 20px;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+.list_tit .list ul li.on {
+	background: #62af5a;
+	color: #ffffff;
+}
+
+.list_tit .list ul li.on a {
+	color: #ffffff;
+}
+
+.list_cuozuo {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+
+.list_cuozuo .daochu {
+	width: auto;
+	height: 30px;
+	overflow: hidden;
+	border: #e6e6e6 1px solid;
+	line-height: 30px;
+	border-radius: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 12px;
+	float: left;
+}
+
+.list_cuozuo .daochu i {
+	font-size: 15px;
+}
+
+.inputs {
+	width: 215px;
+	height: 30px;
+	overflow: hidden;
+	border: #e6e6e6 1px solid;
+	border-radius: 5px;
+	float: right;
+}
+
+.inputs input {
+	width: 105px;
+	height: 30px;
+	overflow: hidden;
+	border: 0;
+	background: none;
+	line-height: 30px;
+	color: #828282;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	padding-left: 10px;
+}
+
+.clear {
+	content: ".";
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.list_content {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
+
+.list_content table tr td {
+	text-indent: 40px;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table tr {
+	transition: all ease-out 0.3s;
+}
+
+table tr:hover {
+	background: #e0ebf5;
+}
+
+table tr:hover td {
+	background: none;
+}
+
+table td {
+	border: 1px solid #d9d9d9;
+}
+</style>
+</head>
+<body>
+	<div class="list_tit">
+		<div class="text">问答分析</div>
+		<div class="list">
+			<ul>
+				<li class="on"><a href="#">统计列表</a></li>
+				<li><a href="tongji.html">统计图</a></li>
+				<li><a href="tongjigpc.html">高频词列表</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="list_cuozuo">
+		<div class="daochu" id="export">
+			<a href="#"><i class="iconfont icon-daochu"></i> 导 出</a>
+		</div>
+		<div class="inputs" style="width: 450px;">
+			<input type="text" id="startDate" placeholder="开始时间" value=""
+				class="Wdate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})">至<input
+				type="text" id="endDate" placeholder="结束时间" class="Wdate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" value="">
+		</div>
+		<div class="daochu" style="float: right;" id="search">
+			<a href="#"><i class="iconfont icon-daochu"></i> 查询</a>
+		</div>
+		<p class="clear"></p>
+	</div>
+	<div class="list_content">
+		<table width="100%" id="tab">
+			<tr>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>年问答量</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>满意</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>不满意</strong></td>
+
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>月问答量</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>满意</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>不满意</strong></td>
+
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>周问答量</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>满意</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>不满意</strong></td>
+
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>日问答量</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>满意</strong></td>
+				<td width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong>不满意</strong></td>
+			</tr>
+
+			<tr>
+				<td class="y" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="y" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="y" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+
+				<td class="m" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="m" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="m" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+
+				<td class="w" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="w" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="w" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+
+				<td class="d" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="d" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+				<td class="d" width="5%" height="48" align="left" bgcolor="#f2f2f2"><strong></strong></td>
+			</tr>
+
+		</table>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			selectDate("", "");
+
+			$("#search").click(function() {
+				var startDate = $("#startDate").val();
+				var endDate = $("#endDate").val();
+
+				selectDate(startDate, endDate);
+			});
+
+			$("#export").click(function() {
+				var options = {
+					fileName : '问答量统计'
+				};
+				$.extend(true, options, {
+					type : 'excel'
+				});
+				$("#tab").tableExport(options);
+			});
+
+		})
+
+		function selectDate(startDate, endDate) {
+			var tab = $("#tab")
+			var tr2 = $("<tr></tr>");
+			$.ajax({
+				type : 'post',
+				url : "/eprobot/record/getRecordTotalList",
+				dataType : "json",
+				data : {
+					"startDate" : startDate,
+					"endDate" : endDate
+				},
+				cache : false,
+				async : false,
+				success : function(data) {
+					console.log(data);
+					if (data != "error") {
+						if (!data.dateCount) {
+							$($(".y")[0]).text(data.yearCount);
+							$($(".m")[0]).text(data.monthCountNum);
+							$($(".w")[0]).text(data.weekCountNum);
+							$($(".d")[0]).text(data.dayConutn);
+						} else {
+							tab.empty();
+							var tr1= $("<tr></tr>");
+							var td = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>问答量</strong></td>';
+							var td2 = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>满意</strong></td>';
+							var td3 = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>不满意</strong></td>';
+							tr1.append(td).append(td2).append(td3);
+							var td4 = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>'+data.dateCount+'</strong></td>';
+							tr2.append(td4);
+							tab.append(tr1).append(tr2);
+						}
+					}
+				}
+			});
+
+			//
+			$.ajax({
+				type : 'post',
+				url : "/eprobot/praise/selectPraiseTotalByDMY",
+				dataType : "json",
+				data : {
+					"startDate" : startDate,
+					"endDate" : endDate
+				},
+				cache : false,
+				async : false,
+				success : function(data) {
+					console.log(data);
+					if (data != "error") {
+						if (!data.dateCount) {
+								$($(".y")[1]).text(data.yearCount.m);
+								$($(".y")[2]).text(data.yearCount.b);
+								$($(".m")[1]).text(data.monthCount.m);
+								$($(".m")[2]).text(data.monthCount.b);
+
+								$($(".w")[1]).text(data.weekCount.m);
+								$($(".w")[2]).text(data.weekCount.b);
+
+								$($(".d")[1]).text(data.dayCount.m);
+								$($(".d")[2]).text(data.dayCount.b);
+
+						} else {
+							var td1 = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>'+data.dateCount.m+'</strong></td>';
+							var td2 = '<td width="20%" height="48" align="left" bgcolor="#f2f2f2"><strong>'+data.dateCount.b+'</strong></td>';
+							tr2.append(td1).append(td2);
+							
+						}
+					}
+				}
+
+			});
+		}
+	</script>
+</body>
+</html>

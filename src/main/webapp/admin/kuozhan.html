@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>同义词管理</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+     <link rel="stylesheet" type="text/css" href="../css/pageNav.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script type="text/javascript" src="js/echarts.common.min.js"></script>
+    <script src="js/pageNav.js"></script>
+    <script src="js/kuozhan.js"></script>
+</head>
+<body>
+<div class="place">当前位置：<b>同义词管理</b></div>
+<div class="pageMain">
+    <div class="title">
+        <div class="text">同义词管理</div>
+     <!--    <div class="ico"><a class="lmjg" style="cursor:pointer"><i class="iconfont icon-jiegou"></i> 分类查询</a></div> -->
+    </div>
+    <div class="caozuo">
+        <div class="ico fl">
+            <ul>
+              <!--   <li><a href="#"><i class="iconfont icon-icon-xiugai"></i> 编辑</a></li>
+                <li><a href="#"><i class="iconfont icon-shanchu1"></i> 删除</a></li> -->
+                <li><a class="tj" style="cursor:pointer"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
+                <!-- <li><a class="pl" style="cursor:pointer"><i class="iconfont icon-shangchuan"></i> 批量导入</a></li> -->
+            </ul>
+        </div>
+        <div class="fr">
+          <!--   <div class="shuaxin">
+                <a href="#">
+                    <i class="iconfont icon-ai244"></i>
+                </a>
+            </div> -->
+            <div class="search">
+                <div class="textInput"><input type="text" placeholder="查询相关记录" class="inputs" id="searchName"></div>
+                <div class="submit"><input type="submit" class="btn"> <i class="iconfont icon-sousuo"></i></div>
+            </div>
+        </div>
+        <p class="clear"></p>
+    </div>
+    <div class="tableMain">
+        <table width="100%" border="1" cellspacing="0" cellpadding="0" id="listShow">
+        	<thead>
+	            <tr style="font-size: 14px; font-weight: bold;">
+	                <td width="10%" height="50" align="center" bgcolor="#F2F2F2">序号</td>
+	                <td width="36%" height="50" align="center" bgcolor="#F2F2F2">内容</td>
+	                <td width="11%" height="50" align="center" bgcolor="#F2F2F2">创建时间</td>
+	<!--                 <td width="12%" height="50" align="center" bgcolor="#F2F2F2">来源</td>
+	                <td width="15%" height="50" align="center" bgcolor="#F2F2F2">关键字</td>
+	 -->                <td width="15%" height="50" align="center" bgcolor="#F2F2F2">创建人</td>
+	              	<!-- <td width="5%" height="50" align="center" bgcolor="#F2F2F2">是否常见</td> -->
+	                <td width="11%" height="50" align="center" bgcolor="#F2F2F2">操作</td>
+	            </tr>
+        	<thead>
+        	<tbody>
+        	
+        	</tbody>
+        </table>
+    </div>
+<!--     
+        <ul>
+            <li class="text">共116条</li>
+            <li><a href="#"><</a></li>
+            <li class="on"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li class="text">...</li>
+            <li><a href="#">10</a></li>
+            <li><a href="#"> ></a></li>
+            <li class="text">跳至</li>
+            <li class="textInput"><input type="text" value="1"></li>
+            <li class="text">页</li>
+        </ul>
+    </div> -->
+    
+   <div class="pages"><li class="text totalNum"></li><nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+    </div>
+</div>
+<!--footer-->
+<!--添加成功-->
+<div class="modelSuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-emizhifeiji"></i>
+    </div>
+    <div class="text">添加成功</div>
+</div>
+<!--添加成功 end-->
+<!--删除提示-->
+<div class="modelDel" style="display: none">
+    <div class="content">
+        <div class="pic">
+            <i class="iconfont icon-shanchu1"></i>
+        </div>
+        <div class="text">确定删除所选数据？</div>
+        <div class="close"><a href="#">×</a></div>
+    </div>
+    <div class="submit">
+        <ul>
+            <li class="on"><a href="#">确 定</a></li>
+            <li><a href="#">取 消</a></li>
+        </ul>
+    </div>
+</div>
+<!--删除提示 end-->
+<!--删除成功-->
+<div class="modelSuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-shanchu1"></i>
+    </div>
+    <div class="text">删除成功</div>
+</div>
+<!--删除成功 end-->
+<!--添加问题-->
+<div class="addE" style="display:none">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain" style="height: 310px;">
+        <div class="title">添加词语 <div class="close closeX"><a href="javascript:void(0);" onclick="">×</a></div></div>
+        <div class="content"  style="height: 220px;overflow-y: hidden;">
+            <div class="text">词语内容 </div>
+            <div class="textArea" id="r1" >
+                <textarea></textarea>
+            </div>
+            <span style="color: #ff0000; margin-left: 20px;">*注意：词与词之间请用英文状态下的“;”隔开！</span>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on" onclick="add(-1,$('.addE'));">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li class="closeX">
+                    <a href="" >
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--添加问题 end-->
+<!--修改问题-->
+<div class="edit" style="display:none">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain" style="height: 310px;">
+        <div class="title">修改词语 <div class="close closeX"><a href="" >×</a></div></div>
+        <div class="content"  style="height: 220px;overflow-y: hidden;">
+            <div class="text">词语内容 </div>
+            <div class="textArea" class="textArea" >
+                <textarea></textarea>
+                <input type="hidden" class="editId">
+            </div>
+            <span style="color: #ff0000; margin-left: 20px;">*注意：词与词之间请用英文状态下的“;”隔开！</span>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on" onclick="edit($('.edit'));">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 修改
+                    </a>
+                </li>
+                <li class="closeX">
+                    <a href="" >
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--修改问题 end-->
+
+</body>
+<script>
+	$(".tj").click(function(){$(".addE").show()});
+	$(".closeX").click(function(){$(".addE").hide()});
+</script>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/pageNav.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="js/tableExport/tableExport.min.js"></script>
+<script type="text/javascript" src="js/tableExport/xlsx.core.min.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script src="js/pageNav.js"></script>
+<script src="js/gaopinci.js"></script>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "微软雅黑";
+	color: #333333;
+	font-size: 14px;
+}
+
+a {
+	color: #333333;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #333333;
+	text-decoration: underline;
+}
+
+ul {
+	list-style: none;
+	clear: both;
+}
+
+li {
+	float: left;
+	display: inline;
+}
+
+.list_tit {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 20px;
+	border-bottom: #dddee1 1px solid;
+}
+
+.list_tit .text {
+	font-size: 18px;
+	font-weight: bold;
+	float: left;
+	line-height: 46px;
+}
+
+.list_tit .list {
+	float: left;
+	display: inline;
+	margin-left: 30px;
+	margin-top: 10px;
+}
+
+.list_tit .list ul li {
+	width: auto;
+	height: 24px;
+	padding-left: 10px;
+	padding-right: 10px;
+	overflow: hidden;
+	line-height: 24px;
+	margin-right: 20px;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+.list_tit .list ul li.on {
+	background: #62af5a;
+	color: #ffffff;
+}
+
+.list_tit .list ul li.on a {
+	color: #ffffff;
+}
+
+.list_cuozuo {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+
+.list_cuozuo .daochu {
+	width: auto;
+	height: 30px;
+	overflow: hidden;
+	border: #e6e6e6 1px solid;
+	line-height: 30px;
+	border-radius: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 12px;
+	float: left;
+}
+
+.list_cuozuo .daochu i {
+	font-size: 15px;
+}
+
+.inputs {
+	width: 215px;
+	height: 30px;
+	overflow: hidden;
+	border: #e6e6e6 1px solid;
+	border-radius: 5px;
+	float: right;
+}
+
+.inputs input {
+	width: 105px;
+	height: 30px;
+	overflow: hidden;
+	border: 0;
+	background: none;
+	line-height: 30px;
+	color: #828282;
+	font-family: "微软雅黑";
+	font-size: 12px;
+	padding-left: 10px;
+}
+
+.clear {
+	content: ".";
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.list_content {
+	width: 96%;
+	overflow: hidden;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
+
+.list_content table tr td {
+	text-indent: 40px;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table tr {
+	transition: all ease-out 0.3s;
+}
+
+table tr:hover {
+	background: #e0ebf5;
+}
+
+table tr:hover td {
+	background: none;
+}
+
+table td {
+	border: 1px solid #d9d9d9;
+}
+</style>
+</head>
+<body>
+	<div class="list_tit">
+		<div class="text">问答分析</div>
+		<div class="list">
+			<ul>
+				<li class="on"><a href="#">高频词列表</a></li>
+				<li><a href="tongjitable.html">统计列表</a></li>
+				<li><a href="tongji.html">统计图</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="list_cuozuo" style="display:none">
+		<div class="daochu" id="export">
+			<a href="#"><i class="iconfont icon-daochu"></i> 导 出</a>
+		</div>
+		<!-- <div class="inputs" style="width: 450px;">
+			<input type="text" id="startDate" placeholder="开始时间" value=""
+				class="Wdate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})">至<input
+				type="text" id="endDate" placeholder="结束时间" class="Wdate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" value="">
+		</div> -->
+		<div class="daochu" style="float: right;" id="search">
+			<a href="#"><i class="iconfont icon-daochu"></i> 查询</a>
+		</div>
+		<p class="clear"></p>
+	</div>
+	<div class="list_content">
+		<table width="100%" id="tab">
+			 <thead>
+            <tr style="font-size: 14px; font-weight: bold;">
+                <td width="10%" height="50" align="center" bgcolor="#F2F2F2">序号</td>
+                <td width="20%" height="50" align="center" bgcolor="#F2F2F2">高频词</td>
+                <td width="15%" height="50" align="center" bgcolor="#F2F2F2">访问量</td>
+                <!-- <td width="11%" height="50" align="center" bgcolor="#F2F2F2">操作</td> -->
+            </tr>
+            </thead>
+            <tbody id="listShow">
+				
+            </tbody>
+
+		</table>
+	</div>
+	<div class="pages">
+        <ul>
+            <nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+        </ul>
+    </div>
+</body>
+</html>

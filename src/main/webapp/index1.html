@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>四川省环保厅智能机器人</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="lib/jquery.min.js"></script>
+
+    <script type="text/javascript" src="lib/jquery.SuperSlide.2.1.1.source.js"></script>
+<script>
+
+    $(function(){
+        var s="http://61.186.251.137:8000/search/index!search.action?searchType1=0&q=8%22%27%3E%3C%2Ftextarea%3E%3C%2Fscript%3E%20%3Cscript%3Ealert(42873)%3C%2Fscript%3E";
+
+        $("#test").val(decodeURI(htmlspecialchars(s)));
+    });
+    function safeStr(str){
+        return str.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+    function htmlspecialchars(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        for   (var i=0; i<str.length; i++)
+        {
+            switch (str.substr(i,1))
+            {
+                case "<": s += ""; break;
+                case ">": s += ""; break;
+                case "&": s += ""; break;
+                case " ":
+                    if(str.substr(i + 1, 1) == " "){
+                        s += "";
+                        i++;
+                    } else s += " ";
+                    break;
+                case "\"": s += ""; break;
+                case "\n": s += "<br>"; break;
+                default: s += str.substr(i,1); break;
+            }
+        }
+        return s;
+    }
+</script>
+
+</head>
+<body>
+<div id="example">
+    <input type="text" id="test" />
+    <h3 id="example_title">将滚动条（scrollbar）保持在最底部的方法</h3>
+    <div id="example_main">
+        <span class="notice">请点击“插入一行”按钮，插入最新信息，当出现滚动条时，滚动条将自动保持在底部。</span><br />
+
+        <div id="scrolldIV" style="overflow:auto; height: 100px; width: 400px; border: 1px solid #999;">
+        </div>
+        <input type="button" value="插入一行" onclick="add();">
+    </div>
+</div>
+</body>
+</html>

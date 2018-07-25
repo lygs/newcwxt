@@ -1,0 +1,124 @@
+﻿* {
+	padding:0px;
+	margin:0px;
+}
+body {
+	font-size: 14px;
+	color: #0f0e0e;
+	font-family:"微软雅黑";
+	background:#fff;
+}
+@font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.eot?24330446');
+    src: url('../font/fontello.eot?24330446#iefix') format('embedded-opentype'),
+         url('../font/fontello.woff?24330446') format('woff'),
+         url('../font/fontello.ttf?24330446') format('truetype'),
+         url('../font/fontello.svg?24330446#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+.fl {
+	float:left;
+}
+.fr {
+	float:right;
+}
+.clear {
+	content:".";
+	display:block;
+	font-size:0px;
+	line-height:0px;
+	height:0px;
+	clear:both;
+	visibility:hidden;
+}
+a {
+	color:#333333;
+	text-decoration:none;
+}
+a:hover {
+	color:#d30000;
+}
+ul {
+	list-style-type:none;
+	clear:both;
+}
+li {
+	display:inline;
+	float:left;
+}
+
+.cq_tj_table{
+    width: 100%;
+    font-family: "宋体"; 
+    
+}
+.cq_tj_table table{
+    border-bottom: 1px solid #e3e8ee;
+    border-left: 1px solid #e3e8ee;
+}
+.cq_tj_table table td{
+    border-top: 1px solid #e3e8ee;
+    border-right: 1px solid #e3e8ee;
+    height: 30px;
+    line-height: 30px;
+	text-align:center;
+	padding:0 20px;
+}
+
+.cq_tj_table table thead{
+    background: #1b67a4;
+    color: #fff;
+    font-weight: bold;
+    font-family: "微软雅黑";
+    
+}
+.cq_tj_table table tbody{
+    color: #737e87;
+    font-size: 12px;
+    font-size: 12px;
+}
+.cq_tj_table table tbody tr:hover{
+    background: #f8f8fa
+}
+
+.cq_tj_table table tbody tr:nth-child(odd){
+    background:#fff;
+}
+.cq_tj_table table tbody tr:nth-child(even){
+    background:#f8f8fa;
+}
+.cq_tj_table .pag{
+    width: 100%;
+    margin: 2% 25%;
+}
+.cq_tj_table .pag li{
+    padding: 0px 10px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #2f7dbb;
+    margin-right: 5px;
+    font-size: 12px;
+}
+.cq_tj_table .pag ul{
+    width: 50%;
+}
+.cq_tj_table .pag li a{
+    color: #2f7dbb;
+}
+.cq_tj_table .pag li:hover{
+    background: #2f7dbb;
+}
+.cq_tj_table .pag li:hover a{
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+

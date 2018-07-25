@@ -1,0 +1,227 @@
+﻿@charset "utf-8";
+
+/*public*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, legend, button, input, textarea, th, td { margin: 0; padding: 0; }
+html { position: relative; font-family: "微软雅黑", "宋体", Arial; font-size: 62.5%; }
+ul, ol { list-style: none; }
+fieldset, img { border: none; }
+a{ color: #333; text-decoration: none; }
+.common-content { width: 1200px; position: relative;}
+.container { position: relative; z-index: 1; }
+.content { width: 1200px; position: relative; }
+.z-10 { z-index: 10;}
+@media (max-width: 1366px) {
+.content{ width: 1000px;}
+}
+@media (max-width: 1200px) {
+.content{ width: 730px;}
+}
+@media (max-width: 767px) {
+.content{ width: 320px;}
+}
+.center-block { display: block; margin-left: auto; margin-right: auto; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { zoom: 1; }
+.shadow{ overflow: hidden; height: 20px; background: url(images/bg_shadow.png) no-repeat center center;}
+h1,.h1 { font-size: 36px;}
+h2,.h2 { font-size: 30px;}
+h3,.h3 { font-size: 24px;}
+h4,.h4 { font-size: 18px;}
+h5,.h5 { font-size: 14px;}
+h6,.h6 { font-size: 12px;}
+
+
+
+/****************  personal-center-reg, personal-center-login  *******************/
+.bg-mask { position: absolute; top:0; right: 0; bottom: 0; left: 0; z-index: 5000; background: rgba(0,0,0,.5);}
+.personal-center-modal { background-color: #fff; position: fixed; left: 55%;}
+.personal-center-modal h3 { color: #212920;}
+.personal-center-modal .field { margin-top: 25px;}
+.personal-center-modal .field_1 { margin-top: 40px;margin-left:25%;}
+.personal-center-modal .field .formitem.on { border-color: #ddd;}
+.personal-center-modal .field .formitem .text { padding: 0 20px; width: calc(50%); height: 37px; color: #aaa; font-size: 22px;  outline: none;}
+.personal-center-modal .field_1 .btn { float:left;cursor: pointer; width: 20%; margin-left:10%; margin-bottom:30px; height: 35px;line-height:35px; color: #444; font-size: 22px; background-color: #ddd; border: none;}
+.personal-center-modal .field_1 .btn:hover{background:#1e8fed;color:#fff;}
+.personal-center-login { width: 500px; top: 10%; margin-left: -350px;}
+.personal-center-reg { width: 480px; top: 50%; margin-top: -305px; margin-left: -270px;}
+.personal-center-close { position: absolute; top: 10px; right: 10px; font-size: 18px;}
+.field h5{ text-align:right;}
+
+
+
+
+
+/************************************首页css***********************************************/
+*
+{
+	margin:0;
+	padding:0;
+	text-decoration:none;
+	list-style:none;
+	overflow-x:hidden;
+}
+.head
+{
+	background:url(../images/logo.jpg) no-repeat;
+	width:1918px;
+	height:102px;
+	position:relative;
+	top:0;
+	left:50%;
+	margin-left:-959px;
+}
+.menu
+{
+	height:35px;
+	background:#1e8fed;
+	line-height:35px;
+	font-size:18px;	
+	width:1918px;
+	position:relative;
+	top:0;
+	left:50%;
+	margin-left:-959px;
+}
+.menu_1
+{
+	width:1366px;
+	margin:0 auto;
+}
+.left
+{
+	margin-left:2%;
+	padding-left:1.8%;
+	background:url(../images/tubiao_1.jpg) no-repeat 0px 6px;
+	float:left;
+	cursor:pointer;
+	background-size:25%;
+	color:#fff;
+}
+.right
+{
+	float:right;
+	margin-right:2%;
+}
+.right a
+{
+	float:left;
+	color:#fff;
+	padding-left:40px;
+}
+.user,.passWord
+{
+	border-right:#fff solid 1px;
+	padding-right:20px;
+}
+.user
+{
+	background:url(../images/tubiao_3.jpg) no-repeat 15px  9px;
+}
+.passWord
+{
+	background:url(../images/tubiao_4.jpg) no-repeat 15px  9px;
+}
+.exit
+{
+	background:url(../images/tubiao_5.jpg) no-repeat 15px  9px;
+}
+.content
+{
+	background:#f1f8ff;
+	width:1918px;
+	position:relative;
+	top:0;
+	left:50%;
+	margin-left:-959px;
+}
+.contentBox
+{
+	width:1366px;
+	margin:0 auto;
+	padding:1%;
+}
+.menu_2
+{
+	float:left;
+	width:12%;
+	font-size:16px;
+	margin-left:5%;
+}
+.menu_2 ul li
+{
+	text-align:center;
+	border:2px solid #1e8fed;
+	height:60px;
+	line-height:60px;
+	letter-spacing:4px;
+	cursor:pointer;
+	width:98%;
+	border-radius:20px;
+	margin-bottom:10px;
+}
+.menu_2 li:hover
+{
+	color:#fff;
+	background:#1e8fed;
+}
+.wenzhang
+{
+	float:left;
+	margin-left:6%;
+	width:76%;
+	min-height:768px;
+}
+.biaoti
+{
+	font-size:22px;
+	font-weight:bold;
+	color:#444;
+}
+.dangqian
+{
+	margin-top:10px;
+	color:#888;
+}
+.chuangjian
+{
+	margin-top:20px;
+	line-height:30px;
+}
+.chuangjian a
+{
+	float:left;
+	display:block;
+	width:5%;
+	border:1px solid #ddd;
+	background:url(../images/tubiao_2.jpg) no-repeat 20px 5px #fff;
+	background-size:20%;
+	color:#222;
+	padding-left:5%;
+}
+.search
+{
+	float:right;
+	width:35%;
+}
+.search input
+{
+
+	line-height:30px;
+	border:1px solid #ddd;
+	text-align:center;
+}
+#search
+{
+	width:72%;
+}
+#search_bt
+{
+	margin-left:1%;
+	width:25%;
+}
+.nr
+{
+	border:1px solid #ddd;
+	background:#fff;
+	margin-top:20px;
+}

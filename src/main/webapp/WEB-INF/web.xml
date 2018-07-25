@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>四川省环保厅机器人智能问答</display-name>
+  <welcome-file-list>
+    <welcome-file>/index.html</welcome-file>
+  </welcome-file-list>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+            classpath:applicationContext.xml
+        </param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>spring</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring-mvc.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>spring</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>encodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- <filter>
+  		<filter-name>loginFilter</filter-name>
+  		<filter-class>com.ep.filter.LoginFilter</filter-class>
+  		不过滤
+  		<init-param>
+  			<param-name>logonStrings</param-name>
+  			<param-value>index.html;login.html;/admin/login.js;codeMsg.jsp;/user/login.action;/questionSearch/search;/questionAnswer/updateQuestionAnswerGoodnumById;/questionAnswer/addQuestionByExcel;/know/getHotKnowledge;/questionAnswer/getQuestionByComm;/questionAnswer/getQuestionByKnowledge;/record;/praise</param-value>
+  		</init-param>
+  		
+  		过滤
+  		<init-param>
+  			<param-name>includeStrings</param-name>
+  			<param-value>.action;.jsp;.html;/know/;/questionAnswer/;/user/</param-value>
+  		</init-param>
+  		
+  		<init-param>
+        	<param-name>redirectPath</param-name>未通过跳转到登录界面
+        	<param-value>/login.html</param-value>
+    	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>loginFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping> -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>10000</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+  
+ <session-config>
+      <session-timeout>30</session-timeout>
+</session-config> 
+  
+</web-app>
