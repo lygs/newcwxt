@@ -63,8 +63,7 @@ public class LuceneController {
 		String searchContent = CMyString.filterForHTMLValue(request.getParameter("content"));
 		JSONObject resultjson = new JSONObject();
 		if(!CMyString.isEmpty(searchContent)) {
-			List<WordExpansion> list = wes.getData(searchContent, "9", "1");
-		    
+			List<WordExpansion> list = wes.getData(searchContent, "9", "1"); 
 			 if(list.size() > 0) {
 					List<String> liststr = new  ArrayList<String>();
 					for(int i=0; i<list.size(); i++) {
@@ -102,7 +101,6 @@ public class LuceneController {
 					 //多词查询 1、完全匹配 （栏目/问题） 2、分词（栏目/问题）
 					 JSONObject jsonObject = new JSONObject();
 					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1");
-					 System.out.println("-----------"+inList.size());
 					 if(inList.size()>0) {
 						 jsonObject.put("wordList", inList);
 					 }else {
