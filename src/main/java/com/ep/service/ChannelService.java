@@ -13,7 +13,7 @@ import com.ep.entity.Channels;
 public interface ChannelService {
 	public String getAllChnl();
 	public String addChnl(String name, String parentId, String cruser, Timestamp crtime,String kurl);
-	public String updateChnl(String id, String edit_name, String edit_channelId);
+	public String updateChnl(String id, String edit_name, String edit_channelId,String chnlurl);
 	public String delChnlById(String id);
 	public Channels findById(Integer id);
 	public List<Channels> findByName(String channelName,String parentid);

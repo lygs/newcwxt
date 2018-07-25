@@ -60,7 +60,6 @@ public class KnowledgePointServiceImpl implements KnowledgePointService {
         }
         obj.put("list", list);
         obj.put("total",counts);
-        kdao.closeSession();
         return obj.toString();
     }
     

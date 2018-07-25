@@ -32,16 +32,16 @@ public class KnowledgeDao {
 	
 	//@SuppressWarnings("unused")
 	private Session getSession() {
-        return sessionFactory.openSession();
+        return sessionFactory.getCurrentSession();
     }
 	
-	public void closeSession(){
+	/*public void closeSession(){
 		if(this.getSession()!=null){
 			this.getSession().flush();
 			this.getSession().clear();
 			this.getSession().close();
 		}
-	}
+	}*/
 	
 	/**
 	 * 查询知识点 、热点
@@ -56,7 +56,6 @@ public class KnowledgeDao {
 		query.setMaxResults(Integer.parseInt(pageSize));
 		query.setFirstResult((Integer.parseInt(pageNumber)-1)*Integer.parseInt(pageSize));
 		 List list = query.list();
-		 closeSess(sess);
 		 return list;
 	}
 	
@@ -64,7 +63,6 @@ public class KnowledgeDao {
 		 Session sess = this.getSession();
 		 Query query =sess.createSQLQuery(hql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		 List list = query.list();
-		 closeSess(sess);
 		 return list;
 	}
 	
@@ -74,17 +72,10 @@ public class KnowledgeDao {
 		 query.setInteger(0, Integer.parseInt(epcid));
 		 query.setString(1, kname);
 		 List list = query.list();
-		 closeSess(sess);
 		 return list;
 	}
 	
-	public void closeSess(Session se){
-		if(se!=null){
-			 se.flush();
-			 se.clear();
-			 se.close();
-		}
-	}
+	
 	/**
 	 * 查询总条数
 	 * @param hql
@@ -95,7 +86,6 @@ public class KnowledgeDao {
 		Query query =sess.createQuery(hql);
 		query.setMaxResults(1);
 		Number nums = (Number) query.uniqueResult();
-		closeSess(sess);
 		return nums.intValue();
 	}
 	
@@ -141,7 +131,6 @@ public class KnowledgeDao {
 			e.printStackTrace();
 			return 0;
 		}finally {
-			closeSess(session);
 		}
 		
 	}
@@ -155,7 +144,6 @@ public class KnowledgeDao {
 	public int delKnowsById(String sql,int id) {
 		Session sess = this.getSession();
 		int results =sess.createQuery(sql).setParameter("0", id).executeUpdate();
-		closeSess(sess);
 		return results;
 	}
 	/**
@@ -174,7 +162,6 @@ public class KnowledgeDao {
 			}
 		}
 		int results = querys.executeUpdate();
-		closeSess(sess);
 		return results;
 	}
 	

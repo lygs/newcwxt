@@ -52,9 +52,11 @@ $(function(){
 	$(".updateChnl").click(function(){
 		var chnlId = $("#parentId").val();
 		var str = $("#chnlname").val();
+		var chnlurl = $("#chnlurl").val();
+
 		var chnlIdss = "";
 		parent.$("#types").val(1);
-		parent.editKnowlegeShow(chnlId,str,chnlIdss);
+		parent.editKnowlegeShow(chnlId,str,chnlIdss,chnlurl);
 	});
 
 
@@ -201,6 +203,7 @@ function commMethod(parentId,arrs){
 
 			aa.attr("docchnlId",arr[i].channelId);
 			aa.attr("pid",arr[i].parentid);
+			aa.attr("chnlurl",arr[i].chnlurl);
 			aa.attr("title",arr[i].chnlname);
 			aa.on("click",function(){ // dblclick双击
 				var span = $(".zs_menu").find("span");
@@ -212,9 +215,11 @@ function commMethod(parentId,arrs){
 				$(this).css("color","#217CD5");
 				var docchnlId = $(this).attr("docchnlId");
 				var chnlname = $(this).attr("title");
+				var chnlurl = $(this).attr("chnlurl");
 				chnlId = docchnlId;
 				$("#parentId").val(docchnlId);
 				$("#chnlname").val(chnlname);
+				$("#chnlurl").val(chnlurl);
 				selectChanne = this;
 				parent.$("#parentId").val(docchnlId);
 				getData(1,docchnlId);
@@ -349,10 +354,14 @@ function appendChannel(thisobj){
 }
 
 //修改
-function  editKnowldge(chanellName){
+function  editKnowldge(chanellName,chnlurl){
 
-	if($(selectChanne).attr("chnlname")) $(selectChanne).removeAttr("chnlname");
+	if($(selectChanne).attr("chnlname")) {
+		$(selectChanne).removeAttr("chnlname");
+		$(selectChanne).removeAttr("chnlurl");
+	}
 	$(selectChanne).attr("chnlname",chanellName);
+	$(selectChanne).attr("chnlurl",chnlurl);
 	$(selectChanne).html(chanellName);
 }
 function pageNavCallBack(clickPage){

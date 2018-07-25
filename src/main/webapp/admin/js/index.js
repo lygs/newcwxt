@@ -358,14 +358,16 @@ var rcId;
 		$($(".editK li")[0]).click(function(){
 			var edit_name=$(".updateKnows").val();
 			var chnlId = $("#parentId").val();
+
 			var ids = knowlegeid;
 			var types = $("#types").val(); //0修改知识点  1修改栏目
-			var urls = "";
+			var urls = "",chnlurl="";
 			
 			if(types==0){
 				urls ="/eprobot/know/updateKnows.action";
 			}else{
-				urls ="/eprobot/chnl/updateChnl.action";
+				chnlurl = $.trim($(".updateurl").val());
+				urls ="/eprobot/chnl/updateChnl.action?chnlurl="+chnlurl;
 			}
 		
 			$.ajax({
@@ -378,7 +380,7 @@ var rcId;
 						alert("修改成功！！！");
 
 						if(types!=0){
-							$("iframe")[0].contentWindow.editKnowldge(edit_name);
+							$("iframe")[0].contentWindow.editKnowldge(edit_name,chnlurl);
 						}else{
 							$("iframe")[0].contentWindow.getData(1,chnlId);
 						}
@@ -470,10 +472,11 @@ function islogin(){
 		}
 	});
 }
-function editKnowlegeShow(id,title,chnlId){
+function editKnowlegeShow(id,title,chnlId,chnlurl){
 	$("#parentId").val(chnlId);
 	knowlegeid = id;
 	$(".updateKnows").val(title);
+	$(".updateurl").val(chnlurl);
 	$(".editK").show();
 }
 

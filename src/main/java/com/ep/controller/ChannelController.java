@@ -112,9 +112,10 @@ public class ChannelController {
 	        String id =CMyString.filterForHTMLValue( request.getParameter("id"));
 	        String edit_name = CMyString.filterForHTMLValue(request.getParameter("edit_name"));
 	        String edit_channelId =CMyString.filterForHTMLValue(request.getParameter("edit_channelId"));
+	        String chnlurl =CMyString.filterForHTMLValue(request.getParameter("chnlurl"));
 	        try {
 	        	if(StringUtils.isNotBlank(id)){
-	        		 String str = chnlService.updateChnl(id,edit_name, edit_channelId);
+	        		 String str = chnlService.updateChnl(id,edit_name, edit_channelId,chnlurl);
 	                  response.getWriter().print(str);
 	        	}else{
 	        		JSONObject obj = new JSONObject();
