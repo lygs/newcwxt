@@ -496,6 +496,16 @@ public class QuestionAnswerController {
 								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("epcid3")));// 知识点栏目3
 						String epcid3url = CMyString
 								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("epcid3url")));// 知识点栏目1
+						/*System.out.println("qaQuestion:"+qaQuestion);
+						System.out.println("qaAnswer:"+qaAnswer);
+						System.out.println("kewwords:"+kewwords);
+						System.out.println("qaKnowledge:"+qaKnowledge);
+						System.out.println("epcid1:"+epcid1);
+						System.out.println("epcid1url:"+epcid1url);
+						System.out.println("epcid2:"+epcid2);
+						System.out.println("epcid2url:"+epcid2url);
+						System.out.println("epcid3:"+epcid3);
+						System.out.println("epcid3url:"+epcid3url);*/
 						String chnnelid = "";
 						if(CMyString.isEmpty(qaQuestion)) {
 							break;

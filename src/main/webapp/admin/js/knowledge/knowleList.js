@@ -194,12 +194,14 @@ function commMethod(parentId,arrs){
 			var aa = $("<span></span>");//.css("cursor","pointer");
 			/*aa.attr("ondragover","allowDrop(event)");
 			aa.attr("ondrop","drop(event)");*/
-
-			aa.append(arr[i].chnlname);
+            var chnl = arr[i].chnlname;
+			if(chnl.length>9)
+			   chnl = chnl.substring(0,9)+"..";
+			aa.append(chnl);
 
 			aa.attr("docchnlId",arr[i].channelId);
 			aa.attr("pid",arr[i].parentid);
-			aa.attr("chnlname",arr[i].chnlname);
+			aa.attr("title",arr[i].chnlname);
 			aa.on("click",function(){ // dblclick双击
 				var span = $(".zs_menu").find("span");
 				span.each(function() {
@@ -209,7 +211,7 @@ function commMethod(parentId,arrs){
 				});
 				$(this).css("color","#217CD5");
 				var docchnlId = $(this).attr("docchnlId");
-				var chnlname = $(this).attr("chnlname");
+				var chnlname = $(this).attr("title");
 				chnlId = docchnlId;
 				$("#parentId").val(docchnlId);
 				$("#chnlname").val(chnlname);

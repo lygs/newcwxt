@@ -15,8 +15,9 @@
 </head>
 <body>
 <script type="text/javascript">
-    /*$(document).ready(function (){
-        $(".zs_menu ul li").menu();
+   /* $(document).ready(function (){
+        console.log($("#knowmsg").outerHeight());
+        $("#knowmsg").css("height",$(".zs_menu").outerHeight()).css("overflow","auto");
     });*/
 </script>
 <div class="place">当前位置：知识点管理</b>
@@ -37,20 +38,20 @@
 	                            <li><a href="#" class="addChnl"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
 	                        </ul>
 	                </div>
-                    <div class="zs_menu">
+                    <div class="zs_menu" style="height: 750px;overflow: auto;" >
                         <ul>
                             <li class="allknow"><a href="#"></a><span style="cursor:pointer" onclick='allChnl();'>全部知识点管理</span>
 
                             </li> 
                         </ul>
                     </div>
-                    <div class="anniu">
+                   <!-- <div class="anniu">
 	                        <ul>
 	                            <li><a href="#" class="updateChnl"><i class="iconfont icon-icon-xiugai"></i> 编辑</a></li>
 	                            <li><a href="#" class="delChnl"><i class="iconfont icon-shanchu1"></i> 删除</a></li>
 	                            <li><a href="#" class="addChnl"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
 	                        </ul>
-	                </div>
+	                </div>-->
                 </div>
             </td>
             <td width="75%" valign="top">
