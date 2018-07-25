@@ -75,8 +75,6 @@ function searchQuestion(){
                     if(list1.wordList.length>0){
                         list = getList(list1.wordList);
                     }
-                    /*if(wordslist && wordslist.length>0)
-                        list = wordslist;*/
                     var askdiv = $('<div class="ask"></div>');
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
                     askdiv.append(askico);
@@ -132,18 +130,15 @@ function searchQuestion(){
                                     //查询相关问题
                                     getQAByCid(thisid,chnlurl,thischnlname);
                                 }
-                                // saveRecord("c"+thisid,thischnlname,chnlurl,inputVal);
                             });
 
                             span.append("<br>");
                             contentdiv.append(span);
                         }
                     }
-                    if(list && list.length>0 && channelList.length<8){
+                    if(list && list.length>0 && channelList.length==0){
                         anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
-                        for(var j=0;j<list.length;j++){
-                            if(kum>7) break;
-                            kum++;
+                        /*if( channelList.length>0){
                             var span = $('<span></span>')
                                 .css("color","blue")
                                 .css("cursor","pointer");
@@ -153,19 +148,58 @@ function searchQuestion(){
                                 $(this).removeAttr("style");
                                 $(this) .css("color","blue").css("cursor","pointer")
                             });
-                            var qtitle = list[j].qaQuestion;
-                            if(qtitle.length>26)
-                                qtitle = qtitle.substring(0,26)+"...";
-                            span.append("【"+kum+"】"+qtitle);
-                            span.attr("title",list[j].qaQuestion);
-                            span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                            span.append("【"+kum+"】其他");
                             span.on("click",function(){
-                                questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
-                                saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                window.open("http://www.schj.gov.cn/wzdt/");
                             });
                             span.append("<br>");
                             contentdiv.append(span);
-                        }
+                        }else{*/
+                            for(var j=0;j<list.length;j++){
+                                if(kum>7) break;
+                                kum++;
+                                var span = $('<span></span>')
+                                    .css("color","blue")
+                                    .css("cursor","pointer");
+                                span.hover(function(){
+                                    $(this).css("color","red");
+                                },function(){
+                                    $(this).removeAttr("style");
+                                    $(this) .css("color","blue").css("cursor","pointer")
+                                });
+                                var qtitle = list[j].qaQuestion;
+                                if(qtitle.length>26)
+                                    qtitle = qtitle.substring(0,26)+"...";
+                                span.append("【"+kum+"】"+qtitle);
+                                span.attr("title",list[j].qaQuestion);
+                                span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                                span.on("click",function(){
+                                    questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
+                                    saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                });
+                                span.append("<br>");
+                                contentdiv.append(span);
+                            }
+
+                       // }
+                    }
+                    if(kum<8){
+                        kum++;
+                        var span = $('<span></span>')
+                            .css("color","blue")
+                            .css("cursor","pointer");
+                        span.hover(function(){
+                            $(this).css("color","red");
+                        },function(){
+                            $(this).removeAttr("style");
+                            $(this) .css("color","blue").css("cursor","pointer")
+                        });
+                        span.append("【"+kum+"】其他");
+                        span.on("click",function(){
+                            window.open("http://www.schj.gov.cn/wzdt/");
+                        });
+                        span.append("<br>");
+                        contentdiv.append(span);
                     }
 
                     anscontent.append(contentdiv);
@@ -186,7 +220,6 @@ function searchQuestion(){
                             getChnlNameByQid(list[0].id);
                         });
                     }
-                    list = [];
                 }
 
 
@@ -531,7 +564,7 @@ function questionList(qlist,chnlurl,chnlName){
         contentdiv.append(span);
     }
     anscontent.append(contentdiv);
-    if(qlist.length>8){
+    if(qlist.length>8 && chnlurl.length>0){
         var others = $("<div></div>");
         others.addClass("Gd");
         others.append('想了解更多具体内容，点击<a style="color: blue;display: inline;cursor: pointer;" href="'+chnlurl+'" target="_blank">这里</a>');

@@ -239,7 +239,6 @@ function commMethod(parentId,arrs){
 				li.append(ul1);
 			}
 			ul.append(li);
-			//$(".zs_menu ul li").menu();
 		}
 		return ul;
 	}else{
