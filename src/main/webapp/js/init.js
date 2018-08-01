@@ -46,7 +46,7 @@ function searchQuestion(){
             inputVal = $.trim($(".askSubmit textarea").val());
             $(".other").empty();
             var list1=msg.data,channelList=[];
-            channelList = getChannelsByName(content);
+            channelList = getChannelsByName(content,list1.words);
             if(msg.status == 1){
                 if(list1.wordList && list1.wordList.length==0 && channelList.length==0){
                     var askdiv = $('<div class="ask"></div>');
@@ -60,7 +60,8 @@ function searchQuestion(){
                     var ansico = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
                     answerdiv.append(ansico);
                     var anscontent = $('<div class="text"></div>');
-                    anscontent.append("亲，没能为您找到答案，您的问题已经记录，您还可以联系办公室电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)；<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>在线咨询</a>");
+                    anscontent.append("亲，没能为您找到答案，您的问题已经记录，我们将为您提供其他咨询方式：<br>1、在线人工咨询，<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>请点击查看</a>；<br>2、通过电话方式，联系电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)。");
+                   // anscontent.append("亲，没能为您找到答案，您的问题已经记录，您还可以联系办公室电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)；<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>在线咨询</a>");
                     anscontent.append('<div class="jt"></div>');
                     answerdiv.append(anscontent).append('<p class="clear"></p>');
                     $('#content').append(answerdiv).append('<div style="height: 10px;"></div>');
@@ -283,29 +284,73 @@ function getChnlNameByQid(qid){
 }
 
 
-function getChannelsByName(channelName){
+function getChannelsByName(channelName,wordslist){
     var chnlList = [];
-    for(var i=0;i<channels.length;i++){
-        if(channels[i].chnlname.indexOf(channelName)!=-1){
-            var chnlname=channels[i].chnlname,pid = channels[i].parentid;
-            for(var j=0;j<chnlList.length;j++){
-                if(chnlList[j].chnlname==channels[i].chnlname){
-                    if(pid!=0){
-                        var chnlobj = getParentChannelByPid(pid);
-                        chnlname = chnlobj.chnlname+"-"+chnlname;
-                        if(chnlobj.parentid!=0){
-                            var obj = getParentChannelByPid(chnlobj.parentid);
-                            chnlname = obj.chnlname+"-"+chnlname;
+    if(wordslist && wordslist.length>0){
+        var  content = wordslist[0].content;
+        if(content.indexOf("；")!=-1) {
+            content = content.replace("；", ";");
+        }
+        var words = content.split(";");
+        var wlist = [];
+        for(var k=0;k<words.length;k++){
+            for(var i=0;i<channels.length;i++){
+                if(channels[i].chnlname.indexOf(words[k])!=-1){
+                    var chnlname=channels[i].chnlname,pid = channels[i].parentid;
+                    for(var j=0;j<chnlList.length;j++){
+                        if(chnlList[j].chnlname==channels[i].chnlname){
+                            if(pid!=0){
+                                var chnlobj = getParentChannelByPid(pid);
+                                chnlname = chnlobj.chnlname+"-"+chnlname;
+                                if(chnlobj.parentid!=0){
+                                    var obj = getParentChannelByPid(chnlobj.parentid);
+                                    chnlname = obj.chnlname+"-"+chnlname;
+                                }
+                            }
+                            break;
                         }
                     }
-                    break;
+                    channels[i].chnlname = chnlname;
+                    wlist.push(channels[i])
                 }
             }
-            channels[i].chnlname = chnlname;
-            chnlList.push(channels[i])
+        }
+        for(var i =0;i<wlist.length;i++){
+            var flag = false;
+            for(var j=0;j<chnlList.length;j++){
+                if(chnlList[j].channelId==wlist[i].channelId){
+                    flag = true;break;
+                }
+            }
+            if(!flag){
+                chnlList.push(wlist[i]);
+            }
         }
 
+    }else{
+        for(var i=0;i<channels.length;i++){
+            if(channels[i].chnlname.indexOf(channelName)!=-1){
+                var chnlname=channels[i].chnlname,pid = channels[i].parentid;
+                for(var j=0;j<chnlList.length;j++){
+                    if(chnlList[j].chnlname==channels[i].chnlname){
+                        if(pid!=0){
+                            var chnlobj = getParentChannelByPid(pid);
+                            chnlname = chnlobj.chnlname+"-"+chnlname;
+                            if(chnlobj.parentid!=0){
+                                var obj = getParentChannelByPid(chnlobj.parentid);
+                                chnlname = obj.chnlname+"-"+chnlname;
+                            }
+                        }
+                        break;
+                    }
+                }
+                channels[i].chnlname = chnlname;
+                chnlList.push(channels[i])
+            }
+
+        }
     }
+
     return chnlList;
 
 }

@@ -54,6 +54,13 @@ public class WordExpansion {
 	public void setCretime(String cretime) {
 		this.cretime = cretime;
 	}
+	@Override
+	public String toString() {
+		return "WordExpansion [id=" + id + ", content=" + content + ", founder=" + founder + ", cretime=" + cretime
+				+ "]";
+	}
+	
+	
 	
 	
 }

@@ -321,7 +321,7 @@ public class LuceneUtil {
 		// config.setClearStopwords(true); //设置过滤停止词
 		// 更多配置, 请查看com.webssky.jcseg.core.JcsegTaskConfig类
 		//String words = "环境保护厅解读人事部？";
-		String words = "办公室地址";
+		String words = "空气质量";
 		TokenStream stream = null;
 		List<String> list = new ArrayList<String>();
 		try {
@@ -351,6 +351,9 @@ public class LuceneUtil {
 				e.printStackTrace();
 			}
 		}
+		String[] strings = {"qaQuestion","qaKeywords"};
+		JSONArray array =  search(words, strings);
+		System.out.println(array.toString());
 
 	}
 

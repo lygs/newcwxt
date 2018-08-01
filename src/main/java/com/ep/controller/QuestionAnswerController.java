@@ -30,6 +30,7 @@ import com.ep.service.QuestionAnswerService;
 import com.ep.service.RecordService;
 import com.ep.util.CMyString;
 import com.ep.util.DateUtil;
+import com.ep.util.LuceneUtil;
 import com.ep.util.PropertiesUtil;
 import com.ep.util.ReadExcel;
 
@@ -695,9 +696,9 @@ public class QuestionAnswerController {
 					Map<String, String> map = new HashMap<String, String>();
 					map.put("id", String.valueOf(list.get(i).getId()));
 					map.put("qaQuestion", list.get(i).getQaQuestion());
-					map.put("qaAnswer", list.get(i).getQaAnswer());
+					//map.put("qaAnswer", list.get(i).getQaAnswer());
 					map.put("qaKeywords", list.get(i).getQaKeywords());
-					//LuceneUtil.createSingleIndex(map);
+					LuceneUtil.createSingleIndex(map);
 				}
 				json.put("result", "success");
 				

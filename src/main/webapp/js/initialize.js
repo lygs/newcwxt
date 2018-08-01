@@ -103,6 +103,7 @@ function searchQuestion(){
                         wordslist = getList(list1.wordList,0);
                     }
                     if(list1.channelList.length>0){
+
                         channelList = getList(list1.channelList,1);
                     }
                     if(wordslist && wordslist.length>0)

@@ -2,15 +2,12 @@ package com.ep.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.elasticsearch.discovery.zen.ZenDiscovery;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +80,7 @@ public class LuceneController {
 					}
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("wordList", individualWordLists);
+					jsonObject.put("words", list);
 					resultjson.put("data", jsonObject);
 					resultjson.put("status","1");
 					resultjson.put("msg", "操作成功");
@@ -94,6 +92,7 @@ public class LuceneController {
 					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1");
 					 JSONObject jsonObject = new JSONObject();
 					 jsonObject.put("wordList", inList);
+					 jsonObject.put("words", "");
 					 resultjson.put("data", jsonObject);
 					 resultjson.put("status","1");
 					 resultjson.put("msg", "操作成功");
@@ -108,6 +107,7 @@ public class LuceneController {
 						 jsonObject.put("wordList", qaList);
 					 }
 					 resultjson.put("data", jsonObject);
+					 jsonObject.put("words", "");
 					 resultjson.put("status","1");
 					 resultjson.put("msg", "操作成功");
 				 }
