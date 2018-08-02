@@ -25,7 +25,7 @@ public class SpringTest extends BaseSpringTest {
 	public void selectAllUser() {
 		List<Sysuser> users = userInfoService.findAll();
 		for(Sysuser user : users) {
-			System.out.println("UserName:"+user.getUserName() + "\n" + "PassWord:" + user.getPassword());
+			System.out.println("UserName:"+user.getUserName() + "\n" + "UID:" + user.getUserId());
 		}
 	}
 	
@@ -34,6 +34,13 @@ public class SpringTest extends BaseSpringTest {
 	@Test
 	public void insert() {
 		String i = userInfoService.addUser("userName5", "123456", "", "1");
+		System.out.println(i);
+		
+	}
+	
+	@Test
+	public void del() {
+		String i = userInfoService.deleteUser("7");
 		System.out.println(i);
 		
 	}
