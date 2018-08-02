@@ -246,6 +246,14 @@
         <version>${lombokVersion}</version>
         <scope>provided</scope>
       </dependency>
+      
+      <!--spring单元测试依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springVersion}</version>
+            <scope>test</scope>
+        </dependency>
 
     <dependency>
       <groupId>junit</groupId>
