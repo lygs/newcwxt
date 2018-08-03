@@ -1,15 +1,20 @@
 package test;
-
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
+import com.ep.entity.QuestionAnswerEntity;
 import com.ep.entity.Sysuser;
+import com.ep.service.QuestionAnswerService;
 import com.ep.service.UserInfoService;
+
+import net.sf.json.JSONObject;
+import test.BaseSpringTest;
 
 /**
 * @author  Zhaoxh
@@ -20,6 +25,8 @@ public class SpringTest extends BaseSpringTest {
 	
 	@Autowired
     public UserInfoService userInfoService;
+	@Resource
+	public QuestionAnswerService questionservice;
 
 	@Test
 	public void selectAllUser() {
@@ -35,6 +42,15 @@ public class SpringTest extends BaseSpringTest {
 	public void insert() {
 		String i = userInfoService.addUser("userName5", "123456", "", "1");
 		System.out.println(i);
+		
+	}
+	@Transactional
+	@Rollback(true)
+	@Test
+	public void getQustionAswer() {
+		String s = questionservice.getAllQa("5", "1", "");
+		
+		System.out.println(s);
 		
 	}
 	
