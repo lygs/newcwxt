@@ -69,9 +69,18 @@ public class LuceneController {
 							content = content.replace("；", ";");
 						}
 						String[] s = content.split(";");
+						boolean f = false;
 						for(int j=0; j<s.length; j++) {
-							liststr.add(s[j]);
+							if(searchContent.equals(s[j])) {
+								f = true;break;
+							}
 						}
+						if(f) {
+							for(int k=0; k<s.length; k++) {
+								liststr.add(s[k]);
+							}
+						}
+						
 					}
 					List<IndividualWord> individualWordLists = new  ArrayList<IndividualWord>();
 					for(int i=0; i<liststr.size(); i++) {
@@ -80,7 +89,7 @@ public class LuceneController {
 					}
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("wordList", individualWordLists);
-					jsonObject.put("words", list);
+					jsonObject.put("words", liststr);
 					resultjson.put("data", jsonObject);
 					resultjson.put("status","1");
 					resultjson.put("msg", "操作成功");

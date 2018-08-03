@@ -32,7 +32,7 @@ public class WordExpansionServiceImpl implements WordExpansionService {
 		
 			String hql = "from WordExpansion where content like '%"+content+"%' order by id DESC ";
 			List<WordExpansion> list = wordExpansionDao.getData(hql, pageSize, pageNum);
-	return list;
+	        return list;
 	}
 
 	@Override

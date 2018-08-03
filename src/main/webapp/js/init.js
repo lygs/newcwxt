@@ -46,7 +46,16 @@ function searchQuestion(){
             inputVal = $.trim($(".askSubmit textarea").val());
             $(".other").empty();
             var list1=msg.data,channelList=[];
-            channelList = getChannelsByName(content,list1.words);
+            var chlist = getchnnellist(channelList,content);//完全匹配栏目
+            //栏目完全匹配
+            if(chlist>0){
+                //channels = channelList
+                channelList = getChannelsByName(chlist,content,list1.words);
+            }else{
+                channelList = getChannelsByName(channels,content,list1.words);
+            }
+
+
             if(msg.status == 1){
                 if(list1.wordList && list1.wordList.length==0 && channelList.length==0){
                     var askdiv = $('<div class="ask"></div>');
@@ -76,6 +85,7 @@ function searchQuestion(){
                     if(list1.wordList.length>0){
                         list = getList(list1.wordList);
                     }
+                    var qwords = getWords(list,content);//完全匹配问题；
                     var askdiv = $('<div class="ask"></div>');
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
                     askdiv.append(askico);
@@ -94,11 +104,11 @@ function searchQuestion(){
                     var kum=0;
                     var contentdiv = $('<div></div>');
                     contentdiv.addClass("qcontent");
-                    if(channelList.length>0){
+
+                    if(chlist.length>0){
                         if(!list){
                             anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                         }
-
                         for(var i=0;i<channelList.length;i++){
                             if(kum>7) break;
                             kum++;
@@ -111,8 +121,6 @@ function searchQuestion(){
                                 $(this).removeAttr("style");
                                 $(this) .css("color","blue").css("cursor","pointer")
                             });
-
-                           // var churl = '<a href="'+channelList[i].chnlurl+'" cid="c'+clist[i].channelid+'" target="_blank" style="color:blue;" title="'+clist[i].chnlname+'">'+clist[i].chnlname+'</a>';
                             span.attr("chnlid",channelList[i].channelId);
                             span.attr("pid",channelList[i].parentid);
                             span.attr("title",channelList[i].chnlname);
@@ -120,7 +128,7 @@ function searchQuestion(){
                             span.append("【"+kum+"】"+channelList[i].chnlname);
                             span.on("click",function(e){
                                 var thisid = $(this).attr("chnlid");
-                               // var thispid = $(this).attr("pid");
+                                // var thispid = $(this).attr("pid");
                                 var chnlurl = $(this).attr("url");
                                 var thischnlname = $(this).attr("title");
                                 var chnles = getChannelsByChnlid(thisid);
@@ -136,26 +144,72 @@ function searchQuestion(){
                             span.append("<br>");
                             contentdiv.append(span);
                         }
-                    }
-                    if(list && list.length>0 && channelList.length==0){
-                        anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
-                        /*if( channelList.length>0){
-                            var span = $('<span></span>')
-                                .css("color","blue")
-                                .css("cursor","pointer");
-                            span.hover(function(){
-                                $(this).css("color","red");
-                            },function(){
-                                $(this).removeAttr("style");
-                                $(this) .css("color","blue").css("cursor","pointer")
-                            });
-                            span.append("【"+kum+"】其他");
-                            span.on("click",function(){
-                                window.open("http://www.schj.gov.cn/wzdt/");
-                            });
-                            span.append("<br>");
-                            contentdiv.append(span);
-                        }else{*/
+                    }else if(qwords){
+                        kum++;
+                        var span = $('<span></span>')
+                            .css("color","blue")
+                            .css("cursor","pointer");
+                        span.hover(function(){
+                            $(this).css("color","red");
+                        },function(){
+                            $(this).removeAttr("style");
+                            $(this) .css("color","blue").css("cursor","pointer")
+                        });
+                        var qtitle = qwords.qaQuestion;
+                        if(qtitle.length>26)
+                            qtitle = qtitle.substring(0,26)+"...";
+                        span.append("【"+kum+"】"+qtitle);
+                        span.attr("title",qwords.qaQuestion);
+                        span.attr("lid","q"+qwords.id).attr("answer",qwords.qaAnswer);
+                        span.on("click",function(){
+                            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
+                            saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                        });
+                        span.append("<br>");
+                        contentdiv.append(span);
+                    }else{
+                        if( channelList.length>0){
+                            if(!list){
+                                anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
+                            }
+                            for(var i=0;i<channelList.length;i++){
+                                if(kum>7) break;
+                                kum++;
+                                var span = $('<span></span>')
+                                    .css("color","blue")
+                                    .css("cursor","pointer");
+                                span.hover(function(){
+                                    $(this).css("color","red");
+                                },function(){
+                                    $(this).removeAttr("style");
+                                    $(this) .css("color","blue").css("cursor","pointer")
+                                });
+                                span.attr("chnlid",channelList[i].channelId);
+                                span.attr("pid",channelList[i].parentid);
+                                span.attr("title",channelList[i].chnlname);
+                                span.attr("url",channelList[i].chnlurl);
+                                span.append("【"+kum+"】"+channelList[i].chnlname);
+                                span.on("click",function(e){
+                                    var thisid = $(this).attr("chnlid");
+                                    // var thispid = $(this).attr("pid");
+                                    var chnlurl = $(this).attr("url");
+                                    var thischnlname = $(this).attr("title");
+                                    var chnles = getChannelsByChnlid(thisid);
+                                    if(chnles.length>0){
+                                        //显示相关栏目。
+                                        chanlAnswer(chnles);
+                                    }else{
+                                        //查询相关问题
+                                        getQAByCid(thisid,chnlurl,thischnlname);
+                                    }
+                                });
+                                span.append("<br>");
+                                contentdiv.append(span);
+                            }
+                        }
+
+                        if(list && list.length>0 && channelList.length==0){
+                            anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                             for(var j=0;j<list.length;j++){
                                 if(kum>7) break;
                                 kum++;
@@ -181,8 +235,7 @@ function searchQuestion(){
                                 span.append("<br>");
                                 contentdiv.append(span);
                             }
-
-                       // }
+                        }
                     }
                     if(kum<8){
                         kum++;
@@ -282,23 +335,31 @@ function getChnlNameByQid(qid){
         }
     });
 }
-
-
-function getChannelsByName(channelName,wordslist){
+//完全匹配栏目
+function getchnnellist(chlist,searchval){
+    var chnnllist = [];
+     for(var i=0;i<chlist.length;i++){
+         if(chlist[i].chnlname==searchval){
+             chnnllist.push(chlist[i]);
+         }
+     }
+    return chnnllist;
+}
+function getChannelsByName(channelslist,channelName,wordslist){
     var chnlList = [];
     if(wordslist && wordslist.length>0){
-        var  content = wordslist[0].content;
+       /* var  content = wordslist[0].content;
         if(content.indexOf("；")!=-1) {
             content = content.replace("；", ";");
-        }
-        var words = content.split(";");
+        }*/
+        var words = wordslist;
         var wlist = [];
         for(var k=0;k<words.length;k++){
-            for(var i=0;i<channels.length;i++){
-                if(channels[i].chnlname.indexOf(words[k])!=-1){
-                    var chnlname=channels[i].chnlname,pid = channels[i].parentid;
+            for(var i=0;i<channelslist.length;i++){
+                if(channelslist[i].chnlname.indexOf(words[k])!=-1){
+                    var chnlname=channelslist[i].chnlname,pid = channelslist[i].parentid;
                     for(var j=0;j<chnlList.length;j++){
-                        if(chnlList[j].chnlname==channels[i].chnlname){
+                        if(chnlList[j].chnlname==channelslist[i].chnlname){
                             if(pid!=0){
                                 var chnlobj = getParentChannelByPid(pid);
                                 chnlname = chnlobj.chnlname+"-"+chnlname;
@@ -310,8 +371,8 @@ function getChannelsByName(channelName,wordslist){
                             break;
                         }
                     }
-                    channels[i].chnlname = chnlname;
-                    wlist.push(channels[i])
+                    channelslist[i].chnlname = chnlname;
+                    wlist.push(channelslist[i])
                 }
             }
         }
@@ -328,11 +389,11 @@ function getChannelsByName(channelName,wordslist){
         }
 
     }else{
-        for(var i=0;i<channels.length;i++){
-            if(channels[i].chnlname.indexOf(channelName)!=-1){
-                var chnlname=channels[i].chnlname,pid = channels[i].parentid;
+        for(var i=0;i<channelslist.length;i++){
+            if(channelslist[i].chnlname.indexOf(channelName)!=-1){
+                var chnlname=channelslist[i].chnlname,pid = channelslist[i].parentid;
                 for(var j=0;j<chnlList.length;j++){
-                    if(chnlList[j].chnlname==channels[i].chnlname){
+                    if(chnlList[j].chnlname==channelslist[i].chnlname){
                         if(pid!=0){
                             var chnlobj = getParentChannelByPid(pid);
                             chnlname = chnlobj.chnlname+"-"+chnlname;
@@ -344,8 +405,8 @@ function getChannelsByName(channelName,wordslist){
                         break;
                     }
                 }
-                channels[i].chnlname = chnlname;
-                chnlList.push(channels[i])
+                channelslist[i].chnlname = chnlname;
+                chnlList.push(channelslist[i])
             }
 
         }
@@ -434,6 +495,17 @@ function getList(qlist){
         }
     }
     return newArr;
+}
+//完全匹配问题
+function getWords(qlist,searchval){
+    var qwords;
+    for(var i =0;i<qlist.length;i++){
+        if(qlist[i].qaQuestion==searchval){
+            qwords = qlist[i];
+            break;
+        }
+    }
+    return qwords;
 }
 
 function questionAnswer(lid,questionstr,answerstr,num,kwords){
