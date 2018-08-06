@@ -75,6 +75,7 @@ public class ChannelServiceImpl implements ChannelService{
 		
 	}
 	public String updateChnl(String id, String edit_name, String edit_channelId,String chnlurl) {
+		
 		String hql = "update Channels set chnlname='"+edit_name+"',chnlurl='"+chnlurl+"' where channelid="+Integer.parseInt(id);
 		Object[] objs = {}; 
     	int nums=cdao.updateChnl(hql,objs);

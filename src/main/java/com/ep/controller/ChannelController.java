@@ -112,7 +112,8 @@ public class ChannelController {
 	        String id =CMyString.filterForHTMLValue( request.getParameter("id"));
 	        String edit_name = CMyString.filterForHTMLValue(request.getParameter("edit_name"));
 	        String edit_channelId =CMyString.filterForHTMLValue(request.getParameter("edit_channelId"));
-	        String chnlurl =CMyString.filterForHTMLValue(request.getParameter("chnlurl"));
+	        String chnlurl =request.getParameter("chnlurl");
+	        System.out.println(chnlurl);
 	        try {
 	        	if(StringUtils.isNotBlank(id)){
 	        		 String str = chnlService.updateChnl(id,edit_name, edit_channelId,chnlurl);

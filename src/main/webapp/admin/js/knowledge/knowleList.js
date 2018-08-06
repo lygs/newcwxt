@@ -65,6 +65,7 @@ $(function(){
 			$(parent.$(".addK")).find(".title").text("添加分类");
 			$($(parent.$(".addK")).find(".text")[0]).text("请输入类别名称");
 			parent.$("#types").val(1);
+			parent.$(".addurl").val("");
 			parent.$(".addK").show();
 			parent.$("#parentId").val($("#parentId").val());
 		}else{

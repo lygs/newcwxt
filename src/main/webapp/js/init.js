@@ -45,8 +45,13 @@ function searchQuestion(){
         success:function(msg){
             inputVal = $.trim($(".askSubmit textarea").val());
             $(".other").empty();
-            var list1=msg.data,channelList=[];
-            var chlist = getchnnellist(channelList,content);//完全匹配栏目
+            var list1=msg.data,channelList=[],chlist=[];
+            if(content=="于会文"){
+                chlist = getchnnellist(channels,"厅长");
+            }else{
+                chlist = getchnnellist(channels,content);//完全匹配栏目
+            }
+            //var chlist = getchnnellist(channels,content);//完全匹配栏目
             //栏目完全匹配
             if(chlist>0){
                 //channels = channelList
@@ -109,7 +114,7 @@ function searchQuestion(){
                         if(!list){
                             anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                         }
-                        for(var i=0;i<channelList.length;i++){
+                        for(var i=0;i<chlist.length;i++){
                             if(kum>7) break;
                             kum++;
                             var span = $('<span></span>')
@@ -121,11 +126,11 @@ function searchQuestion(){
                                 $(this).removeAttr("style");
                                 $(this) .css("color","blue").css("cursor","pointer")
                             });
-                            span.attr("chnlid",channelList[i].channelId);
-                            span.attr("pid",channelList[i].parentid);
-                            span.attr("title",channelList[i].chnlname);
-                            span.attr("url",channelList[i].chnlurl);
-                            span.append("【"+kum+"】"+channelList[i].chnlname);
+                            span.attr("chnlid",chlist[i].channelId);
+                            span.attr("pid",chlist[i].parentid);
+                            span.attr("title",chlist[i].chnlname);
+                            span.attr("url",chlist[i].chnlurl);
+                            span.append("【"+kum+"】"+chlist[i].chnlname);
                             span.on("click",function(e){
                                 var thisid = $(this).attr("chnlid");
                                 // var thispid = $(this).attr("pid");

@@ -368,6 +368,7 @@ var rcId;
 			}else{
 				chnlurl = $.trim($(".updateurl").val());
 				urls ="/eprobot/chnl/updateChnl.action?chnlurl="+chnlurl;
+				console.log(urls);
 			}
 		
 			$.ajax({
@@ -378,7 +379,6 @@ var rcId;
 				success:function(data){
 					if(data.results =="SUCCESS"){
 						alert("修改成功！！！");
-
 						if(types!=0){
 							$("iframe")[0].contentWindow.editKnowldge(edit_name,chnlurl);
 						}else{
