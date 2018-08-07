@@ -3,6 +3,7 @@ package com.ep.controller;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import com.ep.service.QuestionAnswerService;
 import com.ep.service.WordExpansionService;
 import com.ep.util.CMyString;
 import com.ep.util.LuceneUtil;
+import com.ep.util.PropertiesUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -60,6 +62,10 @@ public class LuceneController {
 		String searchContent = CMyString.filterForHTMLValue(request.getParameter("content"));
 		JSONObject resultjson = new JSONObject();
 		if(!CMyString.isEmpty(searchContent)) {
+		    String words = LuceneUtil.search(searchContent, 1);
+		    if(words.length()>0) {
+		    	searchContent = words;
+		    }
 			List<WordExpansion> list = wes.getData(searchContent, "9", "1"); 
 			 if(list.size() > 0) {
 					List<String> liststr = new  ArrayList<String>();
@@ -90,6 +96,7 @@ public class LuceneController {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("wordList", individualWordLists);
 					jsonObject.put("words", liststr);
+					jsonObject.put("searchContent", searchContent);
 					resultjson.put("data", jsonObject);
 					resultjson.put("status","1");
 					resultjson.put("msg", "操作成功");
@@ -102,6 +109,7 @@ public class LuceneController {
 					 JSONObject jsonObject = new JSONObject();
 					 jsonObject.put("wordList", inList);
 					 jsonObject.put("words", "");
+					 jsonObject.put("searchContent", searchContent);
 					 resultjson.put("data", jsonObject);
 					 resultjson.put("status","1");
 					 resultjson.put("msg", "操作成功");
@@ -117,6 +125,7 @@ public class LuceneController {
 					 }
 					 resultjson.put("data", jsonObject);
 					 jsonObject.put("words", "");
+					 jsonObject.put("searchContent", searchContent);
 					 resultjson.put("status","1");
 					 resultjson.put("msg", "操作成功");
 				 }

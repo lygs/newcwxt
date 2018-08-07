@@ -1,5 +1,6 @@
 package com.ep.util;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
@@ -29,8 +31,12 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.Scorer;
+import org.apache.lucene.search.spell.Dictionary;
+import org.apache.lucene.search.spell.PlainTextDictionary;
+import org.apache.lucene.search.spell.SpellChecker;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.RAMDirectory;
 import org.lionsoul.jcseg.analyzer.v5x.JcsegAnalyzer5X;
 import org.lionsoul.jcseg.tokenizer.core.JcsegTaskConfig;
 
@@ -77,7 +83,7 @@ public class LuceneUtil {
 		// 追加同义词到分词结果中, 需要在jcseg.properties中配置jcseg.loadsyn=1
 		config.setAppendCJKSyn(true);
 		// 追加拼音到分词结果中, 需要在jcseg.properties中配置jcseg.loadpinyin=1
-		config.setAppendCJKPinyin(false);
+		config.setAppendCJKPinyin(true);
 		// config.setClearStopwords(true); //设置过滤停止词
 		config.setAppendCJKSyn(true); // 设置关闭同义词追加
 		// 更多配置, 请查看com.webssky.jcseg.core.JcsegTaskConfig类
@@ -91,7 +97,7 @@ public class LuceneUtil {
 				CharTermAttribute offsetAtt = stream.addAttribute(CharTermAttribute.class);
 				while (stream.incrementToken()) {
 					String string = offsetAtt.toString();
-					if (string.length() > 1) {
+					if (string.length() > 0) {
 						sBuilder.append(string);
 						list.add(string);
 					}
@@ -124,7 +130,7 @@ public class LuceneUtil {
 		String sendContent = "";
 		sendContent = sBuilder.toString();
 		Query query = parser.parse(sendContent);
-		Scorer scorer = new QueryScorer(query);
+		//Scorer scorer = new QueryScorer(query);
 		// Highlighter highlighter = new Highlighter(formatter, scorer);
 
 		TopDocs tops = searcher.search(query, 1000);
@@ -136,7 +142,7 @@ public class LuceneUtil {
 			// StringReader(doc.get("qaQuestion")));
 			// String qaQuestion = highlighter.getBestFragment(tokenStream,
 			// doc.get("qaQuestion"));
-			if (CMyString.isEmpty(doc.get("qaAnswer")))
+			/*if (CMyString.isEmpty(doc.get("qaAnswer")))
 				continue;
 
 			boolean flag = false;
@@ -148,7 +154,7 @@ public class LuceneUtil {
 				}
 			}
 			if (flag)
-				continue;
+				continue;*/
 			searchjson.put("title", doc.get("qaQuestion"));
 			searchjson.put("id", doc.get("id"));
 			searchjson.put("content", doc.get("qaAnswer"));
@@ -166,7 +172,7 @@ public class LuceneUtil {
 		JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
 		JcsegTaskConfig config = jcseg.getTaskConfig(); // 追加同义词到分词结果中, 需要在jcseg.properties中配置jcseg.loadsyn=1
 		config.setAppendCJKSyn(true); // 追加拼音到分词结果中,需要在jcseg.properties中配置jcseg.loadpinyin=1
-		config.setAppendCJKPinyin(false);
+		config.setAppendCJKPinyin(true);
 		config.setClearStopwords(true); // 设置过滤停止词 config.setAppendCJKSyn(true);
 		// 设置关闭同义词追加 //config.setKeepUnregWords(false);
 		Map<String, String> map = PropertiesUtil.getProperties_3("/fileUrl.properties");
@@ -308,20 +314,57 @@ public class LuceneUtil {
 		}
 		return list;
 	}
+	
+	public static String search(String word, int numSug) {
+		Directory directory = new RAMDirectory();
+		String string = "";
+		Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+		try {
+			IndexWriterConfig config1 = new IndexWriterConfig(analyzer);
+			
+			//初始化字典目录
+			//最后一个fullMerge参数表示拼写检查索引是否需要全部合并
+			//String dirpath = PropertiesUtil.getProperties_5("/fileUrl.properties","value");
+			//Directory dire = FSDirectory.open(Paths.get(dirpath));
+			SpellChecker spellchecker = new SpellChecker(directory);
+			IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
+			//IndexWriter indexWriter = new IndexWriter(dire, iwc);
+			//spellchecker.indexDictionary((Dictionary) dire, iwc, true);
+			//spellchecker.i
+			String dispath = PropertiesUtil.getProperties_5("/fileUrl.properties","dicpath");
+			spellchecker.indexDictionary(new PlainTextDictionary(Paths.get(dispath)),config1,true);
+			//这里的参数numSug表示返回的建议个数
+			String[] suggests = spellchecker.suggestSimilar(word, numSug);
+			if (suggests != null && suggests.length > 0) {
+				for (String suggest : suggests) {
+					string = suggest ;
+					//System.out.println("您是不是想要找：" + suggest);
+					break;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return string;
+	}
 
 	public static void main(String[] args) throws Exception {
+		String words = "还保厅的电话";
+		String string = search(words,1);
+		System.out.println("------------" + string);
+		
 		// LuceneUtil.search("中华人民共和国", new String[] {"qaKeywords","qaQuestion"});
-		Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
+		/*Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);
 		JcsegAnalyzer5X jcseg = (JcsegAnalyzer5X) analyzer;
 		JcsegTaskConfig config = jcseg.getTaskConfig();
 		// 追加同义词到分词结果中, 需要在jcseg.properties中配置jcseg.loadsyn=1
 		config.setAppendCJKSyn(false);
 		// 追加拼音到分词结果中, 需要在jcseg.properties中配置jcseg.loadpinyin=1
-		config.setAppendCJKPinyin(false);
+		config.setAppendCJKPinyin(true);
 		// config.setClearStopwords(true); //设置过滤停止词
 		// 更多配置, 请查看com.webssky.jcseg.core.JcsegTaskConfig类
 		//String words = "环境保护厅解读人事部？";
-		String words = "空气质量";
+		String words = "办工室";
 		TokenStream stream = null;
 		List<String> list = new ArrayList<String>();
 		try {
@@ -353,7 +396,7 @@ public class LuceneUtil {
 		}
 		String[] strings = {"qaQuestion","qaKeywords"};
 		JSONArray array =  search(words, strings);
-		System.out.println(array.toString());
+		System.out.println(array.toString());*/
 
 	}
 

@@ -43,31 +43,31 @@ function searchQuestion(){
         data:{content:content},
         cache:false,
         success:function(msg){
-            inputVal = $.trim($(".askSubmit textarea").val());
-            $(".other").empty();
-            var list1=msg.data,channelList=[],chlist=[];
-            if(content=="于会文"){
-                chlist = getchnnellist(channels,"厅长");
-            }else{
-                chlist = getchnnellist(channels,content);//完全匹配栏目
-            }
-            //var chlist = getchnnellist(channels,content);//完全匹配栏目
-            //栏目完全匹配
-            if(chlist>0){
-                //channels = channelList
-                channelList = getChannelsByName(chlist,content,list1.words);
-            }else{
-                channelList = getChannelsByName(channels,content,list1.words);
-            }
-
-
             if(msg.status == 1){
+                inputVal = $.trim($(".askSubmit textarea").val());
+                $(".other").empty();
+                content = msg.data.searchContent;
+                var list1=msg.data,channelList=[],chlist=[];
+                if(content=="于会文"){
+                    chlist = getchnnellist(channels,"厅长");
+                }else{
+                    chlist = getchnnellist(channels,content);//完全匹配栏目
+                }
+                //var chlist = getchnnellist(channels,content);//完全匹配栏目
+                //栏目完全匹配
+                if(chlist>0){
+                    //channels = channelList
+                    channelList = getChannelsByName(chlist,content,list1.words);
+                }else{
+                    channelList = getChannelsByName(channels,content,list1.words);
+                }
+
                 if(list1.wordList && list1.wordList.length==0 && channelList.length==0){
                     var askdiv = $('<div class="ask"></div>');
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
                     askdiv.append(askico);
                     var askcontent = $('<div class="text"></div>');
-                    askcontent.append(content).append('<div class="jt"></div>');
+                    askcontent.append(inputVal).append('<div class="jt"></div>');
                     askdiv.append(askcontent).append('<p class="clear"></p>');
                     $('#content').append(askdiv);
                     var answerdiv = $('<div class="answer"></div>');
@@ -95,7 +95,7 @@ function searchQuestion(){
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
                     askdiv.append(askico);
                     var askcontent = $('<div class="text"></div>');
-                    askcontent.append(content).append('<div class="jt"></div>');
+                    askcontent.append(inputVal).append('<div class="jt"></div>');
                     askdiv.append(askcontent).append('<p class="clear"></p>');
                     $('#content').append(askdiv);
                     //清空
@@ -167,8 +167,8 @@ function searchQuestion(){
                         span.attr("title",qwords.qaQuestion);
                         span.attr("lid","q"+qwords.id).attr("answer",qwords.qaAnswer);
                         span.on("click",function(){
-                            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
-                            saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,content);
+                            saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),content);
                         });
                         span.append("<br>");
                         contentdiv.append(span);
