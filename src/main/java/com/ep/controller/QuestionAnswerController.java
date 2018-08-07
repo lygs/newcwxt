@@ -73,13 +73,15 @@ public class QuestionAnswerController {
 			String pageSize = CMyString.filterForHTMLValue(request.getParameter("pageSize"));
 			String qaQuestion = CMyString.filterForHTMLValue(request.getParameter("qaQuestion"));
 			String chnlId = CMyString.filterForHTMLValue(request.getParameter("chnlId"));
+			String startTime = CMyString.filterForHTMLValue(request.getParameter("startTime"));
+			String endTime = CMyString.filterForHTMLValue(request.getParameter("endTime"));
 			boolean num = pageSize.matches("[0-9]+");
 			boolean pagesize = pageNumber.matches("[0-9]+");
 			if (num && pagesize) {
 				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
 				List<QuestionAnswerEntity> list = qaService.getQuestionAnswerAllList(Integer.valueOf(pageSize),
-						Integer.valueOf(pageNumber), qaQuestion, chnlId);
-				int total = qaService.getQuestionAnswerTotal(qaQuestion, chnlId);
+						Integer.valueOf(pageNumber), qaQuestion, chnlId,startTime,endTime);
+				int total = qaService.getQuestionAnswerTotal(qaQuestion, chnlId,startTime,endTime);
 				if (user != null) {
 					json.put("roleId", user.getRoleId());
 				}

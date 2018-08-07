@@ -10,6 +10,7 @@
     <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
     <script type="text/javascript" src="js/zUI.js"></script>
     <script type="text/javascript" src="js/echarts.common.min.js"></script>
+    <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
     <script src="js/biaozhun.js"></script>
     <script src="js/pageNav.js"></script>
 </head>
@@ -29,6 +30,23 @@
                 <li><a class="pl" style="cursor:pointer"><i class="iconfont icon-shangchuan"></i> 批量导入</a></li>
             </ul>
         </div>
+         <div class="ico fl">
+            <ul>
+                <li style="border:none"><input style="width: 180px;
+    height: 28px;
+    overflow: hidden;
+    line-height: 28px;
+    padding-left: 10px;
+    margin-left:260px;
+    color: #595959;" type="text" class="startTime" placeholder="开始时间" onclick="new WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"/></li>
+                <li style="border:none"><input class="endTime" placeholder="结束时间" style="width: 180px;
+    height: 28px;
+    overflow: hidden;
+    line-height: 28px;
+    padding-left: 10px;
+    color: #595959;" type="text" onclick="new WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});"/></li>
+            </ul>
+        </div>
         <div class="fr">
           <!--   <div class="shuaxin">
                 <a href="#">
@@ -36,6 +54,7 @@
                 </a>
             </div> -->
             <div class="search">
+            	
                 <div class="textInput"><input type="text" placeholder="查询相关记录" class="inputs" id="searchName"></div>
                 <div class="submit"><input type="submit" class="btn"> <i class="iconfont icon-sousuo"></i></div>
             </div>

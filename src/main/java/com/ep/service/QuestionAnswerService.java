@@ -44,4 +44,9 @@ public interface QuestionAnswerService {
 	public List<QuestionAnswerEntity> getQuestionAnswerListByWords(List<String> wordsList);
 	public String getQaByChnlid(String pageSize, String pageNumber, String cid);
 	public String getChnlNameByQid(String cid);
+
+	public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer valueOf, Integer valueOf2, String qaQuestion,
+			String chnlId, String startTime, String endTime);
+
+	public int getQuestionAnswerTotal(String qaQuestion, String chnlId, String startTime, String endTime);
 }

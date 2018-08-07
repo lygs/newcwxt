@@ -5,6 +5,8 @@ var questionList;
 var pageNavObj;
 var totalPage;
 var chnlIds="";
+var startTime="";
+var endTimes="";
 $(function(){
 	parent.getKnowledge(-10);
     getData();
@@ -48,7 +50,9 @@ function getData(){
 	$("#listShow").empty();
     var tempUrl = '/eprobot/questionAnswer/getQuestionAnswerAllList.action';
     qaQuestion=$("#searchName").val();
-    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&qaQuestion="+qaQuestion+"&chnlId="+chnlIds;
+    startTimes = $(".startTime").val();
+    endTimes = $(".endTime").val();
+    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&qaQuestion="+qaQuestion+"&chnlId="+chnlIds+"&startTime="+startTimes+"&endTime="+endTimes;
    // chnlIds = chnlId;
     $.ajax({
         type:'post',

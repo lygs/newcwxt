@@ -513,4 +513,93 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 		return obj.toString();
 	}
 
+	@Override
+	public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer pageSize, Integer pageNumber, String qaQuestion,
+			String chnlId, String startTime, String endTime) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		StringBuffer hql = new StringBuffer(
+				" SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1");
+		if (StringUtils.isNotBlank(qaQuestion)) {
+			hql.append(" and qa.QA_QUESTION like '%" + qaQuestion + "%'");
+		}
+		if (StringUtils.isNotBlank(startTime)) {
+			hql.append(" and qa.QA_CREATETIME >= '" + startTime + "'");
+		}
+		if (StringUtils.isNotBlank(endTime)) {
+			hql.append(" and qa.QA_CREATETIME <= '" + endTime + "'");
+		}
+		hql.append(" order by qa.QA_CREATETIME desc");
+		if (StringUtils.isNotBlank(chnlId)) {
+			String chnlSql = "WITH CTE AS (SELECT CHANNELID,PARENTID FROM CHANNELS WHERE CHANNELID="
+					+ Integer.parseInt(chnlId) + " UNION ALL SELECT a.CHANNELID,a.PARENTID FROM CHANNELS a"
+					+ " INNER JOIN CTE b ON b.CHANNELID=a.PARENTID) ";
+
+			String sqlss = "SELECT qa.ID AS id,qa.QA_QUESTION AS qaQuestion,qa.QA_CREATETIME AS qaCreatetime,"
+					+ "qa.QA_TYPE AS qaType,qa.QA_KEYWORDS AS qaKeywords,qa.QA_URL AS qaUrl,qa.QA_ANSWER AS qaAnswer,"
+					+ "qa.QA_KNOWLEDGE AS knowId,u.USERNAME AS userName FROM	QuestionAnswer qa "
+					+ "LEFT JOIN SYSUSER u ON qa.QA_CREATOR = u.USERID "
+					+ "LEFT JOIN Knowledge k ON k.ID = qa.QA_KNOWLEDGE "
+					+ "where k.K_EPCID in (SELECT a.CHANNELID from CHANNELS a INNER JOIN CTE t ON a.CHANNELID=t.CHANNELID) ";// "+chnlId+"
+			hql = new StringBuffer();
+			hql.append(chnlSql + sqlss);
+			if (StringUtils.isNotBlank(qaQuestion)) {
+				hql.append(" and qa.QA_QUESTION like '%" + qaQuestion + "%'");
+			}
+			if (StringUtils.isNotBlank(startTime)) {
+				hql.append(" and qa.QA_CREATETIME >= '" + startTime + "'");
+			}
+			if (StringUtils.isNotBlank(endTime)) {
+				hql.append(" and qa.QA_CREATETIME <= '" + endTime + "'");
+			}
+			
+			hql.append(" order by qa.QA_CREATETIME desc");
+
+		}
+		List<QuestionAnswerEntity> list = questionAnswerDao.getQuestionAnswerList(hql.toString(),
+				String.valueOf(pageSize), String.valueOf(pageNumber));
+		return list;
+	}
+
+	@Override
+	public int getQuestionAnswerTotal(String qaQuestion, String chnlId, String startTime, String endTime) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		StringBuffer hql = new StringBuffer("select count(*) from QuestionAnswerEntity where 1=1");
+		if (StringUtils.isNotBlank(qaQuestion)) {
+			hql.append(" and qaQuestion like '%" + qaQuestion + "%'");
+		}
+		if (StringUtils.isNotBlank(startTime)) {
+			hql.append(" and qaCreatetime >= '" + startTime + "'");
+		}
+		if (StringUtils.isNotBlank(endTime)) {
+			hql.append(" and qaCreatetime <= '" + endTime + "'");
+		}
+		if (StringUtils.isNotBlank(chnlId)) {
+			/*
+			 * String sqlss
+			 * =" WITH CTE AS (SELECT DOCCHNLID,PARENTID FROM CHANNELS WHERE DOCCHNLID = "
+			 * +chnlId+" UNION ALL SELECT c.DOCCHNLID,c.PARENTID FROM CHANNELS c "+
+			 * " INNER JOIN CTE b ON b.DOCCHNLID = c.PARENTID) SELECT count(*) num FROM QuestionAnswer qa WHERE qa.QA_CHNLID IN (SELECT a.DOCCHNLID FROM"
+			 * + " CHANNELS a INNER JOIN CTE t ON a.DOCCHNLID = t.DOCCHNLID)";
+			 */
+			String chnlSql = "WITH CTE AS (SELECT CHANNELID,PARENTID FROM CHANNELS WHERE CHANNELID="
+					+ Integer.parseInt(chnlId) + " UNION ALL SELECT a.CHANNELID,a.PARENTID FROM CHANNELS a"
+					+ " INNER JOIN CTE b ON b.CHANNELID=a.PARENTID) ";
+
+			String sqlss = "SELECT COUNT(*) as num FROM QuestionAnswer qa LEFT JOIN SYSUSER u ON qa.QA_CREATOR = u.USERID LEFT JOIN Knowledge k ON k.ID = qa.QA_KNOWLEDGE WHERE k.K_EPCID in(SELECT a.CHANNELID from CHANNELS a INNER JOIN CTE t ON a.CHANNELID=t.CHANNELID) ";// +chnlId;
+			hql = new StringBuffer();
+			hql.append(chnlSql + sqlss);
+			if (StringUtils.isNotBlank(qaQuestion)) {
+				hql.append(" and QA_QUESTION like '%" + qaQuestion + "%'");
+			}
+			
+			if (StringUtils.isNotBlank(startTime)) {
+				hql.append(" and QA_CREATETIME >= '" + startTime + "'");
+			}
+			if (StringUtils.isNotBlank(endTime)) {
+				hql.append(" and QA_CREATETIME <= '" + endTime + "'");
+			}
+		}
+		return questionAnswerDao.getQuestionAnswerAllCount(hql.toString(), chnlId);
+	}
+
 }
