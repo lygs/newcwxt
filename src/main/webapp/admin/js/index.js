@@ -74,6 +74,9 @@ var rcId;
 			if($(".ul1 li:eq(6)").hasClass("on")){
 				$("iframe").attr("src","tongji.html");
 			}
+			if($(".ul1 li:eq(7)").hasClass("on")){
+				$("iframe").attr("src","muban.html");
+			}
 		});
 		
 		$(".passWord").on("click",function(){

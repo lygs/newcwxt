@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>模板管理</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+</head>
+<style type="text/css">
+    .left{
+        float: left;
+    }
+    .left img{
+        margin-bottom: 40px;
+        border: 2px solid #aaa;
+        padding: 20px;
+        cursor: pointer;
+    }
+    .zhong{
+        margin-left: 10%;
+        float: left;
+    }
+    .zhong img{
+        width: 80px;
+        height: 80px;
+        margin-top: 70px;
+        margin-bottom: 180px;
+        cursor: pointer;
+    }
+    .right{
+        float: left;
+        margin-left: 15%;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+        $(".right img").hide();
+        $(".right img:eq(0)").show();
+        $(".left img:eq(0)").css({"background-color":"#ddd","opacity":"0.3"});
+        $(".left img").mouseover(function(e){
+            var num=$(".left img").index(this);
+            $(".right img").hide();
+            $(".left img").css({"background-color":"none","opacity":"1"});
+            $(".right img:eq("+num+")").show();
+            $(".left img:eq("+num+")").css({"background-color":"#ddd","opacity":"0.3"})
+        })
+        $(".left img").click(function(e){
+            var numIndex=$(".left img").index(this);
+            $(".zhong img").attr("src","../images/muban/gou1.png");
+            $(".zhong img:eq("+numIndex+")").attr("src","../images/muban/gou.png");
+        })
+        $(".zhong img").click(function(e){
+            var numIndex1=$(".zhong img").index(this);
+            $(".zhong img").attr("src","../images/muban/gou1.png");
+            $(".zhong img:eq("+numIndex1+")").attr("src","../images/muban/gou.png");
+            $(".right img").hide();
+            $(".left img").css({"background-color":"none","opacity":"1"});
+            $(".right img:eq("+numIndex1+")").show();
+            $(".left img:eq("+numIndex1+")").css({"background-color":"#ddd","opacity":"0.3"})
+        })
+    })
+</script>
+<body>
+<div class="place">当前位置：<b>模板管理</b></div>
+<div class="pageMain">
+    <div class="title">
+        <div class="text">模板管理</div>
+    </div>
+    <div style="clear: both"></div>
+    <div class="pages">
+        <div class="left">
+            <img src="../images/muban/web1.jpg"/>
+            <img src="../images/muban/web2.jpg"/>
+            <img src="../images/muban/web3.jpg"/>
+        </div>
+        <div class="zhong">
+            <img src="../images/muban/gou1.png"/>
+            <img src="../images/muban/gou1.png"/>
+            <img src="../images/muban/gou1.png"/>
+        </div>
+        <div class="right">
+            <img src="../images/muban/web1_1.jpg"/>
+            <img src="../images/muban/web2_2.jpg"/>
+            <img src="../images/muban/web3_3.jpg"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
