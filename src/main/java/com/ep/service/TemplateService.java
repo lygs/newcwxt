@@ -4,8 +4,10 @@ import java.util.List;
 
 public interface TemplateService {
 
-	public String updateSelectedStatus(String ids, String statusId);
+	public String updateSelectedStatus(String ids);
 
 	public List getAll();
+
+	public int updateOldStatus();
 	
 }

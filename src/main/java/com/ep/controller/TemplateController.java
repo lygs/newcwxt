@@ -61,13 +61,14 @@ public class TemplateController {
 	@RequestMapping("/updateSelectedStatus")
 	public void updateSelectedStatus() {
 		String ids = CMyString.filterForHTMLValue(request.getParameter("ids"));
-		String statusId = CMyString.filterForHTMLValue(request.getParameter("statusId"));
 		boolean flag = ids.matches("[0-9]+");
 		String str = "";
 		JSONObject obj = new JSONObject();
 		if(StringUtils.isNotBlank(ids) && flag) {
-			 str = tempService.updateSelectedStatus(ids,statusId);
-			 obj.put("results", str);
+			tempService.updateOldStatus();
+			str = tempService.updateSelectedStatus(ids);
+			obj.put("results", str);
+			
 		}else {
 			obj.put("results", "error");
 		}
