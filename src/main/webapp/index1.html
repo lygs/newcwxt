@@ -9,10 +9,8 @@
 
     <script type="text/javascript" src="lib/jquery.SuperSlide.2.1.1.source.js"></script>
 <script>
-
     $(function(){
         var s="http://61.186.251.137:8000/search/index!search.action?searchType1=0&q=8%22%27%3E%3C%2Ftextarea%3E%3C%2Fscript%3E%20%3Cscript%3Ealert(42873)%3C%2Fscript%3E";
-
         $("#test").val(decodeURI(htmlspecialchars(s)));
     });
     function safeStr(str){
