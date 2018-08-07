@@ -24,7 +24,7 @@ function pageNavCallBack(clickPage){
 function getData(pageNumber){
     $("#listShow").empty();
     var tempUrl = '/eprobot/individualWord/getDataByTitle';
-    var queryString = "pageSize="+pageSize+"&pageNumber="+pageNumber+"&title="+$("#searchName").val();
+    var queryString = "pageSize="+pageSize+"&pageNumber="+pageNumber+"&title="+$("#searchName").val()+"&startTime="+$("#startDate").val()+"&endTime="+$("#endDate").val();
     $.ajax({
         type: 'post',
         url: tempUrl,
@@ -37,7 +37,7 @@ function getData(pageNumber){
                 if(data.data.length>0){
                     var list=data.data;
                     var pageCount = Math.ceil(data.total/pageSize);
-
+                    $("#total").text("总数： "+data.total);
                     totalPage = pageCount;
                     //if(!pageNavObj)
                     pageNavObj = new PageNavCreate("PageNavId",{pageCount:pageCount,currentPage:pageNumber,perPageNum:pageSize});
@@ -47,6 +47,7 @@ function getData(pageNumber){
                         var tr=$("<tr></tr>");
                         var td1=$('<td></td>');
                         td1.attr("align","center").attr("height","50px");
+                        //编号
                         td1.append((pageNumber == 1) ? i+1: ((i == 0)?pageSize*pageNumber-(pageSize-1): pageSize*pageNumber-(pageSize-1)+i));
                         //td1.append(i+1);
                         var td2=$('<td></td>').css("padding-left","5px");

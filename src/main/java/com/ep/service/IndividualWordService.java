@@ -11,8 +11,8 @@ import com.ep.entity.IndividualWord;
 */
 public interface IndividualWordService {
 
-	List<IndividualWord> getDataByTitle( String title, String pageSize, String pageNum);
+	List<IndividualWord> getDataByTitle( String title, String pageSize, String pageNum, String startTime, String endTime);
 	String updataOrSaveIndividualWord(IndividualWord obj);
 	int delObjById(Integer id);
-	int getTotal(String title);
+	int getTotal(String title, String startTime, String endTime);
 }

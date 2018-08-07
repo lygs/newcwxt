@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 /**
 * @author  Zhaoxh
 * @version 创建时间：2018年7月4日 下午4:22:35
-* 
+* 联想词
 */
 @Controller
 @RequestMapping(value = "individualWord",produces = "application/json;charset=utf-8")
@@ -45,7 +45,7 @@ public class IndividualWordController {
 	
 	@ResponseBody
 	@RequestMapping("/getDataByTitle")
-	public String getDataByTitle(String title ,String pageSize, String pageNumber) {
+	public String getDataByTitle(String title ,String pageSize, String pageNumber, String startTime, String endTime) {
 		JSONObject json = new JSONObject();
 		boolean flg = true;
 		String str = null;
@@ -55,7 +55,7 @@ public class IndividualWordController {
 				flg = false;
 				}
 			}else {
-				pageSize = "10";
+				pageSize = "10"; 
 				pageNumber = "1";
 			}
 			if(!flg) {
@@ -65,8 +65,10 @@ public class IndividualWordController {
 			}else {
 				
 				title = CMyString.filterForHTMLValue(title);
-				List<IndividualWord> list= iws.getDataByTitle(title, pageSize, pageNumber);
-				int total = iws.getTotal(title);
+				
+				
+				List<IndividualWord> list= iws.getDataByTitle(title, pageSize, pageNumber, startTime, endTime);
+				int total = iws.getTotal(title, startTime, endTime);
 				json.put("msg", "操作成功");
 				json.put("status","1");
 				json.put("data",list);

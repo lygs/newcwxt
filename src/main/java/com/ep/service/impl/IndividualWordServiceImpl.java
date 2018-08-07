@@ -28,10 +28,25 @@ public class IndividualWordServiceImpl implements IndividualWordService{
 	IndividualWordDao individualWordDao;
 	
 	@Override
-	public List<IndividualWord> getDataByTitle(String title, String pageSize, String pageNum) {
-			JSONObject json = new JSONObject();
-			String hql = "from IndividualWord where qaQuestion like '%"+title+"%' order by cretime DESC ";
-			List<IndividualWord> list = individualWordDao.getDataByTitle(hql, pageSize, pageNum);
+	public List<IndividualWord> getDataByTitle(String title, String pageSize, String pageNum, String startTime, String endTime) {
+			
+			StringBuffer str = new StringBuffer();
+			String hql = "from IndividualWord where qaQuestion like '%"+title+"%' ";
+			String endhql = " order by cretime DESC ";
+			str.append(hql);
+			
+			if(!CMyString.isEmpty(startTime)) {
+				startTime = CMyString.filterForHTMLValue(startTime);
+				str.append(" and cretime >= '"+startTime+"' ");
+			}
+			
+			if(!CMyString.isEmpty(endTime)) {
+				String end = DateUtil.getSpecifiedDayBefore(CMyString.filterForHTMLValue(endTime), "yyyy-MM-dd", 1, "+");
+				str.append(" and cretime < '"+end+ "' ");
+			}
+			str.append(endhql);
+			
+			List<IndividualWord> list = individualWordDao.getDataByTitle(str.toString(), pageSize, pageNum);
 				
 		return list;
 	}
@@ -66,9 +81,22 @@ public class IndividualWordServiceImpl implements IndividualWordService{
 	}
 
 	@Override
-	public int getTotal(String title) {
-		String hql = "select count(*) from IndividualWord where I_TITLE like '%"+title+"%'";
-		return individualWordDao.getTotal(hql);
+	public int getTotal(String title, String startTime, String endTime) {
+		StringBuffer str = new StringBuffer();
+		String hql = "select count(*) from IndividualWord where I_TITLE like '%"+title+"%' ";
+		str.append(hql);
+		
+		if(!CMyString.isEmpty(startTime)) {
+			startTime = CMyString.filterForHTMLValue(startTime);
+			str.append(" and I_CRETIME >= '"+startTime+"' ");
+		}
+		
+		if(!CMyString.isEmpty(endTime)) {
+			String end = DateUtil.getSpecifiedDayBefore(CMyString.filterForHTMLValue(endTime), "yyyy-MM-dd", 1, "+");
+			str.append(" and I_CRETIME < '"+end+ "' ");
+		}
+		
+		return individualWordDao.getTotal(str.toString());
 	}
 	
 	

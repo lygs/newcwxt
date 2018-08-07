@@ -12,6 +12,8 @@
     <script type="text/javascript" src="js/echarts.common.min.js"></script>
     <script src="js/lianxiang/lianxiang.js"></script>
     <script src="js/pageNav.js"></script>
+    
+    <script src="js/My97DatePicker/WdatePicker.js"></script>
 
 </head>
 <body>
@@ -35,6 +37,13 @@
                     <i class="iconfont icon-ai244"></i>
                 </a>
             </div> -->
+            <input class="input-sm" id="startDate" class="Wdate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" type="text" placeholder="开始时间"
+						name="startDate"> 至
+						<input class="input-sm" type="text"
+						placeholder="结束时间" class="Wdate" id="endDate"
+				onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" name="endDate">
+				
             <div class="search">
                 <div class="textInput"><input type="text" placeholder="查询相关记录" class="inputs" id="searchName"></div>
                 <div class="submit"><input type="submit" class="btn"> <i class="iconfont icon-sousuo"></i></div>
@@ -58,7 +67,7 @@
         </table>
     </div>
     
-   <div class="pages"><li class="text totalNum"></li><nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+   <div class="pages"><li class="text totalNum"></li><span id="total"></span></span><nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
     </div>
 </div>
 <!--footer-->

@@ -84,7 +84,7 @@ public class LuceneController {
 					}
 					List<IndividualWord> individualWordLists = new  ArrayList<IndividualWord>();
 					for(int i=0; i<liststr.size(); i++) {
-						List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1");
+						List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1", "", "");
 						individualWordLists.addAll(iwl);
 					}
 					JSONObject jsonObject = new JSONObject();
@@ -98,7 +98,7 @@ public class LuceneController {
 				 List<String> wordsList = LuceneUtil.getStrinsByWords(searchContent);
 				 if(wordsList.size()==1) {
 					 //单词查询
-					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1");
+					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "", "");
 					 JSONObject jsonObject = new JSONObject();
 					 jsonObject.put("wordList", inList);
 					 jsonObject.put("words", "");
@@ -108,7 +108,7 @@ public class LuceneController {
 				 }else {
 					 //多词查询 1、完全匹配 （栏目/问题） 2、分词（栏目/问题）
 					 JSONObject jsonObject = new JSONObject();
-					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1");
+					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "" ,"");
 					 if(inList.size()>0) {
 						 jsonObject.put("wordList", inList);
 					 }else {
@@ -146,7 +146,7 @@ public class LuceneController {
 					List<IndividualWord> IndividualWordLists = new  ArrayList<IndividualWord>();
 					List<Channels> channelLists = new  ArrayList<Channels>();
 					for(int i=0; i<liststr.size(); i++) {
-						List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1");
+						List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1", "", "");
 						for(int k=0; k<iwl.size(); k++) {
 							IndividualWordLists.add(iwl.get(k));
 						}
@@ -216,7 +216,7 @@ public class LuceneController {
 									 
 				 }else if(wordsList.size() == 1){
 					 //单词查询
-					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1");
+					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "", "");
 					 List<Channels> channelList = channelService.findByName(searchContent);
 					 JSONObject jsonObject = new JSONObject();
 					 jsonObject.put("wordList", inList);
