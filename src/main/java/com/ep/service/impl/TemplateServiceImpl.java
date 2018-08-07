@@ -39,4 +39,16 @@ public class TemplateServiceImpl implements TemplateService{
 		int results = dao.updateSelectedStatus(hql, params);
 		return results;
 	}
+
+	@Override
+	public TemplateEntity getSelectedTemp() {
+		String hql = "from TemplateEntity where checkedStatus=1";
+		List list = dao.getList(hql);
+		if(list!=null && list.size()>0) {
+			return (TemplateEntity) list.get(0);
+		}else {
+			return null;
+		}
+		
+	}
 }

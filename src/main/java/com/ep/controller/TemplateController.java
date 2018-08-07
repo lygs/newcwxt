@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ep.entity.TemplateEntity;
 import com.ep.service.TemplateService;
 import com.ep.util.CMyString;
 
@@ -55,7 +56,7 @@ public class TemplateController {
 		}
 	}
 	/**
-	 * 选中模板
+	 * 设置选中模板
 	 * 
 	 */
 	@RequestMapping("/updateSelectedStatus")
@@ -75,6 +76,27 @@ public class TemplateController {
 		str = obj.toString();
 		try {
 			response.getWriter().println(str);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 获取选中的模板
+	 */
+	@RequestMapping("getSelectedTemp")
+	public void getSelectedTemp() {
+		TemplateEntity temp = tempService.getSelectedTemp();
+		JSONObject obj = new JSONObject();
+		if(temp!=null) {
+			obj.put("data", temp);
+			obj.put("results", "success");
+		}else {
+			obj.put("data", "null");
+			obj.put("results", "null");
+		}
+		try {
+			response.getWriter().print(obj.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
