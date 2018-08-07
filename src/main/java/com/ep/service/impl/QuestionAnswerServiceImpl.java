@@ -551,9 +551,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 			if (StringUtils.isNotBlank(endTime)) {
 				hql.append(" and qa.QA_CREATETIME <= '" + endTime + "'");
 			}
-			
 			hql.append(" order by qa.QA_CREATETIME desc");
-
 		}
 		List<QuestionAnswerEntity> list = questionAnswerDao.getQuestionAnswerList(hql.toString(),
 				String.valueOf(pageSize), String.valueOf(pageNumber));
