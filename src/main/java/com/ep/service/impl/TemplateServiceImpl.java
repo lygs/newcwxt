@@ -22,9 +22,8 @@ public class TemplateServiceImpl implements TemplateService{
 
 	@Override
 	public String updateSelectedStatus(String ids) {
-		String hql = "update TemplateEntity set checkedStatus=?0 where tempId=?1";
-		Object[] params = {1,Integer.parseInt(ids)};
-		int results = dao.updateSelectedStatus(hql, params);
+		String hql = "update TemplateEntity set checkedStatus=1 where tempId="+Integer.parseInt(ids);
+		int results = dao.updateSelectedStatus(hql);
 		if(results>0) {
 			return "success";
 		}else {
@@ -34,9 +33,8 @@ public class TemplateServiceImpl implements TemplateService{
 
 	@Override
 	public int updateOldStatus() {
-		String hql = "update TemplateEntity set checkedStatus=?0 where checkedStatus=?1";
-		Object[] params = {0,1};
-		int results = dao.updateSelectedStatus(hql, params);
+		String hql = "update TemplateEntity set checkedStatus=0 where checkedStatus=1";
+		int results = dao.updateSelectedStatus(hql);
 		return results;
 	}
 

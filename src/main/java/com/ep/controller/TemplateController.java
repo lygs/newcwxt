@@ -69,7 +69,6 @@ public class TemplateController {
 			tempService.updateOldStatus();
 			str = tempService.updateSelectedStatus(ids);
 			obj.put("results", str);
-			
 		}else {
 			obj.put("results", "error");
 		}

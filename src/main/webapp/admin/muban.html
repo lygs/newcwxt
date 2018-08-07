@@ -35,32 +35,76 @@
     }
 </style>
 <script>
+var list;
     $(document).ready(function(){
-        $(".right img").hide();
-        $(".right img:eq(0)").show();
-        $(".left img:eq(0)").css({"background-color":"#ddd","opacity":"0.3"});
-        $(".left img").mouseover(function(e){
-            var num=$(".left img").index(this);
-            $(".right img").hide();
-            $(".left img").css({"background-color":"none","opacity":"1"});
-            $(".right img:eq("+num+")").show();
-            $(".left img:eq("+num+")").css({"background-color":"#ddd","opacity":"0.3"})
-        })
-        $(".left img").click(function(e){
-            var numIndex=$(".left img").index(this);
-            $(".zhong img").attr("src","../images/muban/gou1.png");
-            $(".zhong img:eq("+numIndex+")").attr("src","../images/muban/gou.png");
-        })
-        $(".zhong img").click(function(e){
-            var numIndex1=$(".zhong img").index(this);
-            $(".zhong img").attr("src","../images/muban/gou1.png");
-            $(".zhong img:eq("+numIndex1+")").attr("src","../images/muban/gou.png");
-            $(".right img").hide();
-            $(".left img").css({"background-color":"none","opacity":"1"});
-            $(".right img:eq("+numIndex1+")").show();
-            $(".left img:eq("+numIndex1+")").css({"background-color":"#ddd","opacity":"0.3"})
-        })
+    	$.ajax({
+    	     type:'post',
+    	     url:"/eprobot/template/getAll",
+    	     dataType: "json",
+    	     cache:false,
+    	     success:function(data){
+    	    	 if(data.results=="success"){
+    	    		 list = data.data;
+    	    	 }
+    	     }
+    	});
+    	
+    	  $(".right img").hide();
+	        $(".right img:eq(0)").show();
+	        $(".left img:eq(0)").css({"background-color":"#ddd","opacity":"0.3"});
+	        $(".left img").mouseover(function(e){
+	            var num=$(".left img").index(this);
+	            $(".right img").hide();
+	            $(".left img").css({"background-color":"none","opacity":"1"});
+	            $(".right img:eq("+num+")").show();
+	            $(".left img:eq("+num+")").css({"background-color":"#ddd","opacity":"0.3"})
+	            
+	        })
+	        $(".left img").click(function(e){
+	            var numIndex=$(".left img").index(this);
+	            $(".zhong img").attr("src","../images/muban/gou1.png");
+	            $(".zhong img:eq("+numIndex+")").attr("src","../images/muban/gou.png");
+	           	if(list.length>0){
+	           		for(var i=0;i<list.length;i++){
+	           			if(list[i].picUrl.indexOf(numIndex+1)>0){
+	           				updSel(list[i].tempId);
+	           			}
+	           		}
+	           	}
+	           		
+	        })
+	        $(".zhong img").click(function(e){
+	            var numIndex1=$(".zhong img").index(this);
+	            $(".zhong img").attr("src","../images/muban/gou1.png");
+	            $(".zhong img:eq("+numIndex1+")").attr("src","../images/muban/gou.png");
+	            $(".right img").hide();
+	            $(".left img").css({"background-color":"none","opacity":"1"});
+	            $(".right img:eq("+numIndex1+")").show();
+	            $(".left img:eq("+numIndex1+")").css({"background-color":"#ddd","opacity":"0.3"})
+				if(list.length>0){
+					for(var i=0;i<list.length;i++){
+	           			if(list[i].picUrl.indexOf(numIndex1+1)>0){
+	           				updSel(list[i].tempId);
+	           			}
+	           		}
+	           	}
+	        })
     })
+    
+   function updSel(ids){
+    	$.ajax({
+   	     type:'post',
+   	     url:"/eprobot/template/updateSelectedStatus",
+   	     dataType: "json",
+   	     data:{"ids":ids},
+   	     cache:false,
+   	     success:function(data){
+   	    	 if(data.results=="success"){
+   	    		 alert("设置成功!");
+   	    	 }
+   	     }
+   	});
+ }
 </script>
 <body>
 <div class="place">当前位置：<b>模板管理</b></div>

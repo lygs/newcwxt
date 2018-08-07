@@ -42,14 +42,9 @@ public class TemplateDao {
 	 * @param id
 	 * @return
 	 */
-	public int updateSelectedStatus(String hql,Object[] params) {
+	public int updateSelectedStatus(String hql) {
 		Session sess = this.getSession();
 		Query querys =sess.createQuery(hql);
-		if(params.length>0){
-			for (int i = 0; i < params.length; i++) {
-				querys.setParameter(String.valueOf(i), params[i]);
-			}
-		}
 		int results = querys.executeUpdate();
 		return results;
 	}
