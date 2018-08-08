@@ -45,6 +45,18 @@ var list;
     	     success:function(data){
     	    	 if(data.results=="success"){
     	    		 list = data.data;
+    	    		 for(i=0;i<list.length;i++){
+    	    			 if(list[i].checkedStatus==1){
+    	    				 var a=$(".left img");
+    	    				 for(b=0;b<a.length;b++){
+    	    					 var src=a[b].src;
+    	    					 if(src.indexOf(list[i].picUrl)>0){
+    	    						 $(".zhong img:eq("+b+")").attr("src","../images/muban/gou.png");
+    	    	    				 break;
+    	    					 }
+    	    				 }
+    	    			 }
+    	    		 }
     	    	 }
     	     }
     	});
