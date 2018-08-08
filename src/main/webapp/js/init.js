@@ -48,20 +48,6 @@ $(function(){
 
 });
 
-function getTempl(){
-    var temUrl;
-    $.ajax({
-        type:'post',
-        url:"/eprobot/template/getSelectedTemp",
-        dataType:"json",
-        success:function(data){
-            if(data.data.urlName){
-                temUrl = data.data.urlName;
-            }
-        }
-    });
-    return temUrl;
-}
 
 function searchQuestion(){
     var inputVal,content = $.trim($(".askSubmit textarea").val());

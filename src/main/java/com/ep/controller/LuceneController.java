@@ -62,79 +62,94 @@ public class LuceneController {
 		String searchContent = CMyString.filterForHTMLValue(request.getParameter("content"));
 		JSONObject resultjson = new JSONObject();
 		if(!CMyString.isEmpty(searchContent)) {
-		    String words = LuceneUtil.search(searchContent, 1);
-		    if(words.length()>0) {
-		    	searchContent = words;
-		    }
-			List<WordExpansion> list = wes.getData(searchContent, "9", "1"); 
-			 if(list.size() > 0) {
-					List<String> liststr = new  ArrayList<String>();
-					for(int i=0; i<list.size(); i++) {
-						String content = list.get(i).getContent();
-						if(content.indexOf("；")!=-1) {
-							content = content.replace("；", ";");
-						}
-						String[] s = content.split(";");
-						boolean f = false;
-						for(int j=0; j<s.length; j++) {
-							if(searchContent.equals(s[j])) {
-								f = true;break;
-							}
-						}
-						if(f) {
-							for(int k=0; k<s.length; k++) {
-								liststr.add(s[k]);
-							}
-						}
-						
-					}
-					List<IndividualWord> individualWordLists = new  ArrayList<IndividualWord>();
-					for(int i=0; i<liststr.size(); i++) {
-						List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1", "", "");
-						individualWordLists.addAll(iwl);
-					}
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("wordList", individualWordLists);
-					jsonObject.put("words", liststr);
-					jsonObject.put("searchContent", searchContent);
-					resultjson.put("data", jsonObject);
-					resultjson.put("status","1");
-					resultjson.put("msg", "操作成功");
-			 }else {
-				 //分词返回多个单词集合
-				 List<String> wordsList = LuceneUtil.getStrinsByWords(searchContent);
-				 if(wordsList.size()==1) {
-					 //单词查询
-					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "", "");
-					 JSONObject jsonObject = new JSONObject();
-					 jsonObject.put("wordList", inList);
-					 jsonObject.put("words", "");
-					 jsonObject.put("searchContent", searchContent);
-					 resultjson.put("data", jsonObject);
-					 resultjson.put("status","1");
-					 resultjson.put("msg", "操作成功");
-				 }else {
-					 //多词查询 1、完全匹配 （栏目/问题） 2、分词（栏目/问题）
-					 JSONObject jsonObject = new JSONObject();
-					 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "" ,"");
-					 if(inList.size()>0) {
-						 jsonObject.put("wordList", inList);
-					 }else {
-						 List<QuestionAnswerEntity> qaList = luceneService.getData(searchContent, wordsList);
-						 jsonObject.put("wordList", qaList);
-					 }
-					 resultjson.put("data", jsonObject);
-					 jsonObject.put("words", "");
-					 jsonObject.put("searchContent", searchContent);
-					 resultjson.put("status","1");
-					 resultjson.put("msg", "操作成功");
-				 }
-			 }
+			resultjson =  getwords(searchContent);
+			List list = (List) resultjson.getJSONObject("data").get("wordList");
+			if (list.size()==0) {
+				List<Channels> channelsList =  channelService.findByName(searchContent);
+				if(channelsList.size()==0) {
+					String words = LuceneUtil.search(searchContent, 5);
+				    if(words.length()>0) {
+				    	resultjson =  getwords(words);
+				    }
+				}
+				
+			}
+			 
 		}else {
 			 resultjson.put("status","0");
 			 resultjson.put("msg", "参数错误");
 		}
 		response.getWriter().println(resultjson.toString());
+	}
+	
+	public JSONObject getwords(String searchContent) {
+		JSONObject resultjson = new JSONObject();
+		List<WordExpansion> list = wes.getData(searchContent, "9", "1"); 
+		 if(list.size() > 0) {
+				List<String> liststr = new  ArrayList<String>();
+				for(int i=0; i<list.size(); i++) {
+					String content = list.get(i).getContent();
+					if(content.indexOf("；")!=-1) {
+						content = content.replace("；", ";");
+					}
+					String[] s = content.split(";");
+					boolean f = false;
+					for(int j=0; j<s.length; j++) {
+						if(searchContent.equals(s[j])) {
+							f = true;break;
+						}
+					}
+					if(f) {
+						for(int k=0; k<s.length; k++) {
+							liststr.add(s[k]);
+						}
+					}
+					
+				}
+				List<IndividualWord> individualWordLists = new  ArrayList<IndividualWord>();
+				for(int i=0; i<liststr.size(); i++) {
+					List<IndividualWord> iwl = iws.getDataByTitle(liststr.get(i), "9", "1", "", "");
+					individualWordLists.addAll(iwl);
+				}
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("wordList", individualWordLists);
+				jsonObject.put("words", liststr);
+				jsonObject.put("searchContent", searchContent);
+				resultjson.put("data", jsonObject);
+				resultjson.put("status","1");
+				resultjson.put("msg", "操作成功");
+		 }else {
+			 //分词返回多个单词集合
+			 List<String> wordsList = LuceneUtil.getStrinsByWords(searchContent);
+			 if(wordsList.size()==1) {
+				 //单词查询
+				 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "", "");
+				 JSONObject jsonObject = new JSONObject();
+				 jsonObject.put("wordList", inList);
+				 jsonObject.put("words", "");
+				 jsonObject.put("searchContent", searchContent);
+				 resultjson.put("data", jsonObject);
+				 resultjson.put("status","1");
+				 resultjson.put("msg", "操作成功");
+			 }else {
+				 //多词查询 1、完全匹配 （栏目/问题） 2、分词（栏目/问题）
+				 JSONObject jsonObject = new JSONObject();
+				 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "" ,"");
+				 if(inList.size()>0) {
+					 jsonObject.put("wordList", inList);
+				 }else {
+					 List<QuestionAnswerEntity> qaList = luceneService.getData(searchContent, wordsList);
+					 jsonObject.put("wordList", qaList);
+				 }
+				 jsonObject.put("words", "");
+				 jsonObject.put("searchContent", searchContent);
+				 resultjson.put("data", jsonObject);
+				 resultjson.put("status","1");
+				 resultjson.put("msg", "操作成功");
+			 }
+		 }
+		 return resultjson;
+		
 	}
 	
 	@RequestMapping("/search")

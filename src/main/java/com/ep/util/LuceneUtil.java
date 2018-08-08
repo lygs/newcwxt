@@ -332,14 +332,18 @@ public class LuceneUtil {
 			//spellchecker.indexDictionary((Dictionary) dire, iwc, true);
 			//spellchecker.i
 			String dispath = PropertiesUtil.getProperties_5("/fileUrl.properties","dicpath");
-			spellchecker.indexDictionary(new PlainTextDictionary(Paths.get(dispath)),config1,true);
+			spellchecker.indexDictionary(new PlainTextDictionary(Paths.get(dispath)),config1,false);
 			//这里的参数numSug表示返回的建议个数
 			String[] suggests = spellchecker.suggestSimilar(word, numSug);
 			if (suggests != null && suggests.length > 0) {
 				for (String suggest : suggests) {
-					string = suggest ;
-					//System.out.println("您是不是想要找：" + suggest);
-					break;
+					if(suggest.length()==word.length()) {
+						string = suggest ;
+						System.out.println("您是不是想要找：" + suggest);
+						break;
+					}
+					System.out.println("1您是不是想要找：" + suggest);
+					   
 				}
 			}
 		} catch (IOException e) {
@@ -349,8 +353,8 @@ public class LuceneUtil {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String words = "还保厅的电话";
-		String string = search(words,1);
+		String words = "办工室";
+		String string = search(words,5);
 		System.out.println("------------" + string);
 		
 		// LuceneUtil.search("中华人民共和国", new String[] {"qaKeywords","qaQuestion"});
