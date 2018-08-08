@@ -51,7 +51,11 @@ var list;
     	    				 for(b=0;b<a.length;b++){
     	    					 var src=a[b].src;
     	    					 if(src.indexOf(list[i].picUrl)>0){
+    	    						 $(".right img").hide();
+    	    				         $(".left img").css({"background-color":"none","opacity":"1"});
     	    						 $(".zhong img:eq("+b+")").attr("src","../images/muban/gou.png");
+    	    						 $(".right img:eq("+b+")").show();
+    	    						 $(".left img:eq("+b+")").css({"background-color":"#fff","opacity":"0.3"})
     	    	    				 break;
     	    					 }
     	    				 }
@@ -63,13 +67,13 @@ var list;
     	
     	  $(".right img").hide();
 	        $(".right img:eq(0)").show();
-	        $(".left img:eq(0)").css({"background-color":"#ddd","opacity":"0.3"});
+	        $(".left img:eq(0)").css({"background-color":"#fff","opacity":"0.3"});
 	        $(".left img").mouseover(function(e){
 	            var num=$(".left img").index(this);
 	            $(".right img").hide();
 	            $(".left img").css({"background-color":"none","opacity":"1"});
 	            $(".right img:eq("+num+")").show();
-	            $(".left img:eq("+num+")").css({"background-color":"#ddd","opacity":"0.3"})
+	            $(".left img:eq("+num+")").css({"background-color":"#fff","opacity":"0.3"})
 	            
 	        })
 	        $(".left img").click(function(e){
@@ -92,7 +96,7 @@ var list;
 	            $(".right img").hide();
 	            $(".left img").css({"background-color":"none","opacity":"1"});
 	            $(".right img:eq("+numIndex1+")").show();
-	            $(".left img:eq("+numIndex1+")").css({"background-color":"#ddd","opacity":"0.3"})
+	            $(".left img:eq("+numIndex1+")").css({"background-color":"#fff","opacity":"0.3"})
 				if(list.length>0){
 					for(var i=0;i<list.length;i++){
 	           			if(list[i].picUrl.indexOf(numIndex1+1)>0){
