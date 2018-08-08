@@ -3,6 +3,24 @@
  */
 var channels = [];
 $(function(){
+
+    $.ajax({
+        type:'post',
+        url:"/eprobot/template/getSelectedTemp",
+        dataType:"json",
+        success:function(data){
+            if(data.data.urlName){
+                var temUrl = data.data.urlName;
+                $("<link>")	.attr({ rel: "stylesheet",
+                    type: "text/css",
+                    href: "css/"+temUrl+".css"
+                }).appendTo("head");
+                $(".warp").show();
+                $(".p_footer").show();
+            }
+        }
+    });
+
     $("html,body").animate({"scrollTop": "400px"}, 1000);
     $(".askSubmit textarea").focus();
     $(".askSubmit textarea").on('input',function(e) {
@@ -29,6 +47,21 @@ $(function(){
 
 
 });
+
+function getTempl(){
+    var temUrl;
+    $.ajax({
+        type:'post',
+        url:"/eprobot/template/getSelectedTemp",
+        dataType:"json",
+        success:function(data){
+            if(data.data.urlName){
+                temUrl = data.data.urlName;
+            }
+        }
+    });
+    return temUrl;
+}
 
 function searchQuestion(){
     var inputVal,content = $.trim($(".askSubmit textarea").val());

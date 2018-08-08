@@ -18,7 +18,13 @@ public class LoginFilter implements Filter {
 	public FilterConfig config;
 	public String redirectPaths ="/login.html";
 	//不过滤
-	public String logonStrings ="index.html;login.html;/admin/login.js;codeMsg.jsp;/user/login.action;/questionSearch/search;/chnl/getAll;/questionAnswer/updateQuestionAnswerGoodnumById;/questionAnswer/getChnlNameByQid;/questionAnswer/addQuestionByExcel;/know/getHotKnowledge;/questionAnswer/getQuestionByComm;/questionAnswer/getQuestionByKnowledge;/questionAnswer/getQaByChnlid;/record;/praise;/questionAnswer/getQuestionByClick";
+	public String logonStrings ="index.html;login.html;/admin/login.js;"
+			+ "codeMsg.jsp;/user/login.action;/questionSearch/search;"
+			+ "/chnl/getAll;/questionAnswer/updateQuestionAnswerGoodnumById;"
+			+ "/questionAnswer/getChnlNameByQid;/questionAnswer/addQuestionByExcel;"
+			+ "/know/getHotKnowledge;/questionAnswer/getQuestionByComm;"
+			+ "/questionAnswer/getQuestionByKnowledge;/questionAnswer/getQaByChnlid;"
+			+ "/record;/praise;/questionAnswer/getQuestionByClick;/template/getSelectedTemp";
 	//过滤
 	public String includeStrings=".action;.jsp;.html;/know/;/questionAnswer/;/user/";
 	public LoginFilter() {
