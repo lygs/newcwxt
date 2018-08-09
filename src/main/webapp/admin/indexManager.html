@@ -9,7 +9,11 @@
     <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
     <script type="text/javascript" src="js/zUI.js"></script>
      <script type="text/javascript" src="js/echarts.common.min.js"></script>
- 
+ <style>
+ 	input[type=text]{
+ 		height: 30px;
+ 	}
+ </style>
 </head>
 
 <body>
@@ -199,24 +203,34 @@
         <div class="title">添加问题 <div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div>
     </div>
         <div class="content">
+         <form id="addQuestion" method="post" enctype="multipart/form-data">
             <div class="text">问题</div>
-            <div class="textInput"><input type="text" class="inputs" id="qaQuestion"></div>
+            <div class="textInput"><input type="text" class="inputs" name="qaQuestion" id="qaQuestion"></div>
             <div class="text">关键字</div>
-            <div class="textInput"><input type="text" class="inputs" id="kewwords"></div>
+            <div class="textInput"><input type="text" class="inputs" name="kewwords" id="kewwords"></div>
             <div class="text">来源</div>
-            <div class="textInput"><input type="text" class="inputs" id="resource"></div>
+            <div class="textInput"><input type="text" class="inputs" name="resource" id="resource"></div>
             <div class="text">知识点</div>
-            <div class="textInput" style="border:0; height:32px;">
+            <div class="textInput" style="border:0; height:33px;">
                 <input type="text"  class="qaKnowledgeFl addQafl" placeholder="点击选择分类" readonly="readonly ">
-				<select class="qaKnowledgePoint" id="qaKnowledgePoint">
+				<select class="qaKnowledgePoint" name="qaKnowledgePoint" id="qaKnowledgePoint">
 					
 				</select>
             </div>
             
-            <div class="text">标准答案</div>
-            <div class="textArea">
-                <textarea id="qaAnswer" style="font-size:12px; font-family:'Microsoft YaHei',Arial,Helvetica,sans-serif;"></textarea>
+            <div class="text">
+            	标准答案
+            	<input class="radio" style="margin-left:20px" type="radio" value="1" checked="checked" name="fi">文本 
+	            <input class="radio" style="margin-left:10px" value="2" type="radio" name="fi">图片\音频\视频（<span style="color:red;">支持格式：mp3、mp4、png、jpg、jpeg</span>）
             </div>
+            
+            <div class="textArea radio_div">
+                <textarea id="qaAnswer" name="qaAnswer" style="font-size:12px; font-family:'Microsoft YaHei',Arial,Helvetica,sans-serif;"></textarea>
+            </div>
+            <div class="radio_div" style="display:none;margin-left:40%;margin-top:20px;">
+            	<input type="file" name="file">
+            </div>
+          </form>  
         </div>
         <div class="submit">
             <ul>
@@ -693,7 +707,17 @@
     $("#know_cont_02").panel({iWheelStep:32});
     $("#know_cont_03").panel({iWheelStep:32});
 
-    
+    $(".radio").click(function(){
+    	if($(this).val() == 1){
+    		$($(".radio_div")[0]).show();
+    		$($(".radio_div")[1]).hide();
+    	}
+    	
+    	if($(this).val() == 2){
+    		$($(".radio_div")[1]).show();
+    		$($(".radio_div")[0]).hide();
+    	}
+    });
 </script>
     <script type="text/javascript" src="js/index.js"></script>
 <!--footer-->

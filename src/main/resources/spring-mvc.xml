@@ -33,7 +33,7 @@
   <!-- 配置文件上传类型解析器 multipartResolver-->
   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <property name="defaultEncoding" value="utf-8"></property>
-    <property name="maxUploadSize" value="104857600"></property>
+    <property name="maxUploadSize" value="30000000"></property>
     <property name="maxInMemorySize" value="40960"></property>
   </bean>
 </beans>

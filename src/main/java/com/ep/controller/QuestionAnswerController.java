@@ -1,6 +1,8 @@
 package com.ep.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ep.entity.Channels;
 import com.ep.entity.KnowledgePointEntity;
@@ -30,6 +33,7 @@ import com.ep.service.QuestionAnswerService;
 import com.ep.service.RecordService;
 import com.ep.util.CMyString;
 import com.ep.util.DateUtil;
+import com.ep.util.FileUtil;
 import com.ep.util.LuceneUtil;
 import com.ep.util.PropertiesUtil;
 import com.ep.util.ReadExcel;
@@ -80,8 +84,8 @@ public class QuestionAnswerController {
 			if (num && pagesize) {
 				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
 				List<QuestionAnswerEntity> list = qaService.getQuestionAnswerAllList(Integer.valueOf(pageSize),
-						Integer.valueOf(pageNumber), qaQuestion, chnlId,startTime,endTime);
-				int total = qaService.getQuestionAnswerTotal(qaQuestion, chnlId,startTime,endTime);
+						Integer.valueOf(pageNumber), qaQuestion, chnlId, startTime, endTime);
+				int total = qaService.getQuestionAnswerTotal(qaQuestion, chnlId, startTime, endTime);
 				if (user != null) {
 					json.put("roleId", user.getRoleId());
 				}
@@ -122,7 +126,7 @@ public class QuestionAnswerController {
 			if (num) {
 				int count = qaService.delQuestionAnswerById(Integer.valueOf(id));
 				if (count > 0) {
-					//LuceneUtil.deleteDoc("id", id);
+					// LuceneUtil.deleteDoc("id", id);
 					json.put("result", "success");
 				} else {
 					json.put("result", "error");
@@ -138,7 +142,7 @@ public class QuestionAnswerController {
 		response.getWriter().println(json.toString());
 
 	}
-	
+
 	/**
 	 * 根据答案为空删除问题
 	 * 
@@ -148,17 +152,16 @@ public class QuestionAnswerController {
 	public void delQuestionAnswerByAnswer() throws IOException {
 		JSONObject json = new JSONObject();
 		try {
-			//String id = CMyString.filterForHTMLValue(request.getParameter("id"));
+			// String id = CMyString.filterForHTMLValue(request.getParameter("id"));
 			List<QuestionAnswerEntity> list = qaService.findAllByAnswer();
-			if (list.size()>0) {
-				for(int i=0;i<list.size();i++) {
+			if (list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
 					qaService.delQuestionAnswerById(list.get(i).getId());
-					//LuceneUtil.deleteDoc("id", list.get(i).getId().toString());
+					// LuceneUtil.deleteDoc("id", list.get(i).getId().toString());
 				}
-				
-			
+
 				json.put("result", "success");
-				
+
 			} else {
 				json.put("result", "error");
 			}
@@ -170,9 +173,6 @@ public class QuestionAnswerController {
 		response.getWriter().println(json.toString());
 
 	}
-	
-	
-	
 
 	/*
 	 * 修改访问量（访问一次+1） author:陈杰
@@ -181,7 +181,7 @@ public class QuestionAnswerController {
 	public void updateQuestionAnswerSUMById() {
 		int id = Integer.valueOf(request.getParameter("id"));
 		int count = qaService.updateQuestionAnswerSUMById(id);
-		
+
 		if (count > 0) {
 			// System.out.println("访问量增加1");
 		}
@@ -191,62 +191,106 @@ public class QuestionAnswerController {
 	 * 保存管理添加的标准问题 author:陈杰
 	 */
 	@RequestMapping("/saveQuestionAnswer")
-	public void saveQuestionAnswer() {
+	public void saveQuestionAnswer(@RequestParam("file") MultipartFile file) {
 		JSONObject json = new JSONObject();
+		String qaAnswer = null;
+		QuestionAnswerEntity qaEntity = new QuestionAnswerEntity();
+		boolean flg = true;
+		String mm = "";
 		try {
 			String qaQuestion = CMyString.filterForHTMLValue(request.getParameter("qaQuestion"));
-			String qaAnswer = request.getParameter("qaAnswer");
-			String knowledgePoint = CMyString.filterForHTMLValue(request.getParameter("qaKnowledgePoint"));
-			String kewwords = CMyString.filterForHTMLValue(request.getParameter("kewwords"));
-			String resource = CMyString.filterForHTMLValue(request.getParameter("resource"));
-			//记录ID   
-			String recordId = CMyString.filterForHTMLValue(request.getParameter("recordId"));
-			if (!CMyString.isEmpty(qaQuestion) && !CMyString.isEmpty(qaAnswer) && !CMyString.isEmpty(knowledgePoint)
-					&& !CMyString.isEmpty(kewwords) && StringUtils.isNotBlank(resource)) {
-				String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
-				QuestionAnswerEntity qaEntity = new QuestionAnswerEntity();
-				Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
-				qaEntity.setQaAnswer(qaAnswer);
-				qaEntity.setQaQuestion(qaQuestion);
-				qaEntity.setQaCreatetime(date);
-				qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
-				qaEntity.setQaKnowledge(Integer.parseInt(knowledgePoint));
-				qaEntity.setQaType(0); // 0普通 1常见问题
-				qaEntity.setQaResource(resource); // 信息来源
-				qaEntity.setQaResourceType("0");
-				qaEntity.setQaChnlid(-1);
-				qaEntity.setQaKeywords(kewwords);
-				int id = qaService.saveQuestionAnswer(qaEntity);
-				if (StringUtils.isNotBlank(recordId)) { 
-					//当添加的问题是从记录表里设置的，就需要将记录的状态 修改为 已设置1
-					recordService.updateObj(Integer.parseInt(recordId));
-				}
-				if (id > 0) {
-					// 添加问题序列化
-					Map<String, String> map = new HashMap<String, String>();
-					map.put("id", String.valueOf(id));
-					map.put("qaQuestion", qaQuestion);
-					map.put("qaAnswer", qaAnswer);
-					map.put("qaKeywords", kewwords);
-					/*try {
-						LuceneUtil.createSingleIndex(map);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}*/
-					json.put("result", "success");
+			/* if (request instanceof MultipartHttpServletRequest) { */
+			if (file != null && file.getSize() > 0) {
+				String path = request.getSession().getServletContext().getRealPath("/");
+				String fileName = file.getOriginalFilename();
+				
+				path += "video\\" ;
+				
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				double fileSize = file.getSize() / 1024.0 / 1024.0;
+				System.out.println("suffix========"+suffix);
+				System.out.println("path========"+path);
+				if (suffix.equals("mp3") || suffix.equals("mp4") || suffix.equals("jpg") || suffix.equals("png")
+						|| suffix.equals("jpeg")) {
+					if (fileSize > 20) {
+						json.put("status", 0);
+						json.put("msg", "文件不能大于20M，请重新上传！");
+					} else {
+
+						flg = FileUtil.saveFile(path,fileName, file.getInputStream());
+						if(!flg) {
+							mm = "文件上传失败";
+						}
+					}
 				} else {
-					json.put("result", "error");
+					mm = "格式不符合要求，请重新上传！";
+					flg = false;
 				}
+
+				qaAnswer = fileName;
+				qaEntity.setQaFormat(1);
 			} else {
-				json.put("result", "error");
+				qaAnswer = request.getParameter("qaAnswer");
+				qaEntity.setQaFormat(0);
+			}
+			if (flg ) {
+
+				String knowledgePoint = CMyString.filterForHTMLValue(request.getParameter("qaKnowledgePoint"));
+				String kewwords = CMyString.filterForHTMLValue(request.getParameter("kewwords"));
+				String resource = CMyString.filterForHTMLValue(request.getParameter("resource"));
+
+				// 记录ID
+				String recordId = CMyString.filterForHTMLValue(request.getParameter("recordId"));
+				if (!CMyString.isEmpty(qaQuestion) && !CMyString.isEmpty(qaAnswer) && !CMyString.isEmpty(knowledgePoint)
+						&& !CMyString.isEmpty(kewwords) && StringUtils.isNotBlank(resource)) {
+					String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
+					qaEntity.setQaAnswer(qaAnswer);
+					qaEntity.setQaQuestion(qaQuestion);
+					qaEntity.setQaCreatetime(date);
+					qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
+					qaEntity.setQaKnowledge(Integer.parseInt(knowledgePoint));
+					qaEntity.setQaType(0); // 0普通 1常见问题
+					qaEntity.setQaResource(resource); // 信息来源
+					qaEntity.setQaResourceType("0");
+					qaEntity.setQaChnlid(-1);
+					qaEntity.setQaKeywords(kewwords);
+					int id = qaService.saveQuestionAnswer(qaEntity);
+					if (StringUtils.isNotBlank(recordId)) {
+						// 当添加的问题是从记录表里设置的，就需要将记录的状态 修改为 已设置1
+						recordService.updateObj(Integer.parseInt(recordId));
+					}
+					if (id > 0) {
+						// 添加问题序列化
+						Map<String, String> map = new HashMap<String, String>();
+						map.put("id", String.valueOf(id));
+						map.put("qaQuestion", qaQuestion);
+						map.put("qaAnswer", qaAnswer);
+						map.put("qaKeywords", kewwords);
+						/*
+						 * try { LuceneUtil.createSingleIndex(map); } catch (Exception e) { // TODO
+						 * Auto-generated catch block e.printStackTrace(); }
+						 */
+						json.put("status", "1");
+					} else {
+						json.put("msg", "添加失败");
+						json.put("status", "-1");
+					}
+				} else {
+					json.put("msg", "添加失败");
+					json.put("status", "-1");
+				}
+
+			}else {
+				json.put("msg", mm);
+				json.put("status", "-1");
 			}
 
 			response.getWriter().print(json.toString());
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			json.put("result", "error");
+			json.put("result", "添加失败");
+			json.put("status", "-1");
 			try {
 				response.getWriter().print(json.toString());
 			} catch (IOException e1) {
@@ -384,7 +428,8 @@ public class QuestionAnswerController {
 			boolean num = pageSize.matches("[0-9]+");
 			boolean pagesize = pageNumber.matches("[0-9]+");
 			if (num && pagesize) {
-				List<QuestionAnswerEntity> list = qaService.getQuestionByComm(Integer.valueOf(pageSize),Integer.valueOf(pageNumber), "");
+				List<QuestionAnswerEntity> list = qaService.getQuestionByComm(Integer.valueOf(pageSize),
+						Integer.valueOf(pageNumber), "");
 				// String str = qaService.getQuestionByClick(pageSize);
 				json.put("result", list);
 
@@ -481,10 +526,13 @@ public class QuestionAnswerController {
 				boolean flag = false;
 				for (Map map : list) {
 					try {
-						String qaQuestion = CMyString.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaQuestion")));
+						String qaQuestion = CMyString
+								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaQuestion")));
 						String qaAnswer = (String) map.get("qaAnswer");
-						String kewwords = CMyString.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaKeywords")));
-						String qaResource = CMyString.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaResource"))); // 信息来源
+						String kewwords = CMyString
+								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaKeywords")));
+						String qaResource = CMyString
+								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaResource"))); // 信息来源
 						String qaKnowledge = CMyString
 								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("qaKnowledge")));// 知识点
 						String epcid1 = CMyString
@@ -499,71 +547,80 @@ public class QuestionAnswerController {
 								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("epcid3")));// 知识点栏目3
 						String epcid3url = CMyString
 								.filterForSQL(CMyString.filterForHTMLValue((String) map.get("epcid3url")));// 知识点栏目1
-						/*System.out.println("qaQuestion:"+qaQuestion);
-						System.out.println("qaAnswer:"+qaAnswer);
-						System.out.println("kewwords:"+kewwords);
-						System.out.println("qaKnowledge:"+qaKnowledge);
-						System.out.println("epcid1:"+epcid1);
-						System.out.println("epcid1url:"+epcid1url);
-						System.out.println("epcid2:"+epcid2);
-						System.out.println("epcid2url:"+epcid2url);
-						System.out.println("epcid3:"+epcid3);
-						System.out.println("epcid3url:"+epcid3url);*/
+						/*
+						 * System.out.println("qaQuestion:"+qaQuestion);
+						 * System.out.println("qaAnswer:"+qaAnswer);
+						 * System.out.println("kewwords:"+kewwords);
+						 * System.out.println("qaKnowledge:"+qaKnowledge);
+						 * System.out.println("epcid1:"+epcid1);
+						 * System.out.println("epcid1url:"+epcid1url);
+						 * System.out.println("epcid2:"+epcid2);
+						 * System.out.println("epcid2url:"+epcid2url);
+						 * System.out.println("epcid3:"+epcid3);
+						 * System.out.println("epcid3url:"+epcid3url);
+						 */
 						String chnnelid = "";
-						if(CMyString.isEmpty(qaQuestion)) {
+						if (CMyString.isEmpty(qaQuestion)) {
 							break;
 						}
-						
-						List<QuestionAnswerEntity> qaList = qaService.getQuestionAnswerByQuestion(qaQuestion, kewwords,qaResource);
+
+						List<QuestionAnswerEntity> qaList = qaService.getQuestionAnswerByQuestion(qaQuestion, kewwords,
+								qaResource);
 						if (qaList.size() > 0) {
-							flag =true;
+							flag = true;
 							json.put("result", "success");
 						} else {
 							if (!CMyString.isEmpty(epcid1)) {
-								
-								List<Channels> clist = channelService.findByName(epcid1,"0");
+
+								List<Channels> clist = channelService.findByName(epcid1, "0");
 								if (clist.size() > 0) {
 									chnnelid = clist.get(0).getChannelid().toString();
 								} else {
-									String channelobj = channelService.addChnl(epcid1, "0", sysuser.getUserName(),new Timestamp(System.currentTimeMillis()),epcid1url);
+									String channelobj = channelService.addChnl(epcid1, "0", sysuser.getUserName(),
+											new Timestamp(System.currentTimeMillis()), epcid1url);
 									JSONObject obj = JSONObject.fromObject(channelobj);
 									chnnelid = obj.getString("chnlId");
 								}
-								
+
 								if (!CMyString.isEmpty(epcid2)) {
-									List<Channels> clist1 = channelService.findByName(epcid2,chnnelid);
+									List<Channels> clist1 = channelService.findByName(epcid2, chnnelid);
 									if (clist1.size() > 0) {
 										chnnelid = clist1.get(0).getChannelid().toString();
 
 									} else {
-										String channelobj1 = channelService.addChnl(epcid2,chnnelid, sysuser.getUserName(),
-												new Timestamp(System.currentTimeMillis()),epcid2url);
+										String channelobj1 = channelService.addChnl(epcid2, chnnelid,
+												sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
+												epcid2url);
 										JSONObject obj1 = JSONObject.fromObject(channelobj1);
 										chnnelid = obj1.getString("chnlId");
 									}
 								}
-								
+
 								if (!CMyString.isEmpty(epcid3)) {
-									List<Channels> clist2 = channelService.findByName(epcid3,chnnelid);
+									List<Channels> clist2 = channelService.findByName(epcid3, chnnelid);
 									if (clist2.size() > 0) {
 										chnnelid = clist2.get(0).getChannelid().toString();
-									}else{
-										String channelobj2 = channelService.addChnl(epcid3,	chnnelid, sysuser.getUserName(),
-												new Timestamp(System.currentTimeMillis()),epcid3url);
+									} else {
+										String channelobj2 = channelService.addChnl(epcid3, chnnelid,
+												sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
+												epcid3url);
 										JSONObject obj2 = JSONObject.fromObject(channelobj2);
 										chnnelid = obj2.getString("chnlId");
 									}
 								}
-								
-							}else {
-								json.put("result", "error");break;
+
+							} else {
+								json.put("result", "error");
+								break;
 							}
 							int kid = 0;
-							List<KnowledgePointEntity> kList = knowledgePointService.getByEpcidAndKname(chnnelid,qaKnowledge);
+							List<KnowledgePointEntity> kList = knowledgePointService.getByEpcidAndKname(chnnelid,
+									qaKnowledge);
 							if (kList.size() > 0) {
 								kid = kList.get(0).getId();
 							} else {
-								String string = knowledgePointService.addKnows(qaKnowledge, chnnelid, sysuser.getUserId());
+								String string = knowledgePointService.addKnows(qaKnowledge, chnnelid,
+										sysuser.getUserId());
 								JSONObject object = JSONObject.fromObject(string);
 								kid = Integer.parseInt(object.getString("kid"));
 							}
@@ -581,18 +638,17 @@ public class QuestionAnswerController {
 							qaEntity.setQaResourceType("1");
 							qaEntity.setQaChnlid(-1);
 							int id = qaService.saveQuestionAnswer(qaEntity);
-							//map.put("id", String.valueOf(id));
-							//LuceneUtil.createSingleIndex(map);
-							flag =true;
+							// map.put("id", String.valueOf(id));
+							// LuceneUtil.createSingleIndex(map);
+							flag = true;
 						}
-						
+
 					} catch (Exception e) {
 						continue;
 					}
 
-					
 				}
-				if(flag)
+				if (flag)
 					json.put("result", "success");
 			} else {
 				json.put("result", "no");
@@ -679,7 +735,7 @@ public class QuestionAnswerController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 根据数据库表重新创建索引
 	 * 
@@ -688,22 +744,22 @@ public class QuestionAnswerController {
 	@RequestMapping(value = "/findAllCreatDoc", produces = "application/json;charset=utf-8")
 	public void findAllCreatDoc() throws IOException {
 		JSONObject json = new JSONObject();
-		Map<String, String> filemap = PropertiesUtil.getProperties_3("/fileUrl.properties");  
+		Map<String, String> filemap = PropertiesUtil.getProperties_3("/fileUrl.properties");
 		boolean flag = PropertiesUtil.delAllFile(filemap.get("value"));
 		try {
-			//String id = CMyString.filterForHTMLValue(request.getParameter("id"));
+			// String id = CMyString.filterForHTMLValue(request.getParameter("id"));
 			List<QuestionAnswerEntity> list = qaService.findAll();
-			if (list.size()>0) {
-				for(int i=0;i<list.size();i++) {
+			if (list.size() > 0) {
+				for (int i = 0; i < list.size(); i++) {
 					Map<String, String> map = new HashMap<String, String>();
 					map.put("id", String.valueOf(list.get(i).getId()));
 					map.put("qaQuestion", list.get(i).getQaQuestion());
-					//map.put("qaAnswer", list.get(i).getQaAnswer());
+					// map.put("qaAnswer", list.get(i).getQaAnswer());
 					map.put("qaKeywords", list.get(i).getQaKeywords());
 					LuceneUtil.createSingleIndex(map);
 				}
 				json.put("result", "success");
-				
+
 			} else {
 				json.put("result", "error");
 			}
@@ -715,19 +771,24 @@ public class QuestionAnswerController {
 		response.getWriter().println(json.toString());
 
 	}
-	
+
 	@RequestMapping("/getQaByChnlid")
 	public void getQaByChnlid() {
 		try {
-			//String pageSize = CMyString.filterForHTMLValue(request.getParameter("pageSize"));//
-			//String pageNumber = CMyString.filterForHTMLValue(request.getParameter("pageNumber"));//
+			// String pageSize =
+			// CMyString.filterForHTMLValue(request.getParameter("pageSize"));//
+			// String pageNumber =
+			// CMyString.filterForHTMLValue(request.getParameter("pageNumber"));//
 			String cid = CMyString.filterForHTMLValue(request.getParameter("id"));
 			String str = "";
 			JSONObject obj = new JSONObject();
-			//if (StringUtils.isNotBlank(pageSize) && StringUtils.isNotBlank(pageNumber)&& StringUtils.isNotBlank(cid)) {
+			// if (StringUtils.isNotBlank(pageSize) && StringUtils.isNotBlank(pageNumber)&&
+			// StringUtils.isNotBlank(cid)) {
 			if (StringUtils.isNotBlank(cid)) {
-				/*boolean flag1 = pageSize.matches("[0-9]+");
-				boolean flag2 = pageNumber.matches("[0-9]+");*/
+				/*
+				 * boolean flag1 = pageSize.matches("[0-9]+"); boolean flag2 =
+				 * pageNumber.matches("[0-9]+");
+				 */
 				boolean flag3 = cid.matches("[0-9]+");
 				if (flag3) {
 					str = qaService.getQaByChnlid("9", "1", cid);
@@ -744,15 +805,15 @@ public class QuestionAnswerController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/getChnlNameByQid")
 	public void getChnlNameByQid() {
 		String id = CMyString.filterForHTMLValue(request.getParameter("id"));
 		JSONObject obj = new JSONObject();
 		String str = "";
-		if(StringUtils.isNotBlank(id)) {
+		if (StringUtils.isNotBlank(id)) {
 			str = qaService.getChnlNameByQid(id);
-		}else {
+		} else {
 			obj.put("results", "error");
 			str = obj.toString();
 		}
@@ -763,9 +824,9 @@ public class QuestionAnswerController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		Map<String, String> filemap = PropertiesUtil.getProperties_3("/fileUrl.properties");  
+		Map<String, String> filemap = PropertiesUtil.getProperties_3("/fileUrl.properties");
 		System.out.println(filemap.get("value"));
 	}
 }

@@ -269,20 +269,35 @@ var rcId;
 			
 			//添加问题
 			$(".saveQa").click(function(){
+				
+				
 				var add_qaQuestion=$("#qaQuestion").val();
 		    	var add_qaAnswer=$("#qaAnswer").val();  
 		    	var add_knowledgePoint = $("#qaKnowledgePoint").val();
 		    	var add_kewwords = $("#kewwords").val();
 		    	var resource = $("#resource").val();
 		    	
+		    	
 		    	if(add_qaQuestion==null || add_qaQuestion == ""){
 		    		alert("请输入问题！！");
 		    		return;
 		    	}
-		    	if(add_qaAnswer==null || add_qaAnswer == ""){
-		    		alert("请输入答案！！");
-		    		return;
+		    	
+		    	
+		    	if($('input:radio[name="fi"]:checked').val() ==1){
+		    		if(add_qaAnswer==null || add_qaAnswer == ""){
+			    		alert("请输入答案！！");
+			    		return;
+			    	}
+		    	}else{
+		    		var filepath = $(".radio_div input").val();
+		    		if(filepath==null || filepath == ""){
+			    		alert("请选择上传的文件！！");
+			    		return;
+			    	}
+		    		
 		    	}
+		    	
 		    	if(add_knowledgePoint==null || add_knowledgePoint == "" || add_knowledgePoint=="-10"){
 		    		alert("请输入知识点！！");
 		    		return;
@@ -295,13 +310,25 @@ var rcId;
 		    		alert("请输入来源！！");
 		    		return;
 		    	}
+		    	var formData = new FormData($("#addQuestion")[0]);
+		    	/*var formData = new FormData();
+		    	formData.append("qaQuestion",add_qaQuestion);
+		    	formData.append("qaAnswer",add_qaAnswer);
+		    	formData.append("qaKnowledgePoint",add_knowledgePoint);
+		    	formData.append("kewwords",add_kewwords);
+		    	formData.append("resource",resource);*/
+		    	
+		    	
 		    	$.ajax({
 		    		type:"post",
 		    		url:"/eprobot/questionAnswer/saveQuestionAnswer.action",
-		    		data:{"qaQuestion":add_qaQuestion,"qaAnswer":add_qaAnswer,"qaKnowledgePoint":add_knowledgePoint,"kewwords":add_kewwords,"resource":resource},
+		    	//	data:{"qaQuestion":add_qaQuestion,"qaAnswer":add_qaAnswer,"qaKnowledgePoint":add_knowledgePoint,"kewwords":add_kewwords,"resource":resource},
+		    		data:formData,
 		    		dataType:"json",
+		    		processData: false ,
+		    		contentType : false,
 		    		success:function(data){
-		    			if(data.result=="success"){
+		    			if(data.status==1){
 		    				$(".addE").hide();
 		    				alert("添加成功！");
 		    				//window.history.go(0);
@@ -310,6 +337,8 @@ var rcId;
 					    	$("#qaAnswer").val("");  
 					    	$("#kewwords").val("");
 					    	$("#resource").val("");
+		    			}else {
+		    				alert(data.msg);
 		    			}
 		    		}
 		    	});
