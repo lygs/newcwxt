@@ -23,7 +23,7 @@ public class QuestionAnswerEntity implements Serializable {
 
 	private String qaCreatetime;// 创建时间
 
-	private Integer qaType;// 类型 0：非常见 1：常见   默認為0
+	private Integer qaType;// 类型 0：非常见 1：常见   默認為0 
 
 	private String qaCreator;// 创建人
 
@@ -35,10 +35,23 @@ public class QuestionAnswerEntity implements Serializable {
 	
 	private String qaResource;//信息源    
 	private String qaUrl;//url地址
+	private Integer qaFormat; //0 文本 1 音频视频图片
+	
 	private Integer qaChnlid;//欄目    默認為-1
 	private String qaResourceType;//信息来源类型 0手工录入  1批量导入
 	private String qaFileName;//批量导入的文件名
 	
+	
+	
+	@Column(name = "QA_FORMAT")
+	public Integer getQaFormat() {
+		return qaFormat;
+	}
+
+	public void setQaFormat(Integer qaFormat) {
+		this.qaFormat = qaFormat;
+	}
+
 	@Column(name = "QA_RESOURCETYPE")
 	public String getQaResourceType() {
 		return qaResourceType;
