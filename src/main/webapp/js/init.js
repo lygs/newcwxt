@@ -149,7 +149,9 @@ function searchQuestion(){
                             span.attr("pid",chlist[i].parentid);
                             span.attr("title",chlist[i].chnlname);
                             span.attr("url",chlist[i].chnlurl);
-                            span.append("【"+kum+"】"+chlist[i].chnlname);
+                            var qstr = chlist[i].chnlname;
+                            qstr = qstr.replace(content,content.fontcolor("red"));
+                            span.append("【"+kum+"】"+qstr);
                             span.on("click",function(e){
                                 var thisid = $(this).attr("chnlid");
                                 // var thispid = $(this).attr("pid");
@@ -182,6 +184,7 @@ function searchQuestion(){
                         var qtitle = qwords.qaQuestion;
                         if(qtitle.length>26)
                             qtitle = qtitle.substring(0,26)+"...";
+                        qtitle = qtitle.replace(content,content.fontcolor("red"));
                         span.append("【"+kum+"】"+qtitle);
                         span.attr("title",qwords.qaQuestion);
                         span.attr("lid","q"+qwords.id).attr("answer",qwords.qaAnswer);
@@ -212,7 +215,9 @@ function searchQuestion(){
                                 span.attr("pid",channelList[i].parentid);
                                 span.attr("title",channelList[i].chnlname);
                                 span.attr("url",channelList[i].chnlurl);
-                                span.append("【"+kum+"】"+channelList[i].chnlname);
+                                var qstr = channelList[i].chnlname;
+                                qstr = qstr.replace(content,content.fontcolor("red"));
+                                span.append("【"+kum+"】"+qstr);
                                 span.on("click",function(e){
                                     var thisid = $(this).attr("chnlid");
                                     // var thispid = $(this).attr("pid");
@@ -249,6 +254,7 @@ function searchQuestion(){
                                 var qtitle = list[j].qaQuestion;
                                 if(qtitle.length>26)
                                     qtitle = qtitle.substring(0,26)+"...";
+                                qtitle = qtitle.replace(content,content.fontcolor("red"));
                                 span.append("【"+kum+"】"+qtitle);
                                 span.attr("title",list[j].qaQuestion);
                                 span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);

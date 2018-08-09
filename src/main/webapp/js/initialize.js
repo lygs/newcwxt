@@ -140,7 +140,9 @@ function searchQuestion(){
                                 $(this) .css("color","blue").css("cursor","pointer")
                             });
                             span.append("【"+kum+"】"+list[j].qaQuestion);
-                            span.attr("title",list[j].qaQuestion);
+                            var qstr = list[j].qaQuestion;
+                            qstr = qstr.replace(content,content.fontcolor("red"));
+                            span.attr("title",qstr);
                             span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
                             span.on("click",function(){
                                 questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
