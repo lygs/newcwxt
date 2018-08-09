@@ -120,8 +120,10 @@ public class LuceneController {
 				resultjson.put("msg", "操作成功");
 		 }else {
 			 //分词返回多个单词集合
+			 boolean isnum = searchContent.matches("[0-9]+");
+			 
 			 List<String> wordsList = LuceneUtil.getStrinsByWords(searchContent);
-			 if(wordsList.size()==1) {
+			 if(wordsList.size()==1 && !isnum) {
 				 //单词查询
 				 List<IndividualWord> inList = iws.getDataByTitle(searchContent, "9", "1", "", "");
 				 JSONObject jsonObject = new JSONObject();
