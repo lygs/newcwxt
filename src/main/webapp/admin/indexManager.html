@@ -593,15 +593,24 @@
         <div class="title">添加热词 <div class="close"><a href="#">×</a></div></div>
         <div class="content"  style="height: 270px;overflow-y: hidden;">
             <div class="text">问题描述</div>
-            <div class="textInput"><input type="text" class="inputs cRc" style="margin-top: 5px;"></div>
-            <div class="text">标准答案
+           <form id="addRC" method="post" enctype="multipart/form-data">
+            <div class="textInput"><input type="text" class="inputs cRc" name="qaQuestion" style="margin-top: 5px;"></div>
+            <div class="text radio_rc">标准答案
                 <!--<input type="radio" name="radio" value="2" checked="checked" onclick="show1()" style="margin-left: 30px;">文本-->
                 <!--<input type="radio" name="radio" value="1" onclick="show2()" style="margin-left: 30px;">链接-->
+                <input class="radio_r" style="margin-left:20px" type="radio" value="1" checked="checked" name="rc">文本 
+	            <input class="radio_r" style="margin-left:10px" value="2" type="radio" name="rc">图片\音频\视频（<span style="color:red;">支持格式：mp3、mp4、png、jpg、jpeg</span>）
+           
             </div>
-            <div class="textArea">
-                <textarea id="r1" ></textarea>
+            <div class="textArea radio_div_r">
+                <textarea id="r1" name="qaAnswer" ></textarea>
             </div>
+            <div class="radio_div_r" style="display:none;margin-left:40%;margin-top:20px;">
+            	<input type="file" name="file">
+            </div>
+            
             <input id="r2" class="lianjie" type="text" value="http://" />
+            </form>
         </div>
         <div class="submit">
             <ul>
@@ -716,6 +725,18 @@
     	if($(this).val() == 2){
     		$($(".radio_div")[1]).show();
     		$($(".radio_div")[0]).hide();
+    	}
+    });
+    
+    $(".radio_r").click(function(){
+    	if($(this).val() == 1){
+    		$($(".radio_div_r")[0]).show();
+    		$($(".radio_div_r")[1]).hide();
+    	}
+    	
+    	if($(this).val() == 2){
+    		$($(".radio_div_r")[1]).show();
+    		$($(".radio_div_r")[0]).hide();
     	}
     });
 </script>

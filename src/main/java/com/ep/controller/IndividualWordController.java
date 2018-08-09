@@ -1,5 +1,6 @@
 package com.ep.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -10,12 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ep.entity.IndividualWord;
 import com.ep.entity.Sysuser;
 import com.ep.service.IndividualWordService;
 import com.ep.util.CMyString;
+import com.ep.util.FileUtil;
 
 import net.sf.json.JSONObject;
 
@@ -87,32 +91,84 @@ public class IndividualWordController {
 	
 	@ResponseBody
 	@RequestMapping("/updataOrSave")
-	public String updataOrSaveIndividualWord(IndividualWord obj) {
+	public String updataOrSaveIndividualWord(IndividualWord obj, @RequestParam("file") MultipartFile file) {
 		JSONObject json = new JSONObject();
 		String str = null;
-		if(obj != null) {
-			if(!CMyString.isEmpty(obj.getQaQuestion()) && !CMyString.isEmpty(obj.getQaAnswer())){
-				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
-				if(user != null) {
-					obj.setFounder(user.getUserName());
-					obj.setLevel(0);
-					str = iws.updataOrSaveIndividualWord(obj);
+		boolean flg = true;
+		String saveName = null;
+		String upMsg = null;
+		Sysuser user = (Sysuser) request.getSession().getAttribute("user");
+		if(user != null) {
+			
+			if (file != null && file.getSize() > 0) {
+				String path = request.getSession().getServletContext().getRealPath("/")+"video\\";
+				String fileName = file.getOriginalFilename();
+				
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				double fileSize = file.getSize() / 1024.0 / 1024.0;
+				
+				if(suffix.equals("mp3") || suffix.equals("mp4") || suffix.equals("jpg") || suffix.equals("png") || suffix.equals("jpeg")) {
+					
+					if (fileSize > 20) {
+						json.put("status", 0);
+						json.put("msg", "文件不能大于20M，请重新上传！");
+						flg = false;
+					}else {
+						try {
+							saveName = String.valueOf(System.currentTimeMillis()) + "." +suffix;
+							flg = FileUtil.saveFile(path, saveName, file.getInputStream());
+						} catch (IOException e) {
+							
+							e.printStackTrace();
+						}
+						if(!flg) {
+							upMsg = "文件上传失败";
+							flg = false;
+						}
+					}
 					
 				}else {
-					json.put("msg", "请登录后再操作");
+					upMsg = "格式不符合要求，请重新上传！";
+					flg = false;
+				}
+				
+				if(flg) {
+					obj.setQaAnswer(saveName);
+				}
+			}
+		}
+		
+		//成功上传
+		if(flg) {
+			
+			if(obj != null) {
+				if(!CMyString.isEmpty(obj.getQaQuestion()) && !CMyString.isEmpty(obj.getQaAnswer())){
+					if(user != null) {
+						obj.setFounder(user.getUserName());
+						obj.setLevel(0);
+						str = iws.updataOrSaveIndividualWord(obj);
+						
+					}else {
+						json.put("msg", "请登录后再操作");
+						json.put("status","0");
+						str = json.toString();
+					}
+				}else{
+					json.put("msg", "参数错误");
 					json.put("status","0");
 					str = json.toString();
 				}
-			}else{
+			}else {
 				json.put("msg", "参数错误");
 				json.put("status","0");
 				str = json.toString();
 			}
 		}else {
-			json.put("msg", "参数错误");
+			json.put("msg", upMsg);
 			json.put("status","0");
 			str = json.toString();
 		}
+		
 		return str;
 		
 	}
