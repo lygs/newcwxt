@@ -197,6 +197,7 @@ public class QuestionAnswerController {
 		QuestionAnswerEntity qaEntity = new QuestionAnswerEntity();
 		boolean flg = true;
 		String mm = "";
+		String saveName = null ;
 		try {
 			String qaQuestion = CMyString.filterForHTMLValue(request.getParameter("qaQuestion"));
 			/* if (request instanceof MultipartHttpServletRequest) { */
@@ -215,11 +216,13 @@ public class QuestionAnswerController {
 					if (fileSize > 20) {
 						json.put("status", 0);
 						json.put("msg", "文件不能大于20M，请重新上传！");
+						flg = false;
 					} else {
-						
-						flg = FileUtil.saveFile(path, file.getInputStream());
+						saveName = String.valueOf(System.currentTimeMillis()) + "." +suffix;
+						flg = FileUtil.saveFile(path, saveName, file.getInputStream());
 						if(!flg) {
 							mm = "文件上传失败";
+							flg = false;
 						}
 					}
 				} else {
@@ -227,7 +230,7 @@ public class QuestionAnswerController {
 					flg = false;
 				}
 
-				qaAnswer = fileName;
+				qaAnswer = saveName;
 				qaEntity.setQaFormat(1);
 			} else {
 				qaAnswer = request.getParameter("qaAnswer");

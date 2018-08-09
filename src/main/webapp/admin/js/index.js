@@ -968,22 +968,36 @@ function threeChnles(parentId){
 function addRC(){
 	var title= $.trim($(".addR .cRc").val());
 	var content= $.trim($(".addR #r1").val());
+	
+	if($('input:radio[name="rc"]:checked').val() ==1){
+		if(content==null || content == ""){
+			alert("请输入内容！");
+    		return;
+    	}
+	}else{
+		var filepath = $(".radio_div_r input").val();
+		if(filepath==null || filepath == ""){
+    		alert("请选择上传的文件！！");
+    		return;
+    	}
+		
+	}
+	
 	if(title==""){
 		alert("请输入标题！");
 		return;
 	}
-	if(content==""){
-		alert("请输入内容！");
-		return;
-	}
 	else {
 		var tempUrl = '/eprobot/individualWord/updataOrSave';
-		var queryString = {"qaQuestion":title,"qaAnswer":content};
+		//var queryString = {"qaQuestion":title,"qaAnswer":content};
+		var formData = new FormData($('#addRC')[0]);
 		$.ajax({
 			type: 'post',
 			url: tempUrl,
-			data: queryString,
+			data: formData,
 			dataType: "json",
+			processData: false ,
+    		contentType : false,
 			cache: false,
 			success: function (data) {
 				console.log(JSON.stringify(data))
