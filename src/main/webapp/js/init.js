@@ -188,8 +188,9 @@ function searchQuestion(){
                         span.append("【"+kum+"】"+qtitle);
                         span.attr("title",qwords.qaQuestion);
                         span.attr("lid","q"+qwords.id).attr("answer",qwords.qaAnswer);
+                        span.attr("qastyle","q"+qwords.qaFormat);
                         span.on("click",function(){
-                            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,content);
+                            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,content,$(this).attr("qastyle"));
                             saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),content);
                         });
                         span.append("<br>");
@@ -258,8 +259,9 @@ function searchQuestion(){
                                 span.append("【"+kum+"】"+qtitle);
                                 span.attr("title",list[j].qaQuestion);
                                 span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                                span.attr("qastyle",list[j].qaFormat);
                                 span.on("click",function(){
-                                    questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal);
+                                    questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
                                     saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
                                 });
                                 span.append("<br>");
@@ -483,7 +485,7 @@ function getQuestionByComm(){
             if(list.length>0){
                 var question =  new cpt_rob.CPT_CommQuestion_Main($("#question"),list,"常见问题");
                 question.onEvents("QMSGS",function(e){
-                    questionAnswer("q"+e.id, e.qaQuestion, e.qaAnswer,1,"");
+                    questionAnswer("q"+e.id, e.qaQuestion, e.qaAnswer,1,"", e.qaFormat);
                 });
             }
             getHotQuestion();
@@ -503,7 +505,7 @@ function getHotQuestion(){
             if(list.length>0){
                 var question =  new cpt_rob.CPT_CommQuestion_Main($("#knowledge"),list,"热点关注");
                 question.onEvents("QMSGS",function(e){
-                   questionAnswer("q"+e.id, e.qaQuestion,e.qaAnswer,1,"");
+                   questionAnswer("q"+e.id, e.qaQuestion,e.qaAnswer,1,"",e.qaFormat);
                 });
             }
 
@@ -538,7 +540,7 @@ function getWords(qlist,searchval){
     return qwords;
 }
 
-function questionAnswer(lid,questionstr,answerstr,num,kwords){
+function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
 
     //调用 统计记录
    // saveRecord(lid,questionstr,answerstr,kwords);
@@ -558,7 +560,28 @@ function questionAnswer(lid,questionstr,answerstr,num,kwords){
     var ansico = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
     answerdiv.append(ansico);
     var anscontent = $('<div class="text"></div>');
-    anscontent.append(answerstr);
+    //判断是图片还是音视频
+    if(qsstyle && qsstyle==1){
+         var index = answerstr .lastIndexOf(".");
+         var stype = answerstr .substring(index + 1, answerstr .length);
+         if(stype=="mp3"){
+             var audio = $("<audio autoplay controls='controls' controlsList='nodownload'></audio>");
+             audio.attr("src","video/"+answerstr);
+             anscontent.append(audio);
+         }else if(stype=="mp4"){
+             var video = $("<video autoplay controls='controls' controlsList='nodownload'></video>");
+             video.attr("src","video/"+answerstr);
+             anscontent.append(video);
+         }else{
+             var qaimg = $("<img width='400px' height='300px'/>");
+             qaimg.attr("src","video/"+answerstr);
+             anscontent.append(qaimg);
+         }
+    }else{
+        anscontent.append(answerstr);
+    }
+
+
     if(anscontent.find("a")){
         var a = anscontent.find("a");
         a.attr("style","color:blue;text-decoration:underline");
@@ -703,8 +726,9 @@ function questionList(qlist,chnlurl,chnlName){
         span.append("【"+kum+"】"+qtitle);
         span.attr("title",qlist[j].qaQuestion);
         span.attr("lid","q"+qlist[j].id).attr("answer",qlist[j].qaAnswer);
+        span.attr("qastyle",qlist[j].qaFormat);
         span.on("click",function(){
-            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,"");
+            questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,"",$(this).attr("qastyle"));
             saveRecord($(this).attr("lid"),$(this).attr("title"),$(this).attr("answer"),chnlName);
         });
         span.append("<br>");
