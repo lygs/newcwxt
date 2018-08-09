@@ -46,7 +46,7 @@ public interface QuestionAnswerService {
 	public String getChnlNameByQid(String cid);
 
 	public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer valueOf, Integer valueOf2, String qaQuestion,
-			String chnlId, String startTime, String endTime);
+			String chnlId, String startTime, String endTime,int cj);
 
 	public int getQuestionAnswerTotal(String qaQuestion, String chnlId, String startTime, String endTime);
 }

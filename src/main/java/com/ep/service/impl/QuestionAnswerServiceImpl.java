@@ -515,7 +515,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 
 	@Override
 	public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer pageSize, Integer pageNumber, String qaQuestion,
-			String chnlId, String startTime, String endTime) {
+			String chnlId, String startTime, String endTime,int cj) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer hql = new StringBuffer(
 				" SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1");
@@ -528,7 +528,11 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 		if (StringUtils.isNotBlank(endTime)) {
 			hql.append(" and qa.QA_CREATETIME <= '" + endTime + "'");
 		}
-		hql.append(" order by qa.QA_CREATETIME desc");
+		if(cj==1) {
+			hql.append(" order by qa.QA_TYPE desc");
+		}else {
+			hql.append(" order by qa.QA_CREATETIME desc");
+		}
 		if (StringUtils.isNotBlank(chnlId)) {
 			String chnlSql = "WITH CTE AS (SELECT CHANNELID,PARENTID FROM CHANNELS WHERE CHANNELID="
 					+ Integer.parseInt(chnlId) + " UNION ALL SELECT a.CHANNELID,a.PARENTID FROM CHANNELS a"

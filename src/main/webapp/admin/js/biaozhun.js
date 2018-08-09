@@ -1,16 +1,20 @@
 var qaQuestion = "";//保存搜索条件
 var pageSize=15,searchPage=1;//每页数量
-var prePageNum=10;
+var prePageNum=10;iscj=0;//是否常见
 var questionList;
 var pageNavObj;
 var totalPage;
 var chnlIds="";
-var startTime="";
 var endTimes="";
 $(function(){
 	parent.getKnowledge(-10);
     getData();
+	$("#changj").on("click",function(){
+		iscj = 1;
+		getData();
+	});
     $(".btn").on("click",function(){
+		iscj = 0;
     	getData();
     });
     
@@ -52,7 +56,7 @@ function getData(){
     qaQuestion=$("#searchName").val();
     startTimes = $(".startTime").val();
     endTimes = $(".endTime").val();
-    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&qaQuestion="+qaQuestion+"&chnlId="+chnlIds+"&startTime="+startTimes+"&endTime="+endTimes;
+    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&qaQuestion="+qaQuestion+"&chnlId="+chnlIds+"&startTime="+startTimes+"&endTime="+endTimes+"&iscj="+iscj;
    // chnlIds = chnlId;
     $.ajax({
         type:'post',
@@ -79,7 +83,7 @@ function getData(){
             	   pageNavObj = new PageNavCreate("PageNavId",{pageCount:pagecount,currentPage:searchPage,perPageNum:prePageNum});
                    pageNavObj.afterClick(pageNavCallBack);
                }
-               var tr1 = $("<tr style='font-size: 14px; font-weight: bold;'></tr>");
+              /* var tr1 = $("<tr style='font-size: 14px; font-weight: bold;'></tr>");
                var td11 = $("<td width='5%' height='50' align='center' bgcolor='#F2F2F2'>序号</td>");
                var td22 =$("<td width='41%' height='50' align='center' bgcolor='#F2F2F2'>问题</td>");
                var td33 = $("<td width='11%' height='50' align='center' bgcolor='#F2F2F2'>创建时间</td>");
@@ -89,7 +93,7 @@ function getData(){
                var td66 = $("<td width='5%' height='50' align='center' bgcolor='#F2F2F2'>是否常见</td>");
                var td77 = $("<td width='11%' height='50' align='center' bgcolor='#F2F2F2'>操作</td>");
                tr1.append(td11).append(td22).append(td33).append(td44).append(td55).append(td551).append(td66).append(td77);
-           		$("#listShow").append(tr1);
+           		$("#listShow").append(tr1);*/
                 for ( var i = 0; i < lists.length; i++) {
                 	var tr = $("<tr></tr>");
                 	var td1 = $("<td height='44' align='center'></td>");
@@ -221,6 +225,7 @@ function getData(){
                 				success:function(data){
                 					if(data.result=="success"){
                 						alert("删除成功！！！");
+										iscj = 0;
 										getData();
                 					}else{
                 						alert("删除失败！！！");

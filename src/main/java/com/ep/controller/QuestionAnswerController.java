@@ -67,7 +67,7 @@ public class QuestionAnswerController {
 	}
 
 	/**
-	 * 后台查询所有的问题记录 author:陈杰
+	 * 后台查询所有的问题记录 
 	 */
 	@RequestMapping("/getQuestionAnswerAllList")
 	public void getQuestionAnswerAllList() {
@@ -79,12 +79,14 @@ public class QuestionAnswerController {
 			String chnlId = CMyString.filterForHTMLValue(request.getParameter("chnlId"));
 			String startTime = CMyString.filterForHTMLValue(request.getParameter("startTime"));
 			String endTime = CMyString.filterForHTMLValue(request.getParameter("endTime"));
+			String iscj = CMyString.filterForHTMLValue(request.getParameter("iscj"));
 			boolean num = pageSize.matches("[0-9]+");
 			boolean pagesize = pageNumber.matches("[0-9]+");
-			if (num && pagesize) {
+			boolean cj = iscj.matches("[0-9]+");
+			if (num && pagesize && cj) {
 				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
 				List<QuestionAnswerEntity> list = qaService.getQuestionAnswerAllList(Integer.valueOf(pageSize),
-						Integer.valueOf(pageNumber), qaQuestion, chnlId, startTime, endTime);
+						Integer.valueOf(pageNumber), qaQuestion, chnlId, startTime, endTime,Integer.parseInt(iscj));
 				int total = qaService.getQuestionAnswerTotal(qaQuestion, chnlId, startTime, endTime);
 				if (user != null) {
 					json.put("roleId", user.getRoleId());
@@ -101,16 +103,6 @@ public class QuestionAnswerController {
 
 	}
 
-	/*
-	 * 前端进行提问（依据问题进行查询） author:陈杰
-	 * 
-	 * @RequestMapping("/getQuestionAnswerByQuestion") public void
-	 * getQuestionAnswerByQuestion() { String qaQuestion =
-	 * request.getParameter("qaQuestion"); QuestionAnswerEntity qaEntity =
-	 * qaService.getQuestionAnswerByQuestion(qaQuestion); String qaAnswer =
-	 * qaEntity.getQaAnswer(); try { response.getWriter().println(qaAnswer); } catch
-	 * (Exception e) { e.printStackTrace(); } }
-	 */
 
 	/**
 	 * 根据问题id删除问题
@@ -175,7 +167,7 @@ public class QuestionAnswerController {
 	}
 
 	/*
-	 * 修改访问量（访问一次+1） author:陈杰
+	 * 修改访问量（访问一次+1） 
 	 */
 	@RequestMapping("/updateQuestionAnswerSUMById")
 	public void updateQuestionAnswerSUMById() {
@@ -188,7 +180,7 @@ public class QuestionAnswerController {
 	}
 
 	/*
-	 * 保存管理添加的标准问题 author:陈杰
+	 * 保存管理添加的标准问题 
 	 */
 	@RequestMapping("/saveQuestionAnswer")
 	public void saveQuestionAnswer(@RequestParam("file") MultipartFile file) {
@@ -301,6 +293,9 @@ public class QuestionAnswerController {
 		}
 
 	}
+	
+	
+	
 
 	/*
 	 * 添加扩展问题 author:刘瑶
