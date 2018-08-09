@@ -337,6 +337,7 @@ var rcId;
 					    	$("#qaAnswer").val("");  
 					    	$("#kewwords").val("");
 					    	$("#resource").val("");
+					    	$(".radio_div input").val("");
 		    			}else {
 		    				alert(data.msg);
 		    			}
@@ -1004,6 +1005,9 @@ function addRC(){
 				if(data.status==1){
 					alert(data.msg);
 					$(".addR").hide();
+					$(".addR .cRc").val("");
+					$(".radio_div_r input").val("");
+					
 					$("iframe")[0].contentWindow.pageNavCallBack(1);
 				}
 				else {
