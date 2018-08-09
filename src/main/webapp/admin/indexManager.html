@@ -323,9 +323,18 @@
 				</select>
             </div>
             
-            <div class="text">标准答案</div>
-            <div class="textArea">
+            <div class="text">标准答案
+             <input class="radio_xgwt" style="margin-left:20px" type="radio" value="1" checked="checked" name="xgwt">文本 
+	         <input class="radio_xgwt" style="margin-left:10px" value="2" type="radio" name="xgwt">图片\音频\视频（<span style="color:red;">支持格式：mp3、mp4、png、jpg、jpeg</span>）
+           
+            
+            </div>
+            <div class="textArea file_xgwt">
                 <textarea class="edit_answer"></textarea>
+            </div>
+            
+            <div class="file_xgwt" style="display:none;margin-left:40%;margin-top:20px;">
+            	<input type="file" name="file">
             </div>
            
         </div>
@@ -739,6 +748,19 @@
     		$($(".radio_div_r")[0]).hide();
     	}
     });
+    
+    $(".radio_xgwt").click(function(){
+    	if($(this).val() == 1){
+    		$($(".file_xgwt")[0]).show();
+    		$($(".file_xgwt")[1]).hide();
+    	}
+    	
+    	if($(this).val() == 2){
+    		$($(".file_xgwt")[1]).show();
+    		$($(".file_xgwt")[0]).hide();
+    	}
+    });
+    
 </script>
     <script type="text/javascript" src="js/index.js"></script>
 <!--footer-->

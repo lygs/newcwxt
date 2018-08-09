@@ -199,8 +199,8 @@ var rcId;
 			}); 
 		
 			
-
-	
+			 
+			//修改问题
 			$("#edt_qa").click(function(){
 				var edt_qaQuestion=$(".edit_name").val();
 				var edt_qaAnswer=$(".edit_answer").val();  
