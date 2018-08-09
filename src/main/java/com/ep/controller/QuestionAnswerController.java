@@ -216,8 +216,8 @@ public class QuestionAnswerController {
 						json.put("status", 0);
 						json.put("msg", "文件不能大于20M，请重新上传！");
 					} else {
-
-						flg = FileUtil.saveFile(path,fileName, file.getInputStream());
+						
+						flg = FileUtil.saveFile(path, file.getInputStream());
 						if(!flg) {
 							mm = "文件上传失败";
 						}

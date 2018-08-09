@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class FileUtil {
 
-	public static boolean saveFile(String savePath, String fileName, InputStream inputStream) {
+	public static boolean saveFile(String savePath,  InputStream inputStream) {
 		
 		FileOutputStream os = null;
 		File tempFile = new File(savePath);
@@ -23,7 +23,7 @@ public class FileUtil {
 		}
 
 		try {
-			os = new FileOutputStream(savePath+fileName);
+			os = new FileOutputStream(savePath+System.currentTimeMillis());
 			byte buffer[] = new byte[1024];
 			int len;
 
