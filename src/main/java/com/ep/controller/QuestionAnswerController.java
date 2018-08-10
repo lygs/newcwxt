@@ -201,8 +201,6 @@ public class QuestionAnswerController {
 				
 				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 				double fileSize = file.getSize() / 1024.0 / 1024.0;
-				System.out.println("suffix========"+suffix);
-				System.out.println("path========"+path);
 				if (suffix.equals("mp3") || suffix.equals("mp4") || suffix.equals("jpg") || suffix.equals("png")
 						|| suffix.equals("jpeg")) {
 					if (fileSize > 20) {
@@ -359,53 +357,107 @@ public class QuestionAnswerController {
 	 * 依据ID修改问题 author:陈杰
 	 */
 	@RequestMapping("/updateQuestionAnswerById")
-	public void updateQuestionAnswerById() {
+	public void updateQuestionAnswerById(@RequestParam("file") MultipartFile file) {
 		JSONObject json = new JSONObject();
+		String qaAnswer = null;
+		boolean flg = true;
+		String mm = "";
+		int formatType = 0;
+		String saveName = null ;
+		String qaQuestion = CMyString.filterForHTMLValue(request.getParameter("qaQuestion"));
 		try {
-			String id = CMyString.filterForHTMLValue(request.getParameter("id"));
-			String qaQuestion = CMyString.filterForHTMLValue(request.getParameter("qaQuestion"));
-			String qaAnswer = request.getParameter("qaAnswer");
-			String qaKnowledge = CMyString.filterForHTMLValue(request.getParameter("qaKnowledge"));
-			String kewwords = CMyString.filterForHTMLValue(request.getParameter("kewwords"));
-			String resources1 = CMyString.filterForHTMLValue(request.getParameter("resources1"));
-			if (!CMyString.isEmpty(id) && !CMyString.isEmpty(qaQuestion) && !CMyString.isEmpty(qaAnswer)
-					&& !CMyString.isEmpty(qaKnowledge) && !CMyString.isEmpty(kewwords)
-					&& StringUtils.isNotBlank(resources1)) {
-				QuestionAnswerEntity qaEntity = qaService.getQuestionAnswerById(Integer.valueOf(id));
-				if (qaEntity != null) {
-					Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
-					qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
-					qaEntity.setQaAnswer(qaAnswer);
-					qaEntity.setQaQuestion(qaQuestion);
-					qaEntity.setQaKnowledge(Integer.valueOf(qaKnowledge));
-					qaEntity.setQaKeywords(kewwords);
-					qaEntity.setQaResource(resources1);
-					int count = qaService.updateQuestionAnswerById(qaEntity);
-					if (count > 0) {
-						Map<String, String> map = new HashMap<String, String>();
-						map.put("id", id);
-						map.put("qaQuestion", qaQuestion);
-						map.put("qaAnswer", qaAnswer);
-						map.put("qaKeywords", kewwords);
-						json.put("result", "success");
-						response.getWriter().print(json.toString());
+			
+			/* if (request instanceof MultipartHttpServletRequest) { */
+			if (file != null && file.getSize() > 0) {
+				System.out.println("文件=================================");
+				String path = request.getSession().getServletContext().getRealPath("/");
+				String fileName = file.getOriginalFilename();
+				
+				path += "video\\" ;
+				
+				String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+				double fileSize = file.getSize() / 1024.0 / 1024.0;
+				if (suffix.equals("mp3") || suffix.equals("mp4") || suffix.equals("jpg") || suffix.equals("png")
+						|| suffix.equals("jpeg")) {
+					System.out.println("格式：=================="+suffix);
+					if (fileSize > 20) {
+						mm = "文件不能大于20M，请重新上传！";
+						flg = false;
 					} else {
-						json.put("result", "error");
-						response.getWriter().print(json.toString());
+						saveName = String.valueOf(System.currentTimeMillis()) + "." +suffix;
+						flg = FileUtil.saveFile(path, saveName, file.getInputStream());
+						if(!flg) {
+							mm = "文件上传失败";
+							flg = false;
+						}
 					}
 				} else {
-					json.put("result", "error");
+					System.out.println("格式2：=================="+suffix);
+					mm = "格式不符合要求，请重新上传！";
+					flg = false;
 				}
 
+				qaAnswer = saveName;formatType = 1;
 			} else {
-				json.put("result", "error");
-				response.getWriter().print(json.toString());
+				qaAnswer = request.getParameter("qaAnswer");
 			}
-
+		
+			if(flg) {
+				System.out.println("文本========================");
+				String id = CMyString.filterForHTMLValue(request.getParameter("id"));
+				String qaKnowledge = CMyString.filterForHTMLValue(request.getParameter("qaKnowledge"));
+				String kewwords = CMyString.filterForHTMLValue(request.getParameter("kewwords"));
+				String resources1 = CMyString.filterForHTMLValue(request.getParameter("resources1"));
+				
+				if (!CMyString.isEmpty(id) && !CMyString.isEmpty(qaQuestion) && !CMyString.isEmpty(qaAnswer)
+						&& !CMyString.isEmpty(qaKnowledge) && !CMyString.isEmpty(kewwords)
+						&& StringUtils.isNotBlank(resources1)) {
+					QuestionAnswerEntity qaEntity = qaService.getQuestionAnswerById(Integer.valueOf(id));
+					if (qaEntity != null) {
+						Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
+						qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
+						qaEntity.setQaAnswer(qaAnswer);
+						qaEntity.setQaQuestion(qaQuestion);
+						qaEntity.setQaKnowledge(Integer.valueOf(qaKnowledge));
+						qaEntity.setQaKeywords(kewwords);
+						qaEntity.setQaResource(resources1);
+						qaEntity.setQaFormat(formatType);
+						int count = qaService.updateQuestionAnswerById(qaEntity);
+						if (count > 0) {
+							Map<String, String> map = new HashMap<String, String>();
+							map.put("id", id);
+							map.put("qaQuestion", qaQuestion);
+							map.put("qaAnswer", qaAnswer);
+							map.put("qaKeywords", kewwords);
+							json.put("result", "success");
+							json.put("status", 1);
+						//	response.getWriter().print(json.toString());
+						} else {
+							json.put("result", "修改失败!");
+							json.put("status", 0);
+						//	response.getWriter().print(json.toString());
+						}
+					} else {
+						json.put("result", "修改失败!");
+						json.put("status", 0);
+					}
+					
+				} else {
+					json.put("result", "参数错误!");
+					json.put("status", 0);
+					//response.getWriter().print(json.toString());
+				}
+			}else {
+				json.put("status", 0);
+				json.put("result", mm);
+			}
+			response.getWriter().print(json.toString());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			try {
-				json.put("result", "error");
+				json.put("result", "系统错误！");
+				json.put("status", 0);
 				response.getWriter().print(json.toString());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

@@ -99,8 +99,9 @@ public class IndividualWordController {
 		String upMsg = null;
 		Sysuser user = (Sysuser) request.getSession().getAttribute("user");
 		if(user != null) {
-			
+			obj.setQaFormat(0);
 			if (file != null && file.getSize() > 0) {
+				
 				String path = request.getSession().getServletContext().getRealPath("/")+"video\\";
 				String fileName = file.getOriginalFilename();
 				
@@ -133,7 +134,9 @@ public class IndividualWordController {
 				}
 				
 				if(flg) {
+					
 					obj.setQaAnswer(saveName);
+					obj.setQaFormat(1);
 				}
 			}
 		}

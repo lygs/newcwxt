@@ -208,21 +208,39 @@ var rcId;
 				var edt_kewwords = $(".keyword1").val();
 				var resources1 = $(".resources1").val();
 				var id = $(".edit_name").attr("ids");
-				if(edt_qaQuestion != null && edt_qaQuestion !="" && edt_qaAnswer != null && edt_qaAnswer !="" && edt_knowledgePoint != null && edt_knowledgePoint !="" && edt_kewwords != null && edt_kewwords !="" && resources1 !=null && resources1!=""&&edt_knowledgePoint!="-10"){
+				if(edt_qaQuestion != null && edt_qaQuestion !=""  && edt_knowledgePoint != null && edt_knowledgePoint !="" && edt_kewwords != null && edt_kewwords !="" && resources1 !=null && resources1!=""&&edt_knowledgePoint!="-10"){
+					if($(".radio_xgwt:checked").val() == 1){
+						if(!(edt_qaQuestion.length >0)){
+							alert("请输入答案！！");
+							return;
+						}
+					}else{
+						if(!($(".qafile").val().length) > 0 ){
+							alert("请选择上传文件！！");
+							return;
+						}
+					}
+					var from = $("#editAs");
+					from.append("<input  type='hidden' name='id' value='"+id+"'>");
+					var formData = new FormData(from[0]);
 					$.ajax({
 						type:"post",
 						url:"/eprobot/questionAnswer/updateQuestionAnswerById",
-						data:{"id":id,"qaQuestion":edt_qaQuestion,"qaAnswer":edt_qaAnswer,"qaKnowledge":edt_knowledgePoint,"kewwords":edt_kewwords,"resources1":resources1},
+						//data:{"id":id,"qaQuestion":edt_qaQuestion,"qaAnswer":edt_qaAnswer,"qaKnowledge":edt_knowledgePoint,"kewwords":edt_kewwords,"resources1":resources1},
+						data:formData,
 						dataType:"json",
+						processData: false ,
+			    		contentType : false,
 						async: false,
 						success:function(data){
-							if(data.result=="success"){
+							if(data.status==1){
 								alert("修改成功！");
 								$(".editE").hide();
+								
 								$("iframe")[0].contentWindow.getData();
 								//window.history.go(0);
 							}else{
-								alert("修改失败！");
+								alert(data.result);
 								$(".editE").hide();
 								return;
 							}
@@ -1018,6 +1036,7 @@ function addRC(){
 	}
 }
 
+//修改热词
 function rcChange(){
 	var title= $.trim($(".editRC .cRc").val());
 	var content= $.trim($(".editRC #r3").val());
@@ -1026,18 +1045,35 @@ function rcChange(){
 		alert("请输入标题！");
 		return;
 	}
-	if(content==""){
-		alert("请输入内容！");
-		return;
+	
+	if($(".radio_xgrc:checked").val() == 0){
+		if(content==""){
+			alert("请输入内容！");
+			return;
+		}
 	}
-	else {
+	
+	if($(".radio_xgrc:checked").val() == 1){
+		if($("#rcFile").val().length == 0){
+			alert("请选择要上传的文件！");
+			return;
+		}
+	}
+	
+	
 		var tempUrl = '/eprobot/individualWord/updataOrSave';
-		var queryString = {"qaQuestion":title,"qaAnswer":content,"id":rcId};
+		//var queryString = {"qaQuestion":title,"qaAnswer":content,"id":rcId};
+		var form = $("#xgRC");
+		form.append("<input  type='hidden' name='id' value='"+rcId+"'>");
+		//formData.append("file",$("#rcFile")[0].files[0]);
+		var formData = new FormData(form[0]);
 		$.ajax({
 			type: 'post',
 			url: tempUrl,
-			data: queryString,
+			data: formData,
 			dataType: "json",
+			processData: false ,
+    		contentType : false,
 			cache: false,
 			success: function (data) {
 				console.log(JSON.stringify(data))
@@ -1052,7 +1088,7 @@ function rcChange(){
 				}
 			}
 		});
-	}
+	
 }
 
 

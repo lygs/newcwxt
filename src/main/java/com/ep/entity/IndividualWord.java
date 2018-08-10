@@ -23,6 +23,7 @@ public class IndividualWord {
 	private Integer level;//优先级
 	private String founder;//创建人
 	private String cretime;
+	private Integer qaFormat;//qaAnswer内容格式  0 文本 1 音频视频图片
 	
 	@Id
 	@Column(name = "I_ID")
@@ -33,6 +34,16 @@ public class IndividualWord {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	
+	@Column(name = "I_QAFORMAT")
+	public Integer getQaFormat() {
+		return qaFormat;
+	}
+	public void setQaFormat(Integer qaFormat) {
+		this.qaFormat = qaFormat;
+	}
+	
 	@Column(name = "I_TITLE")
 	public String getQaQuestion() {
 		return qaQuestion;

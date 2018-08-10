@@ -295,30 +295,19 @@
     <div class="modelAskMain">
         <div class="title">修改问题 <div class="close"><a class="guanbi1" style="cursor:pointer">×</a></div></div>
         <div class="content">
+        <form id="editAs" method="post" enctype="multipart/form-data">
             <div class="text">问题</div>
-            <div class="textInput"><input type="text" class="inputs edit_name"></div>
+            <div class="textInput"><input type="text" name="qaQuestion" class="inputs edit_name"></div>
             <div class="text">关键字</div>
-            <div class="textInput"><input type="text" class="inputs keyword1"></div>
+            <div class="textInput"><input type="text" name="kewwords" class="inputs keyword1"></div>
              <div class="text">来源</div>
-            <div class="textInput"><input type="text" class="inputs resources1"></div>
-          <!--   <div class="text">知识点</div>
-            <input type="hidden" class="hidden_knowId"/>
-            <div class="textInput">
-                <select id="edt_qaKnowledgePoint">
-                    <option>大气、水、土地</option>
-                </select>
-            </div> -->
-           <!--   <div class="text">知识点</div>
-              <input type="hidden" class="hidden_knowId"/>
-            <div class="textInput" style="width:94%;height:32px;overflow:hidden;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;border:0; ">
-                <input type="text"  class="qaKnowledgeFl" title="" style="cursor:pointer;" class="updateQafl" placeholder="点击选择分类" readonly="readonly ">
-				<select id="edt_qaKnowledgePoint" class='qaKnowledgePoint'></select>
-            </div> -->
-            <input type="hidden" class="hidden_knowId"/>
+            <div class="textInput"><input type="text"  name="resources1" class="inputs resources1"></div>
+            <input type="hidden" class="hidden_knowId"/>  
              <div class="text">知识点</div>
             <div class="textInput" style="border:0; height:32px;">
                 <input type="text"  class="qaKnowledgeFl updateQafl" placeholder="点击选择分类" readonly="readonly ">
-				<select class="qaKnowledgePoint" id="edt_qaKnowledgePoint">
+				<select class="qaKnowledgePoint" name="qaKnowledge" id="edt_qaKnowledgePoint">
+				
 					
 				</select>
             </div>
@@ -330,13 +319,13 @@
             
             </div>
             <div class="textArea file_xgwt">
-                <textarea class="edit_answer"></textarea>
+                <textarea class="edit_answer" name="qaAnswer"></textarea>
             </div>
             
-            <div class="file_xgwt" style="display:none;margin-left:40%;margin-top:20px;">
-            	<input type="file" name="file">
+            <div class="file_xgwt " style="display:none;margin-left:40%;margin-top:20px;">
+            	<input class="qafile" type="file" name="file">
             </div>
-           
+           </form>
         </div>
         <div class="submit">
             <ul>
@@ -645,15 +634,22 @@
     <div class="modelAskMain" style="height: 356px;">
         <div class="title">修改热词 <div class="close"><a href="#">×</a></div></div>
         <div class="content"  style="height: 270px;overflow-y: hidden;">
+         <form id="xgRC" method="post" enctype="multipart/form-data">
             <div class="text">问题描述</div>
-            <div class="textInput"><input type="text" class="inputs cRc" style="margin-top: 5px;"></div>
+            <div class="textInput"><input type="text" name="qaQuestion" class="inputs cRc" style="margin-top: 5px;"></div>
             <div class="text">标准答案
-                <!--<input type="radio" name="radio" value="2" checked="checked" onclick="show1()" style="margin-left: 30px;">文本-->
-                <!--<input type="radio" name="radio" value="1" onclick="show2()" style="margin-left: 30px;">链接-->
+                <input class="radio_xgrc" style="margin-left:20px" type="radio" value="0" checked="checked" name="xgrc">文本 
+	         	<input class="radio_xgrc" style="margin-left:10px" value="1" type="radio" name="xgrc">图片\音频\视频（<span style="color:red;">支持格式：mp3、mp4、png、jpg、jpeg</span>）
+           
             </div>
-            <div class="textArea">
-                <textarea id="r3" ></textarea>
+            <div class="textArea xgrc">
+                <textarea id="r3" name="qaAnswer"></textarea>
             </div>
+            
+            <div class="xgrc" style="display:none;margin-left:40%;margin-top:20px;">
+            	<input id="rcFile" type="file" name="file">
+            </div>
+            </form>
         </div>
         <div class="submit">
             <ul>
@@ -759,6 +755,12 @@
     		$($(".file_xgwt")[1]).show();
     		$($(".file_xgwt")[0]).hide();
     	}
+    });
+    
+    //热词修改
+    $('.radio_xgrc').change(function(){
+    	$(".xgrc").hide();
+    	$($(".xgrc")[$(".radio_xgrc:checked").val()]).show();
     });
     
 </script>
