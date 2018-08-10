@@ -120,6 +120,7 @@ public class QuestionAnswerController {
 				if (count > 0) {
 					// LuceneUtil.deleteDoc("id", id);
 					json.put("result", "success");
+					
 				} else {
 					json.put("result", "error");
 				}

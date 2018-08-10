@@ -222,6 +222,7 @@ function getData(){
                 				type:"post",
                 				url:"/eprobot/questionAnswer/delQuestionAnswerById.action",
                 				data:{"id":ids},
+                				dataType:"json",
                 				success:function(data){
                 					if(data.result=="success"){
                 						alert("删除成功！！！");
