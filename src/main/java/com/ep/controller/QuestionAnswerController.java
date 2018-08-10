@@ -369,7 +369,6 @@ public class QuestionAnswerController {
 			
 			/* if (request instanceof MultipartHttpServletRequest) { */
 			if (file != null && file.getSize() > 0) {
-				System.out.println("文件=================================");
 				String path = request.getSession().getServletContext().getRealPath("/");
 				String fileName = file.getOriginalFilename();
 				
@@ -379,7 +378,6 @@ public class QuestionAnswerController {
 				double fileSize = file.getSize() / 1024.0 / 1024.0;
 				if (suffix.equals("mp3") || suffix.equals("mp4") || suffix.equals("jpg") || suffix.equals("png")
 						|| suffix.equals("jpeg")) {
-					System.out.println("格式：=================="+suffix);
 					if (fileSize > 20) {
 						mm = "文件不能大于20M，请重新上传！";
 						flg = false;
@@ -392,7 +390,6 @@ public class QuestionAnswerController {
 						}
 					}
 				} else {
-					System.out.println("格式2：=================="+suffix);
 					mm = "格式不符合要求，请重新上传！";
 					flg = false;
 				}
@@ -403,7 +400,6 @@ public class QuestionAnswerController {
 			}
 		
 			if(flg) {
-				System.out.println("文本========================");
 				String id = CMyString.filterForHTMLValue(request.getParameter("id"));
 				String qaKnowledge = CMyString.filterForHTMLValue(request.getParameter("qaKnowledge"));
 				String kewwords = CMyString.filterForHTMLValue(request.getParameter("kewwords"));
@@ -433,7 +429,7 @@ public class QuestionAnswerController {
 							json.put("status", 1);
 						//	response.getWriter().print(json.toString());
 						} else {
-							json.put("result", "修改失败!");
+							json.put("result", "修改失败!!");
 							json.put("status", 0);
 						//	response.getWriter().print(json.toString());
 						}
