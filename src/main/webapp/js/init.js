@@ -188,7 +188,7 @@ function searchQuestion(){
                         span.append("【"+kum+"】"+qtitle);
                         span.attr("title",qwords.qaQuestion);
                         span.attr("lid","q"+qwords.id).attr("answer",qwords.qaAnswer);
-                        span.attr("qastyle","q"+qwords.qaFormat);
+                        span.attr("qastyle",qwords.qaFormat);
                         span.on("click",function(){
                             questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,content,$(this).attr("qastyle"));
                             saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),content);

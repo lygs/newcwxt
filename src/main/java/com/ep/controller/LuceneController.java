@@ -104,7 +104,7 @@ public class LuceneController {
 				}
 				List<QuestionAnswerEntity> qaLists = new  ArrayList<QuestionAnswerEntity>();
 				for(int i=0; i<liststr.size(); i++) {
-					List<QuestionAnswerEntity> qaList = luceneService.getData(searchContent, null);
+					List<QuestionAnswerEntity> qaList = questionAnswerService.getQuestionAnswerAllList(9, 1, liststr.get(i), "");
 					qaLists.addAll(qaList);
 				}
 				JSONObject jsonObject = new JSONObject();

@@ -45,7 +45,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 
 			String sqlss = "SELECT qa.ID AS id,qa.QA_QUESTION AS qaQuestion,qa.QA_CREATETIME AS qaCreatetime,"
 					+ "qa.QA_TYPE AS qaType,qa.QA_KEYWORDS AS qaKeywords,qa.QA_URL AS qaUrl,qa.QA_ANSWER AS qaAnswer,"
-					+ "qa.QA_KNOWLEDGE AS knowId,u.USERNAME AS userName FROM	QuestionAnswer qa "
+					+ "qa.QA_KNOWLEDGE AS knowId,u.USERNAME AS userName,qa.QA_FORMAT as qaFormat FROM	QuestionAnswer qa "
 					+ "LEFT JOIN SYSUSER u ON qa.QA_CREATOR = u.USERID "
 					+ "LEFT JOIN Knowledge k ON k.ID = qa.QA_KNOWLEDGE "
 					+ "where k.K_EPCID in (SELECT a.CHANNELID from CHANNELS a INNER JOIN CTE t ON a.CHANNELID=t.CHANNELID) ";// "+chnlId+"
@@ -514,7 +514,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 	
 	@Override
 	public List<QuestionAnswerEntity> getQuestionAnswerAllList(String pageSize,String pageNumber,String qaQuestion){
-		String hql = "SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1  and qa.QA_QUESTION='" + qaQuestion + "'";
+		String hql = "SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName,qa.QA_FORMAT as qaFormat FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1  and qa.QA_QUESTION='" + qaQuestion + "'";
 		List<QuestionAnswerEntity> list = questionAnswerDao.getQuestionAnswerList(hql.toString(),String.valueOf(pageSize), String.valueOf(pageNumber));
 		return list;
 	}
@@ -524,7 +524,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 			String chnlId, String startTime, String endTime,int cj) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		StringBuffer hql = new StringBuffer(
-				" SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1");
+				" SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName,qa.QA_FORMAT as qaFormat FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1");
 		if (StringUtils.isNotBlank(qaQuestion)) {
 			hql.append(" and qa.QA_QUESTION like '%" + qaQuestion + "%'");
 		}
