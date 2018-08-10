@@ -50,6 +50,14 @@ public class IndividualWordServiceImpl implements IndividualWordService{
 				
 		return list;
 	}
+	
+	//标题完全匹配
+	@Override
+	public List<IndividualWord> getDataByTitle(String title, String pageSize, String pageNum){
+		String hql = "from IndividualWord where qaQuestion='"+title+"' order by cretime DESC";
+		List<IndividualWord> list = individualWordDao.getDataByTitle(hql, pageSize, pageNum);
+		return list;
+	}
 
 	@Override
 	public String updataOrSaveIndividualWord(IndividualWord obj) {

@@ -339,11 +339,8 @@ public class LuceneUtil {
 				for (String suggest : suggests) {
 					if(suggest.length()==word.length()) {
 						string = suggest ;
-						System.out.println("您是不是想要找：" + suggest);
 						break;
 					}
-					System.out.println("1您是不是想要找：" + suggest);
-					   
 				}
 			}
 		} catch (IOException e) {

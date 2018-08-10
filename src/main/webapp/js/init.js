@@ -160,7 +160,7 @@ function searchQuestion(){
                                 var chnles = getChannelsByChnlid(thisid);
                                 if(chnles.length>0){
                                     //显示相关栏目。
-                                    chanlAnswer(chnles);
+                                    chanlAnswer(chnles,content);
                                 }else{
                                     //查询相关问题
                                     getQAByCid(thisid,chnlurl,thischnlname);
@@ -227,7 +227,7 @@ function searchQuestion(){
                                     var chnles = getChannelsByChnlid(thisid);
                                     if(chnles.length>0){
                                         //显示相关栏目。
-                                        chanlAnswer(chnles);
+                                        chanlAnswer(chnles,content);
                                     }else{
                                         //查询相关问题
                                         getQAByCid(thisid,chnlurl,thischnlname);
@@ -281,9 +281,63 @@ function searchQuestion(){
                             $(this) .css("color","blue").css("cursor","pointer")
                         });
                         span.append("【"+kum+"】其他");
-                        span.on("click",function(){
+                        if(list.length>0 && channelList.length>0){
+                            span.on("click",function(){
+                                var answerdiv1 = $('<div class="answer"></div>');
+                                var ansico1 = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
+                                answerdiv1.append(ansico1);
+                                var anscontent1 = $('<div class="text"></div>');
+                                var kum1=0;
+                                var contentdiv1 = $('<div></div>');
+                                contentdiv1.addClass("qcontent");
+                                anscontent1.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
+                                for(var j=0;j<list.length;j++){
+                                    if(kum1>7) break;
+                                    kum1++;
+                                    var span1 = $('<span></span>')
+                                        .css("color","blue")
+                                        .css("cursor","pointer");
+                                    span1.hover(function(){
+                                        $(this).css("color","red");
+                                    },function(){
+                                        $(this).removeAttr("style");
+                                        $(this) .css("color","blue").css("cursor","pointer")
+                                    });
+                                    var qtitle1 = list[j].qaQuestion;
+                                    if(qtitle1.length>26)
+                                        qtitle1 = qtitle1.substring(0,26)+"...";
+                                    qtitle1 = qtitle1.replace(content,content.fontcolor("red"));
+                                    span1.append("【"+kum1+"】"+qtitle1);
+                                    span1.attr("title",list[j].qaQuestion);
+                                    span1.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                                    span1.attr("qastyle",list[j].qaFormat);
+                                    span1.on("click",function(){
+                                        questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
+                                        saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                    });
+                                    span1.append("<br>");
+                                    contentdiv1.append(span1);
+                                    anscontent1.append(contentdiv1);
+                                    anscontent1.append('<div class="jt"></div>');
+                                    answerdiv1.append(anscontent1);
+                                    $('#content').append(answerdiv1).append('<div style="height: 10px;"></div>');
+                                   // answerdiv1.append('<p class="clear"></p>');
+                                    if($("#content")[0].scrollHeight>521){
+                                        var scrollheight = $("#content")[0].scrollHeight-521;
+                                        $('#content').css("top",-scrollheight);
+                                    }
+                                    $('#content').append('<p class="clear"></p>');
+                                }
+                            });
+                        }else{
+                            span.on("click",function(){
+                                window.open("http://www.schj.gov.cn/wzdt/");
+                            });
+                        }
+
+                       /* span.on("click",function(){
                             window.open("http://www.schj.gov.cn/wzdt/");
-                        });
+                        });*/
                         span.append("<br>");
                         contentdiv.append(span);
                     }
@@ -643,7 +697,7 @@ function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
 }
 
 
-function chanlAnswer(clist){
+function chanlAnswer(clist,content){
     var answerdiv = $('<div class="answer"></div>');
     var ansico = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
     answerdiv.append(ansico);
@@ -668,7 +722,10 @@ function chanlAnswer(clist){
         span.attr("pid",clist[i].parentid);
         span.attr("title",clist[i].chnlname);
         span.attr("url",clist[i].chnlurl);
-        span.append("【"+kum+"】"+clist[i].chnlname);
+        var qstr = clist[i].chnlname;
+        qstr = qstr.replace(content,content.fontcolor("red"));
+        span.append("【"+kum+"】"+qstr);
+       // span.append("【"+kum+"】"+clist[i].chnlname);
         span.on("click",function(e){
             var thisid = $(this).attr("chnlid");
            // var thispid = $(this).attr("pid");
@@ -682,7 +739,6 @@ function chanlAnswer(clist){
                 //查询相关问题
                 getQAByCid(thisid,chnlurl,thischnlname);
             }
-            //saveRecord($(this).attr("cid"),$(this).attr("title"),$(this).attr("href"),inputVal);
         });
         span.append("<br>");
         contentdiv.append(span);

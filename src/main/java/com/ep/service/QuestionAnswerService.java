@@ -7,7 +7,9 @@ import com.ep.entity.QuestionAnswerEntity;
 
 public interface QuestionAnswerService {
     public List<QuestionAnswerEntity> getQuestionAnswerAllList(int pageSize,int pageNumber,String qaQuestion, String chnlId);//查询所有的问题记录
-    
+    public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer valueOf, Integer valueOf2, String qaQuestion,
+			String chnlId, String startTime, String endTime,int cj);
+    public List<QuestionAnswerEntity> getQuestionAnswerAllList(String pageSize,String pageNumber,String qaQuestion);
     public List getQuestionByComm(int pageSize,int pageNumber,String qaQuestion); //查询常见问题
     
     public List<QuestionAnswerEntity>  getQuestionAnswerByQuestion(String qaQuestion,String keywords,String resourse);//前端进行提问（依据问题进行查询）
@@ -45,8 +47,7 @@ public interface QuestionAnswerService {
 	public String getQaByChnlid(String pageSize, String pageNumber, String cid);
 	public String getChnlNameByQid(String cid);
 
-	public List<QuestionAnswerEntity> getQuestionAnswerAllList(Integer valueOf, Integer valueOf2, String qaQuestion,
-			String chnlId, String startTime, String endTime,int cj);
+	
 
 	public int getQuestionAnswerTotal(String qaQuestion, String chnlId, String startTime, String endTime);
 }

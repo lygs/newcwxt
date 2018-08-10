@@ -209,11 +209,10 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 	public List<QuestionAnswerEntity> getQuestionAnswerListByWords(List<String> wordsList) {
 		StringBuilder hqlString = new StringBuilder();
 		hqlString.append("from QuestionAnswerEntity where 1=1");
-		if (wordsList.size() > 0) {
+		if (wordsList!=null && wordsList.size() > 0) {
 			for (String str : wordsList) {
 				hqlString.append(" and QA_QUESTION like '%" + str + "%'");
 			}
-
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pageSize", 9);
@@ -511,6 +510,13 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 		}
 		
 		return obj.toString();
+	}
+	
+	@Override
+	public List<QuestionAnswerEntity> getQuestionAnswerAllList(String pageSize,String pageNumber,String qaQuestion){
+		String hql = "SELECT qa.ID as id, qa.QA_QUESTION as qaQuestion,qa.QA_CREATETIME as qaCreatetime,qa.QA_TYPE as qaType,qa.QA_KEYWORDS as qaKeywords,qa.QA_URL as qaUrl,qa.QA_ANSWER as qaAnswer,qa.QA_KNOWLEDGE as knowId,u.USERNAME AS userName,qa.QA_RESOURCE as qaResource,qa.QA_RESOURCETYPE as resourceType,qa.QA_FILENAME as fileName FROM QuestionAnswer qa LEFT JOIN SYSUSER u on qa.QA_CREATOR=u.USERID  where 1=1  and qa.QA_QUESTION='" + qaQuestion + "'";
+		List<QuestionAnswerEntity> list = questionAnswerDao.getQuestionAnswerList(hql.toString(),String.valueOf(pageSize), String.valueOf(pageNumber));
+		return list;
 	}
 
 	@Override
