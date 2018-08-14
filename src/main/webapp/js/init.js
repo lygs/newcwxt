@@ -9,11 +9,18 @@ $(function(){
         url:"/eprobot/template/getSelectedTemp",
         dataType:"json",
         success:function(data){
-            if(data.data.urlName){
+            if(data.data&&data.data.urlName){
                 var temUrl = data.data.urlName;
                 $("<link>")	.attr({ rel: "stylesheet",
                     type: "text/css",
                     href: "css/"+temUrl+".css"
+                }).appendTo("head");
+                $(".warp").show();
+                $(".p_footer").show();
+            }else{
+                $("<link>")	.attr({ rel: "stylesheet",
+                    type: "text/css",
+                    href: "css/index.css"
                 }).appendTo("head");
                 $(".warp").show();
                 $(".p_footer").show();
@@ -67,7 +74,7 @@ function searchQuestion(){
                 $(".other").empty();
                 content = msg.data.searchContent;
                 var list1=msg.data,channelList=[],chlist=[];
-                if(content=="于会文"){
+                if(content=="于会文" || content=="省环保厅厅长"|| content=="四川省环保厅厅长"|| content=="四川省环境保掮厅厅长"){
                     chlist = getchnnellist(channels,"厅长");
                 }else{
                     chlist = getchnnellist(channels,content);//完全匹配栏目
@@ -106,7 +113,7 @@ function searchQuestion(){
                     saveRecord("",content,$(anscontent).text(),$(".askSubmit textarea").val());
                 }else{
                     var list=[],wordslist=[];
-                    if(list1.wordList.length>0){
+                    if(list1.wordList && list1.wordList.length>0){
                         list = getList(list1.wordList);
                     }
                     var qwords = getWords(list,content);//完全匹配问题；
@@ -148,6 +155,7 @@ function searchQuestion(){
                             span.attr("chnlid",chlist[i].channelId);
                             span.attr("pid",chlist[i].parentid);
                             span.attr("title",chlist[i].chnlname);
+                            span.attr("content",content);
                             span.attr("url",chlist[i].chnlurl);
                             var qstr = chlist[i].chnlname;
                             qstr = qstr.replace(content,content.fontcolor("red"));
@@ -160,7 +168,7 @@ function searchQuestion(){
                                 var chnles = getChannelsByChnlid(thisid);
                                 if(chnles.length>0){
                                     //显示相关栏目。
-                                    chanlAnswer(chnles,content);
+                                    chanlAnswer(chnles,$(this).attr("content"));
                                 }else{
                                     //查询相关问题
                                     getQAByCid(thisid,chnlurl,thischnlname);
@@ -169,6 +177,35 @@ function searchQuestion(){
 
                             span.append("<br>");
                             contentdiv.append(span);
+                        }
+                        if(kum<8 && list && list.length>0){
+                            for(var j=0;j<list.length;j++){
+                                if(kum>7) break;
+                                kum++;
+                                var span = $('<span></span>')
+                                    .css("color","blue")
+                                    .css("cursor","pointer");
+                                span.hover(function(){
+                                    $(this).css("color","red");
+                                },function(){
+                                    $(this).removeAttr("style");
+                                    $(this) .css("color","blue").css("cursor","pointer")
+                                });
+                                var qtitle = list[j].qaQuestion;
+                                if(qtitle.length>26)
+                                    qtitle = qtitle.substring(0,26)+"...";
+                                qtitle = qtitle.replace(content,content.fontcolor("red"));
+                                span.append("【"+kum+"】"+qtitle);
+                                span.attr("title",list[j].qaQuestion);
+                                span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                                span.attr("qastyle",list[j].qaFormat);
+                                span.on("click",function(){
+                                    questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
+                                    saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                });
+                                span.append("<br>");
+                                contentdiv.append(span);
+                            }
                         }
                     }else if(qwords){
                         kum++;
@@ -215,6 +252,7 @@ function searchQuestion(){
                                 span.attr("chnlid",channelList[i].channelId);
                                 span.attr("pid",channelList[i].parentid);
                                 span.attr("title",channelList[i].chnlname);
+                                span.attr("content",content);
                                 span.attr("url",channelList[i].chnlurl);
                                 var qstr = channelList[i].chnlname;
                                 qstr = qstr.replace(content,content.fontcolor("red"));
@@ -227,7 +265,7 @@ function searchQuestion(){
                                     var chnles = getChannelsByChnlid(thisid);
                                     if(chnles.length>0){
                                         //显示相关栏目。
-                                        chanlAnswer(chnles,content);
+                                        chanlAnswer(chnles, $(this).attr("content"));
                                     }else{
                                         //查询相关问题
                                         getQAByCid(thisid,chnlurl,thischnlname);
@@ -235,6 +273,35 @@ function searchQuestion(){
                                 });
                                 span.append("<br>");
                                 contentdiv.append(span);
+                            }
+                            if(kum<8 && list && list.length>0){
+                                for(var j=0;j<list.length;j++){
+                                    if(kum>7) break;
+                                    kum++;
+                                    var span = $('<span></span>')
+                                        .css("color","blue")
+                                        .css("cursor","pointer");
+                                    span.hover(function(){
+                                        $(this).css("color","red");
+                                    },function(){
+                                        $(this).removeAttr("style");
+                                        $(this) .css("color","blue").css("cursor","pointer")
+                                    });
+                                    var qtitle = list[j].qaQuestion;
+                                    if(qtitle.length>26)
+                                        qtitle = qtitle.substring(0,26)+"...";
+                                    qtitle = qtitle.replace(content,content.fontcolor("red"));
+                                    span.append("【"+kum+"】"+qtitle);
+                                    span.attr("title",list[j].qaQuestion);
+                                    span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
+                                    span.attr("qastyle",list[j].qaFormat);
+                                    span.on("click",function(){
+                                        questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
+                                        saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                    });
+                                    span.append("<br>");
+                                    contentdiv.append(span);
+                                }
                             }
                         }
 
@@ -334,10 +401,6 @@ function searchQuestion(){
                                 window.open("http://www.schj.gov.cn/wzdt/");
                             });
                         }
-
-                       /* span.on("click",function(){
-                            window.open("http://www.schj.gov.cn/wzdt/");
-                        });*/
                         span.append("<br>");
                         contentdiv.append(span);
                     }
@@ -361,8 +424,6 @@ function searchQuestion(){
                         });
                     }
                 }
-
-
             }else{
                 alert(msg.msg);
             }
@@ -434,10 +495,6 @@ function getchnnellist(chlist,searchval){
 function getChannelsByName(channelslist,channelName,wordslist){
     var chnlList = [];
     if(wordslist && wordslist.length>0){
-       /* var  content = wordslist[0].content;
-        if(content.indexOf("；")!=-1) {
-            content = content.replace("；", ";");
-        }*/
         var words = wordslist;
         var wlist = [];
         for(var k=0;k<words.length;k++){
@@ -734,7 +791,7 @@ function chanlAnswer(clist,content){
             var chnles = getChannelsByChnlid(thisid);
             if(chnles.length>0){
                 //显示相关栏目。
-                chanlAnswer(chnles);
+                chanlAnswer(chnles,content);
             }else{
                 //查询相关问题
                 getQAByCid(thisid,chnlurl,thischnlname);

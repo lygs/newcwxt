@@ -179,7 +179,6 @@ public class LuceneController {
 				 }	
 				 if(!flag) {
 					 List<String> wordsList = LuceneUtil.getStrinsByWords(searchContent);
-					 System.out.println("wordsList:"+wordsList.size());
 					 if(wordsList.size()==1 && !isnum) {
 						 //JSONObject jsonObject = new JSONObject();
 						 //单词查询
