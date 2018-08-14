@@ -100,13 +100,10 @@ public class PraiseServiceImpl implements PraiseService {
 			Integer pageNumber = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageNumber")));
 			Integer pageSize = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageSize")));
 			Integer pStatus = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pStatus")));// 0不满意 1满意
+			
 			StringBuffer hql = new StringBuffer("select CONVERT(varchar(200),p.P_QAID) as pqaid, CONVERT(varchar(200),q.QA_QUESTION) as question,CONVERT(varchar(50),MAX(p.P_DATE)) as createtime,CONVERT(varchar(50),q.QA_RESOURCE) as resource from Praise p left join QuestionAnswer q on q.ID = p.P_QAID where ");
 			hql = (pStatus == 0) ? hql.append(" p.P_STATUS=0") : hql.append(" p.P_STATUS=1");
 			hql = hql.append(" GROUP BY p.P_QAID,q.QA_QUESTION,q.QA_RESOURCE");
-			/*String channelSql = "SELECT	CONVERT (VARCHAR(200), p.P_QAID) AS pqaid,CONVERT (VARCHAR(200), q.CHNLNAME) AS question," + 
-					"	CONVERT (VARCHAR(50), MAX(p.P_DATE)) AS createtime FROM" + 
-					"	Praise p LEFT JOIN CHANNELS q ON q.CHANNELID = p.P_QAID " + 
-					"WHERE	p.P_STATUS = "+pStatus+" AND p.P_type='c' GROUP BY p.P_QAID,q.CHNLNAME";*/
 			if (pageNumber > 0 && pageSize > 0) {
 				Map<Object, Object> map = new HashMap<>();
 				String sql = "SELECT COUNT(p.num) from (SELECT COUNT(P_QAID) num FROM Praise WHERE P_STATUS = "	+ pStatus + " GROUP BY P_QAID) p";
@@ -115,11 +112,6 @@ public class PraiseServiceImpl implements PraiseService {
 				map.put("pageNumber", pageNumber);
 				map.put("hql", hql.toString());
 				List<Map<String, Object>> list = praisedao.selectPraise(map);
-				/*Map<Object, Object> chnlmap = new HashMap<>();
-				chnlmap.put("pageSize", pageSize);
-				chnlmap.put("pageNumber", pageNumber);
-				chnlmap.put("hql", channelSql);
-				List<Map<String, Object>> chnllist = praisedao.selectPraise(chnlmap);*/
 				JSONArray array = new JSONArray();
 				for (int i = 0; i < list.size(); i++) {
 					JSONObject obj = new JSONObject();
@@ -127,26 +119,14 @@ public class PraiseServiceImpl implements PraiseService {
 						continue;
 					}
 					int num = praisedao.selectPraiseTotal("select count(P_QAID) from Praise where P_STATUS= " + pStatus
-							+ " and P_QAID = " + list.get(i).get("pqaid") +" and P_type='p'");
+							+ " and P_QAID = " + list.get(i).get("pqaid") +" and P_type='q'");
+					
 					obj.put("qacount", num);
 					obj.put("question", list.get(i).get("question"));
 					obj.put("resource", list.get(i).get("resource"));
 					obj.put("createtime", list.get(i).get("createtime"));
 					array.add(obj);
 				}
-				/*for (int i = 0; i < chnllist.size(); i++) {
-					JSONObject obj = new JSONObject();
-					if (chnllist.get(i).get("question") == null || chnllist.get(i).get("question") == "") {
-						continue;
-					}
-					int num = praisedao.selectPraiseTotal("select count(P_QAID) from Praise where P_STATUS= " + pStatus
-							+ " and P_QAID = " + chnllist.get(i).get("pqaid")  +" and P_type='c'");
-					obj.put("qacount", num);
-					obj.put("question", chnllist.get(i).get("question"));
-					obj.put("resource", "环保厅");
-					obj.put("createtime", chnllist.get(i).get("createtime"));
-					array.add(obj);
-				}*/
 				json.put("total", total);
 				json.put("result", "success");
 				json.put("list", array);

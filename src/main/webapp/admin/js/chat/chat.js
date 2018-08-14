@@ -5,8 +5,11 @@ var pageSize=15;//每页数量
 var pageNavObj;
 var totalPage;
 var selectbtn;
+var curpage = 1;
+var order = 0;
 $(function(){
-    getData(1);//默认第一页
+	order = 0;
+    getData(1,order);//默认第一页
 });
 
 function pageNavCallBack(clickPage){
@@ -17,17 +20,28 @@ function pageNavCallBack(clickPage){
     });
     pageNavObj.afterClick(pageNavCallBack);
     searchPage = clickPage;
-    getData(searchPage);
+    curpage =searchPage; 
+    getData(searchPage,order);
 }
 
 function selectedbtn(){
-	$(selectbtn).text("已设置");//.css("cursor","on-allowed");
+	getData(curpage,order);
+	
 	$(selectbtn).unbind();
 }
+function orderClick(c){
+	order = c;
+	getData(curpage,c);
+}
 //获取分页数据
-function getData(searchPage){
-    var tempUrl = '/eprobot/record/getRecordList.action';
-    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage;
+function getData(searchPage,order){
+	curpage =searchPage ;
+	var startDate = $("#startDate").val();
+	var endDate = $("#endDate").val();
+	var searchTitle = $.trim($("#searchTitle").val());
+
+	var tempUrl = '/eprobot/record/getRecordList.action';
+    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&startDate="+startDate+"&endDate="+endDate+"&searchTitle"+searchTitle+"&order="+order;
     $.ajax({
         type:'post',
         url:tempUrl,
@@ -40,6 +54,7 @@ function getData(searchPage){
 //            if(data.list.length >0){
             var list=data.result;
             var total = data.total;
+            $(".total").text(total);
             var pagecount = Math.ceil(total/pageSize);
             totalPage = pagecount;
             if(data.roleId==0){
@@ -49,7 +64,7 @@ function getData(searchPage){
             if(pagecount==1){
                 $("#PageNavId").html("");
             }else{
-                if(!pageNavObj)
+              // if(!pageNavObj)
                     pageNavObj = new PageNavCreate("PageNavId",{pageCount:pagecount,currentPage:searchPage,perPageNum:pageSize});
                 pageNavObj.afterClick(pageNavCallBack);
             }
@@ -69,6 +84,14 @@ function getData(searchPage){
                    answer = answer.substring(0,100)+"...";
                 td3.append(answer);
                 
+                var td10 = $('<td height="44" align="center"></td>');
+                if(answer.indexOf("没能为您找到答案") > -1 ){
+                	if(data.result[i].rCriterion && data.result[i].rCriterion == 1){
+                		td10.append("已处理");
+                	}else{
+                    	td10.append("未处理");
+                    }
+                } 
                 
                 var td4 = $('<td height="44" align="center"></td>');
                 var knowName = "";
@@ -131,7 +154,7 @@ function getData(searchPage){
             		}
             	});
             	td7.append(spanedit).append(spandel);
-                tr.append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7);
+                tr.append(td1).append(td2).append(td3).append(td10).append(td4).append(td5).append(td6).append(td7);
                 $("#listShow").append(tr);
             }
         }

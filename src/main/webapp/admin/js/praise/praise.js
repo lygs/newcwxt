@@ -1,4 +1,4 @@
-var pageSize = 4;
+var pageSize = 5;
 var pageNumber = 1;
 var pageNavObj;
 var url = window.location.search;
@@ -45,7 +45,7 @@ function getData(searchPage){
 					if(pagecount==1){
 						$("#PageNavId").html("");
 					}else{
-						if(!pageNavObj)
+						
 							pageNavObj = new PageNavCreate("PageNavId",{pageCount:pagecount,currentPage:searchPage,perPageNum:pageSize});
 						pageNavObj.afterClick(pageNavCallBack);
 

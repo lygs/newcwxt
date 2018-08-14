@@ -392,17 +392,24 @@ var rcId;
 		    		return;
 		    	}
 		    	var recordId = $(".recordId").val();
+		    	var form = $("#editRecord");
+		    	var formData = new FormData(form[0]);
 		    	$.ajax({
 		    		type:"post",
 		    		url:"/eprobot/questionAnswer/saveQuestionAnswer.action",
-		    		data:{"qaQuestion":add_qaQuestion,"qaAnswer":add_qaAnswer,"qaKnowledgePoint":add_knowledgePoint,"kewwords":add_kewwords,"resource":recordresource,"recordId":recordId},
+		    	//	data:{"qaQuestion":add_qaQuestion,"qaAnswer":add_qaAnswer,"qaKnowledgePoint":add_knowledgePoint,"kewwords":add_kewwords,"resource":recordresource,"recordId":recordId},
+		    		data:formData,
 		    		dataType:"json",
+		    		processData: false ,
+		    		contentType : false,
 		    		success:function(data){
-		    			if(data.result=="success"){
+		    			if(data.status== 1){
 		    				$(".editR").hide();
 		    				alert("设置成功！");
 							$("iframe")[0].contentWindow.selectedbtn();
 		    				//window.history.go(0);
+		    			}else{
+		    				alert(data.msg);	
 		    			}
 		    		}
 		    	});

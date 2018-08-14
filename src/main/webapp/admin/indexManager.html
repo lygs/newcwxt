@@ -349,41 +349,31 @@
     <div class="modelAskMain">
         <div class="title">修改记录 <div class="close"><a class="guanbi7" style="cursor:pointer">×</a></div></div>
         <div class="content">
+          <form id="editRecord" method="post" enctype="multipart/form-data">
             <div class="text">问题</div>
-            <div class="textInput"><input type="text" class="inputs edit_record"></div>
+            <div class="textInput"><input type="text" name="qaQuestion" class="inputs edit_record"></div>
             <div class="text">关键字</div>
-            <div class="textInput"><input type="text" class="inputs recordkey"></div>
+            <div class="textInput"><input type="text" name="kewwords" class="inputs recordkey"></div>
             <div class="text">来源</div>
-            <div class="textInput"><input type="text" class="inputs recordresource"></div>
-           <!--  <div class="text">知识点</div>
-            <input type="hidden" class="hidden_recordknow"/>
-            <div class="textInput">
-                <select id="edt_recordknow">
-                    <option>大气、水、土地</option>
-                </select>
-            </div> -->
-             <!-- <div class="text">知识点</div>
-              <input type="hidden" class="hidden_recordknow"/>
-            <div class="textInput" >
-                <input type="text"  class="qaKnowledgeFl setQafl" title="" style="cursor:pointer;" placeholder="点击选择分类" readonly="readonly ">
-				<select id="edt_recordknow" class='qaKnowledgePoint'></select>
-            </div> -->
-            <input type="hidden" class="hidden_recordknow"/>
+            <div class="textInput"><input type="text" name="resource" class="inputs recordresource"></div>
+            <input type="hidden" class="hidden_recordknow" />
               <div class="text">知识点</div>
             <div class="textInput" style="border:0; height:32px;">
                 <input type="text"  class="qaKnowledgeFl setQafl" placeholder="点击选择分类" readonly="readonly ">
-				<select class="qaKnowledgePoint" id="edt_recordknow">
+				<select class="qaKnowledgePoint" name="qaKnowledgePoint" id="edt_recordknow">
 					
 				</select>
             </div>
             
             <div class="text">标准答案</div>
             <div class="textArea">
-                <textarea class="recordanswer"></textarea>
+                <textarea class="recordanswer" name="qaAnswer"></textarea>
             </div>
            
+        <input type="hidden" class="recordId" name="recordId"/>
+        <input style="display:none;" type="file" name="file">
+        </form>
         </div>
-        <input type="hidden" class="recordId"/>
         <div class="submit">
             <ul>
                 <li class="on">

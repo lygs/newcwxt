@@ -10,6 +10,7 @@
     <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
     <script type="text/javascript" src="js/zUI.js"></script>
     <script src="js/pageNav.js"></script>
+    <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="js/chat/chat.js"></script>
 </head>
 <body>
@@ -19,29 +20,18 @@
         <div class="text">问答记录</div>
     </div>
     <div class="caozuo">
-
-        <!--<div class="ico fl">
-            &lt;!&ndash;<ul>
-                <li><a class="tj"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
-            </ul>&ndash;&gt;
-
-        <div class="ico fl">
-            <ul>
-                <li><a class="tj" style="cursor:pointer"><i class="iconfont icon-htmal5icon18"></i> 添加</a></li>
-            </ul>
-
-        </div>
-        <div class="fr">
-           <div class="shuaxin">
-                <a href="#">
-                    <i class="iconfont icon-ai244"></i>
-                </a>
-            </div> 
+		<div class="fr">
+			<a href="praise.html?1">满意</a>
+			<a href="praise.html?0">不满意</a>
+            <input style="width: 155px;height: 28px;overflow: hidden;line-height: 28px; padding-left: 10px;margin-left:260px; color: #595959;" class="input-sm" id="startDate" onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" type="text" placeholder="开始时间" name="startDate" readonly=""> 至
+			<input style="width: 155px;height: 28px;overflow: hidden;line-height: 28px; padding-left: 10px; color: #595959;" class="input-sm" type="text" placeholder="结束时间" id="endDate" onfocus="WdatePicker({readOnly:true,maxDate:'%y-%M-%d'})" name="endDate">
+				
             <div class="search">
-                <div class="textInput"><input type="text" placeholder="查询相关记录" id="searchName" class="inputs"></div>
-                <div class="submit"><input type="submit" class="btn"> <i class="iconfont icon-sousuo"></i></div>
+                <div class="textInput"><input type="text" placeholder="查询的标题" class="inputs" id="searchTitle"></div>
+                <div class="submit"><input type="submit" class="btn" onclick="getData(1);"> <i class="iconfont icon-sousuo"></i></div>
             </div>
-        </div>-->
+        </div>
+      
         <p class="clear"></p>
     </div>
     <div class="tableMain">
@@ -51,6 +41,7 @@
                 <td width="3%" height="50" align="center" bgcolor="#F2F2F2">序号</td>
                 <td width="23%" height="50" align="center" bgcolor="#F2F2F2">问题</td>
                 <td width="25%" height="50" align="center" bgcolor="#F2F2F2">答案</td>
+                <td width="5%" height="50" align="center" bgcolor="#F2F2F2" style="cursor: pointer; color: blue;" onclick="orderClick(1);">是否处理</td>
                 <td width="11%" height="50" align="center" bgcolor="#F2F2F2">知识点</td>
                  <td width="11%" height="50" align="center" bgcolor="#F2F2F2">IP</td>
                 <td width="5%" height="50" align="center" bgcolor="#F2F2F2">时间</td>
@@ -64,6 +55,7 @@
         </table>
     </div>
     <div class="pages">
+    	总数：<span class="total" style="color:red;"></span>
         <ul>
             <nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
         </ul>

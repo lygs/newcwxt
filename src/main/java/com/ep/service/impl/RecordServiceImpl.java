@@ -34,17 +34,41 @@ public class RecordServiceImpl implements RecordService {
     }
 
 	@Override
-	public String getAllList(int pageSize,int pageNumber) {
+	public String getAllList(int pageSize,int pageNumber, String startDate, String  endDate, String searchTitle, int order) {
 		Map<String, Object> map =new HashMap<String, Object>();
-		String hql = "SELECT CONVERT(varchar(25),r.ID) as id,CONVERT(varchar(1000),r.R_QUESTION) as question,"+
+		StringBuffer str = new StringBuffer();
+		String hql = " SELECT CONVERT(varchar(25),r.ID) as id,CONVERT(varchar(1000),r.R_QUESTION) as question,"+
 		          "CONVERT(varchar(2000),r.R_ANSWER) as answer,CONVERT(varchar(20),r.R_CREATETIME) as createtime,"+
 				"CONVERT(varchar(200),c.CHNLNAME) as channelName,CONVERT(varchar(200),k.K_NAME) as knowName,CONVERT(varchar(200),r.R_CRITERION) as rCriterion,CONVERT(varchar(200),r.R_USERIP) as userip " + 
 				"FROM Record AS r LEFT JOIN CHANNELS c ON c.CHANNELID = r.R_CHNNELID " + 
-				"LEFT JOIN Knowledge k ON k.ID = r.R_KNOWLEDGEID order by r.R_CREATETIME desc";
+				"LEFT JOIN Knowledge k ON k.ID = r.R_KNOWLEDGEID WHERE 1=1 and r.R_ANSWER like '%"+searchTitle+"%' ";
+		
+		str.append(hql);
+		
+		
+		if(!CMyString.isEmpty(startDate)) {
+			startDate = CMyString.filterForHTMLValue(startDate);
+			str.append(" and r.R_CREATETIME >= '"+startDate+"' ");
+		}
+		
+		if(!CMyString.isEmpty(endDate)) {
+			String end = DateUtil.getSpecifiedDayBefore(CMyString.filterForHTMLValue(endDate), "yyyy-MM-dd", 1, "+");
+			str.append(" and r.R_CREATETIME < '"+end+ "' ");
+		}
+		
+		if(order == 1) {
+			String st = " and r.R_ANSWER like '%没能为您找到答案%' order by r.R_CRITERION  ";
+			str.append(st);
+		}else {
+			
+			str.append(" order by r.R_CREATETIME desc ");
+		}
+		
+		
         int page=pageSize*(pageNumber-1);
         map.put("pageSize", pageSize);
         map.put("page", page);
-        map.put("hql", hql.toString());
+        map.put("hql", str.toString());
         List<Map<String, Object>> list= recordDao.getAllList(map);
         JSONArray array = new JSONArray();
         for(int i=0;i<list.size();i++) {
@@ -66,11 +90,25 @@ public class RecordServiceImpl implements RecordService {
 	   * 查询总数
 	   */
 	   @Override
-	   public int getRecordEntityTotal() {
-	       Map<String, Object> map =new HashMap<String, Object>();
-	       StringBuffer hql = new StringBuffer("select count(*) from RecordEntity where 1=1");
+	   public int getRecordEntityTotal( String startTime, String endTime, String title,int order) {
+	       StringBuffer str = new StringBuffer("select count(*) from RecordEntity where 1=1 and rQuestion like '%"+title+"%' ");
 	       
-	       return recordDao.getRecordEntityAllCount(hql.toString());
+	       if(!CMyString.isEmpty(startTime)) {
+				startTime = CMyString.filterForHTMLValue(startTime);
+				str.append(" and rCreatetime >= '"+startTime+"' ");
+			}
+			
+			if(!CMyString.isEmpty(endTime)) {
+				String end = DateUtil.getSpecifiedDayBefore(CMyString.filterForHTMLValue(endTime), "yyyy-MM-dd", 1, "+");
+				str.append(" and rCreatetime < '"+end+ "' ");
+			}
+			
+			if(order == 1) {
+				String st = " and rAnswer like '%没能为您找到答案%'  ";
+				str.append(st);
+			}
+	       
+	       return recordDao.getRecordEntityAllCount(str.toString());
 	   }
 	   
 	   
@@ -147,7 +185,7 @@ public class RecordServiceImpl implements RecordService {
 
 			int yearCount = recordDao.getRecordEntityAllCount(yearHql);
 			
-			int YCount = getRecordEntityTotal();
+			int YCount = getRecordEntityTotal("","","",0);
 			if (weekCountMap.size() > 0) {
 				json.put("dayConutn", dayCount);
 				json.put("weekCountList", weekCountMap);//周每天

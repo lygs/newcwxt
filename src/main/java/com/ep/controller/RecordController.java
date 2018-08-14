@@ -60,7 +60,7 @@ public class RecordController {
 			String rAnswer = CMyString.filterForHTMLValue(request.getParameter("rAnswer"));// 答
 			String ips = CMyString.filterForHTMLValue(request.getParameter("ips"));// ip
 			String keyword = CMyString.filterForHTMLValue(request.getParameter("keyword"));//关键词
-			
+
 			String rQuestionId = CMyString.filterForHTMLValue(request.getParameter("rQuestionId"));// 问题id
 			
 			if (StringUtils.isNotBlank(rQuestion) &&StringUtils.isNotBlank(rAnswer)){
@@ -121,11 +121,17 @@ public class RecordController {
 		try {
 			String pageNumber = CMyString.filterForHTMLValue(request.getParameter("pageNumber"));
 			String pageSize = CMyString.filterForHTMLValue(request.getParameter("pageSize"));
+			
+			String startDate = CMyString.filterForHTMLValue(request.getParameter("startDate"));
+			String endDate = CMyString.filterForHTMLValue(request.getParameter("endDate"));
+			String searchTitle = CMyString.filterForHTMLValue(request.getParameter("searchTitle"));
+			String order = CMyString.filterForHTMLValue(request.getParameter("order"));
+			
 			boolean num = pageSize.matches("[0-9]+");
 			boolean pagesize = pageNumber.matches("[0-9]+");
 			if (num && pagesize) {
-				 String string = recordService.getAllList(Integer.valueOf(pageSize),Integer.valueOf(pageNumber));
-				int total = recordService.getRecordEntityTotal();
+				 String string = recordService.getAllList(Integer.valueOf(pageSize),Integer.valueOf(pageNumber), startDate,  endDate, searchTitle,Integer.valueOf(order));
+				int total = recordService.getRecordEntityTotal( startDate,  endDate, searchTitle,Integer.valueOf(order));
 				json.put("result", string);
 				json.put("total", total);
 			} else {
