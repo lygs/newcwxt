@@ -89,7 +89,7 @@ function getData(searchPage,order){
                 	if(data.result[i].rCriterion && data.result[i].rCriterion == 1){
                 		td10.append("已处理");
                 	}else{
-                    	td10.append("未处理");
+                    	td10.append("<span style='color:red;'>未处理</span>");
                     }
                 } 
                 
