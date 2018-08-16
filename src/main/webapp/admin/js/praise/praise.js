@@ -1,4 +1,4 @@
-var pageSize = 5;
+var pageSize = 10;
 var pageNumber = 1;
 var pageNavObj;
 var url = window.location.search;
@@ -8,9 +8,9 @@ $(function(){
 		pStatus = 0;
 	}
 	if(pStatus == 0){
-		$($("thead td")[3]).text("不满意数");
+		$($("thead td")[2]).text("不满意数");
 	}else{
-		$($("thead td")[3]).text("满意数");
+		$($("thead td")[2]).text("满意数");
 	}
 	getData(1);
 });
@@ -27,14 +27,14 @@ function pageNavCallBack(clickPage){
 }
 
 function getData(searchPage){
-	
 	$.ajax({
 		type:"post",
 		url:"/eprobot/praise/selectPraise",
 		data:{"pageNumber":searchPage,"pageSize":pageSize,"pStatus":pStatus},
 		success:function(data){
 			if(data.result=="success"){
-				console.log(data.list)
+				$(".ptotal").empty();
+				$(".ptotal").append(data.total);
 	            $("#listShow").empty();
 	            var dataUl=$("#listShow");
 	            	var list=data.list;
@@ -45,7 +45,6 @@ function getData(searchPage){
 					if(pagecount==1){
 						$("#PageNavId").html("");
 					}else{
-						
 							pageNavObj = new PageNavCreate("PageNavId",{pageCount:pagecount,currentPage:searchPage,perPageNum:pageSize});
 						pageNavObj.afterClick(pageNavCallBack);
 
@@ -59,16 +58,16 @@ function getData(searchPage){
 	                	var td2 = $('<td height="44" align="left" class="newList"></td>');
 	                	td2.attr("id",list[i].id);
 	                	td2.append(list[i].question);
-	                	var td3 = $('<td align="center"></td>');
-	                	var resource="";
-	                	td3.append(list[i].resource==0?"同步":"手工");
+	                	//var td3 = $('<td align="center"></td>');
+	                	//var resource="";
+	                	//td3.append(list[i].resource==0?"同步":"手工");
 	                	var td4 = $('<td height="44" align="center"></td>');
 	                	td4.append(list[i].qacount);
 
 	                	var td5 = $('<td height="44" align="center"></td>');
 	                	td5.append(timess);
 	                	
-	                	tr.append(td1).append(td2).append(td3).append(td4).append(td5);
+	                	tr.append(td1).append(td2).append(td4).append(td5);
 	                	$("#listShow").append(tr);
 					}
 	        

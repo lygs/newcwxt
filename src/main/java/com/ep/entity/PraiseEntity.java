@@ -12,7 +12,11 @@ import javax.persistence.Table;
 public class PraiseEntity {
 
 	private Integer id;
-	private String pStatus; 
+	private String pStatus;
+	private String pTitle;
+	
+
+
 	private String pDate; 
 	private Integer pQaId;
 	private String ptype;
@@ -35,6 +39,14 @@ public class PraiseEntity {
 	}
 	public void setpStatus(String pStatus) {
 		this.pStatus = pStatus;
+	}
+	
+	@Column(name = "P_TITLE")
+	public String getpTitle() {
+		return pTitle;
+	}
+	public void setpTitle(String pTitle) {
+		this.pTitle = pTitle;
 	}
 	
 	@Column(name = "P_DATE")

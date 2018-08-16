@@ -37,6 +37,7 @@ public class PraiseServiceImpl implements PraiseService {
 		try {
 			String pQaId = CMyString.filterForHTMLValue(request.getParameter("pQaId"));// 问题ID
 			String pStatus = CMyString.filterForHTMLValue(request.getParameter("pStatus"));// 状态 0 赞 1 不满意
+			String pTitle = CMyString.filterForHTMLValue(request.getParameter("pTitle"));// 标题
 			String pDate = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
 			if (StringUtils.isNotBlank(pQaId) && pStatus != null && pStatus != "") {
 				String s = pQaId.substring(0, 1);
@@ -44,6 +45,7 @@ public class PraiseServiceImpl implements PraiseService {
 				praise.setpQaId(Integer.parseInt(pQaId.substring(1)));
 				praise.setpStatus(pStatus);
 				praise.setpDate(pDate);
+				praise.setpTitle(pTitle);
 				int i = praisedao.updataOrSavePraise(praise);
 				if (i < 0) {
 					json.put("result", "error");
@@ -100,32 +102,25 @@ public class PraiseServiceImpl implements PraiseService {
 			Integer pageNumber = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageNumber")));
 			Integer pageSize = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageSize")));
 			Integer pStatus = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pStatus")));// 0不满意 1满意
-			
-			StringBuffer hql = new StringBuffer("select CONVERT(varchar(200),p.P_QAID) as pqaid, CONVERT(varchar(200),q.QA_QUESTION) as question,CONVERT(varchar(50),MAX(p.P_DATE)) as createtime,CONVERT(varchar(50),q.QA_RESOURCE) as resource from Praise p left join QuestionAnswer q on q.ID = p.P_QAID where ");
-			hql = (pStatus == 0) ? hql.append(" p.P_STATUS=0") : hql.append(" p.P_STATUS=1");
-			hql = hql.append(" GROUP BY p.P_QAID,q.QA_QUESTION,q.QA_RESOURCE");
+			StringBuffer hql = new StringBuffer("from PraiseEntity where pStatus="+pStatus+" order by pDate desc");
 			if (pageNumber > 0 && pageSize > 0) {
 				Map<Object, Object> map = new HashMap<>();
-				String sql = "SELECT COUNT(p.num) from (SELECT COUNT(P_QAID) num FROM Praise WHERE P_STATUS = "	+ pStatus + " GROUP BY P_QAID) p";
+				String sql = "SELECT COUNT(ID) num FROM Praise WHERE P_STATUS = " + pStatus;
 				int total = praisedao.selectPraiseTotal(sql);
 				map.put("pageSize", pageSize);
 				map.put("pageNumber", pageNumber);
 				map.put("hql", hql.toString());
-				List<Map<String, Object>> list = praisedao.selectPraise(map);
+				List<PraiseEntity> list = praisedao.selectPraise(map);
 				JSONArray array = new JSONArray();
 				for (int i = 0; i < list.size(); i++) {
-					JSONObject obj = new JSONObject();
-					if (list.get(i).get("question") == null || list.get(i).get("question") == "") {
+					JSONObject jsonObjectobj = new JSONObject();
+					if (list.get(i).getpTitle() == null || list.get(i).getpTitle() == "") {
 						continue;
 					}
-					int num = praisedao.selectPraiseTotal("select count(P_QAID) from Praise where P_STATUS= " + pStatus
-							+ " and P_QAID = " + list.get(i).get("pqaid") +" and P_type='q'");
-					
-					obj.put("qacount", num);
-					obj.put("question", list.get(i).get("question"));
-					obj.put("resource", list.get(i).get("resource"));
-					obj.put("createtime", list.get(i).get("createtime"));
-					array.add(obj);
+					jsonObjectobj.put("qacount", 1);
+					jsonObjectobj.put("question", list.get(i).getpTitle());
+					jsonObjectobj.put("createtime", list.get(i).getpDate());
+					array.add(jsonObjectobj);
 				}
 				json.put("total", total);
 				json.put("result", "success");

@@ -201,7 +201,7 @@ function searchQuestion(){
                                 span.attr("qastyle",list[j].qaFormat);
                                 span.on("click",function(){
                                     questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
-                                    saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                   // saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
                                 });
                                 span.append("<br>");
                                 contentdiv.append(span);
@@ -228,7 +228,7 @@ function searchQuestion(){
                         span.attr("qastyle",qwords.qaFormat);
                         span.on("click",function(){
                             questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,content,$(this).attr("qastyle"));
-                            saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),content);
+                           // saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),content);
                         });
                         span.append("<br>");
                         contentdiv.append(span);
@@ -297,7 +297,7 @@ function searchQuestion(){
                                     span.attr("qastyle",list[j].qaFormat);
                                     span.on("click",function(){
                                         questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
-                                        saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                       // saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
                                     });
                                     span.append("<br>");
                                     contentdiv.append(span);
@@ -329,7 +329,7 @@ function searchQuestion(){
                                 span.attr("qastyle",list[j].qaFormat);
                                 span.on("click",function(){
                                     questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
-                                    saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
+                                    //saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
                                 });
                                 span.append("<br>");
                                 contentdiv.append(span);
@@ -348,7 +348,7 @@ function searchQuestion(){
                             $(this) .css("color","blue").css("cursor","pointer")
                         });
                         span.append("【"+kum+"】其他");
-                        if(list.length>0 && channelList.length>0){
+                        /*if(list.length>0 && channelList.length>0){
                             span.on("click",function(){
                                 var answerdiv1 = $('<div class="answer"></div>');
                                 var ansico1 = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
@@ -396,11 +396,11 @@ function searchQuestion(){
                                     $('#content').append('<p class="clear"></p>');
                                 }
                             });
-                        }else{
+                        }else{*/
                             span.on("click",function(){
                                 window.open("http://www.schj.gov.cn/wzdt/");
                             });
-                        }
+                       // }
                         span.append("<br>");
                         contentdiv.append(span);
                     }
@@ -414,7 +414,7 @@ function searchQuestion(){
                         var scrollheight = $("#content")[0].scrollHeight-521;
                         $('#content').css("top",-scrollheight);
                     }
-                    if(list && list.length>8 && channelList.length==0 ){
+                   /* if(list && list.length>8 && channelList.length==0 ){
                         var others = $("<div></div>");
                         others.addClass("Gd");
                         others.append('想了解更多具体内容，点击<span style="color: blue;display: inline;cursor: pointer;">这里</span>');
@@ -422,7 +422,7 @@ function searchQuestion(){
                         $(others.find("span")).on("click",function(){
                             getChnlNameByQid(list[0].id);
                         });
-                    }
+                    }*/
                 }
             }else{
                 alert(msg.msg);
@@ -654,7 +654,7 @@ function getWords(qlist,searchval){
 function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
 
     //调用 统计记录
-   // saveRecord(lid,questionstr,answerstr,kwords);
+    saveRecord(lid,questionstr,answerstr,kwords);
     //清空
     $(".askSubmit textarea").val("");
     if(num==1){
@@ -705,9 +705,11 @@ function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
         .css("padding-bottom","10px");
     morediv.append(morul);
     var li1 =  $('<li class="t1">不满意</li>');
+    li1.attr("title",questionstr);
     li1.attr("qid",lid);
     var li2 =  $('<li class="t2">满意</li>');
     li2.attr("qid",lid);
+    li2.attr("title",questionstr);
     var li3 = $('<li class="t3">您对此答案是否满意？</li>');
     li1.on("click",function(){
         var lis = $(this).parent().find("li");
@@ -719,7 +721,7 @@ function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
             type:"post",
             url:"/eprobot/praise/savePraise",
             dataType: "json",
-            data:{pQaId:$(this).attr("qid"),pStatus:0},
+            data:{pQaId:$(this).attr("qid"),pStatus:0,pTitle:$(this).attr("title")},
             cache:false,
             success:function(data){
                 alert("感谢您对我们的支持，我们会努力改进！");
@@ -736,7 +738,7 @@ function questionAnswer(lid,questionstr,answerstr,num,kwords,qsstyle){
             type:"post",
             url:"/eprobot/praise/savePraise",
             dataType: "json",
-            data:{pQaId:$(this).attr("qid"),pStatus:1},
+            data:{pQaId:$(this).attr("qid"),pStatus:1,pTitle:$(this).attr("title")},
             cache:false,
             success:function(data){
                 alert("感谢您对我们的支持，我们会努力做到更好！");
@@ -842,7 +844,7 @@ function questionList(qlist,chnlurl,chnlName){
         span.attr("qastyle",qlist[j].qaFormat);
         span.on("click",function(){
             questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,"",$(this).attr("qastyle"));
-            saveRecord($(this).attr("lid"),$(this).attr("title"),$(this).attr("answer"),chnlName);
+            //saveRecord($(this).attr("lid"),$(this).attr("title"),$(this).attr("answer"),chnlName);
         });
         span.append("<br>");
         contentdiv.append(span);
