@@ -41,7 +41,7 @@ function getData(searchPage,order){
 	var searchTitle = $.trim($("#searchTitle").val());
 
 	var tempUrl = '/eprobot/record/getRecordList.action';
-    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&startDate="+startDate+"&endDate="+endDate+"&searchTitle"+searchTitle+"&order="+order;
+    var queryString = "pageSize="+pageSize+"&pageNumber="+searchPage+"&startDate="+startDate+"&endDate="+endDate+"&searchTitle="+searchTitle+"&order="+order;
     $.ajax({
         type:'post',
         url:tempUrl,

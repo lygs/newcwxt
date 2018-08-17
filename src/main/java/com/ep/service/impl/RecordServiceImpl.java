@@ -41,7 +41,7 @@ public class RecordServiceImpl implements RecordService {
 		          "CONVERT(varchar(2000),r.R_ANSWER) as answer,CONVERT(varchar(20),r.R_CREATETIME) as createtime,"+
 				"CONVERT(varchar(200),c.CHNLNAME) as channelName,CONVERT(varchar(200),k.K_NAME) as knowName,CONVERT(varchar(200),r.R_CRITERION) as rCriterion,CONVERT(varchar(200),r.R_USERIP) as userip " + 
 				"FROM Record AS r LEFT JOIN CHANNELS c ON c.CHANNELID = r.R_CHNNELID " + 
-				"LEFT JOIN Knowledge k ON k.ID = r.R_KNOWLEDGEID WHERE 1=1 and r.R_ANSWER like '%"+searchTitle+"%' ";
+				"LEFT JOIN Knowledge k ON k.ID = r.R_KNOWLEDGEID WHERE 1=1 and r.R_QUESTION  like '%"+searchTitle+"%' ";
 		
 		str.append(hql);
 		
