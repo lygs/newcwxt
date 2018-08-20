@@ -120,14 +120,14 @@ public class KnowledgeDao {
 	 */
 	public Integer addKnows(Object obj){ //KnowledgePointEntity
 		Session session = this.getSession();
-		Transaction transaction = session.beginTransaction();
+//		Transaction transaction = session.beginTransaction();
 		try {
 			Serializable result = session.save(obj);
-			transaction.commit();
+//			transaction.commit();
 			Integer integer = (Integer) result;
 			return integer;
 		} catch (Exception e) {
-			transaction.rollback();
+//			transaction.rollback();
 			e.printStackTrace();
 			return 0;
 		}finally {
