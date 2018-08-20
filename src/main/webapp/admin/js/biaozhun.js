@@ -171,7 +171,7 @@ function getData(){
 								}
 							}
 						}
-						var kname,know = parent.KnowAllList;
+						var kname="无",know = parent.KnowAllList;
 						for(var m=0;m<know.length;m++){
 							if(know[m].id==question.knowId){
 								kname = know[m].kname;
@@ -188,7 +188,7 @@ function getData(){
 						else
 							parent.$(".enterstutas").text("输入方式: 人工输入");
 						if(question.fileName)
-							parent.$(".filename").text("批量导入文件名: "+question.fileName);
+//							parent.$(".filename").text("批量导入文件名: "+question.fileName).css("display","none");
 						parent.$(".knowledge").text("知识点: "+kname);
 						parent.$(".createTime").text("创建时间: "+question.qaCreatetime.substring(0,10));
 						parent.$(".answer").text(question.qaAnswer);
