@@ -53,7 +53,8 @@ $(function(){
 		var chnlId = $("#parentId").val();
 		var str = $("#chnlname").val();
 		var chnlurl = $("#chnlurl").val();
-
+		parent.$(".updatek").css("display","block");
+		parent.$(".updatekval").css("display","block");
 		var chnlIdss = "";
 		parent.$("#types").val(1);
 		parent.editKnowlegeShow(chnlId,str,chnlIdss,chnlurl);
@@ -66,6 +67,8 @@ $(function(){
 			$($(parent.$(".addK")).find(".text")[0]).text("请输入类别名称");
 			parent.$("#types").val(1);
 			parent.$(".addurl").val("");
+			parent.$(".addr").css("display","block");
+			parent.$(".addrval").css("display","block");
 			parent.$(".addK").show();
 			parent.$("#parentId").val($("#parentId").val());
 		}else{
@@ -76,6 +79,8 @@ $(function(){
 		if($("#parentId").val().length>0 && $("#parentId").val()!=0) {
 			$(parent.$(".addK")).find(".title").text("添加知识点");
 			$($(parent.$(".addK")).find(".text")[0]).text("请输入知识点名称");
+			parent.$(".addr").css("display","none");
+			parent.$(".addrval").css("display","none");
 			parent.$(".addK").show();
 			parent.$("#types").val(0);
 			parent.$("#parentId").val($("#parentId").val());
@@ -439,6 +444,8 @@ function getData(searchPage,chnlId){
 					var  str = $($($(this).parent().parent()).find("td")[1]).text();
 					var ids =   $($($(this).parent().parent()).find("td")[1]).attr("id");
 					var chnlIdss = $(this).attr("chnlId");
+					parent.$(".updatek").css("display","none");
+					parent.$(".updatekval").css("display","none");
 					parent.editKnowlegeShow(ids,str,chnlIdss);
 				});
 
