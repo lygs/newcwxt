@@ -78,8 +78,8 @@ public class PraiseDao {
 	 */
 	public List selectPraise(Map map) {
 		Session session = this.getSession();
-		Query query = session.createQuery((String) map.get("hql"));
-		//Query query =  session.createSQLQuery((String) map.get("hql")).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		//Query query = session.createQuery((String) map.get("hql"));
+		Query query =  session.createSQLQuery((String) map.get("hql")).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		int pageSize = (int) map.get("pageSize");
 		int curPage = (int) map.get("pageNumber");
 		query.setFirstResult(pageSize * (curPage - 1));

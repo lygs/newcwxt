@@ -102,7 +102,7 @@ public class PraiseServiceImpl implements PraiseService {
 			Integer pageNumber = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageNumber")));
 			Integer pageSize = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pageSize")));
 			Integer pStatus = Integer.valueOf(CMyString.filterForHTMLValue(request.getParameter("pStatus")));// 0不满意 1满意
-			StringBuffer hql = new StringBuffer("from PraiseEntity where pStatus="+pStatus+" order by pDate desc");
+			StringBuffer hql = new StringBuffer("select * from Praise where P_STATUS="+pStatus+" order by P_DATE desc");
 			if (pageNumber > 0 && pageSize > 0) {
 				Map<Object, Object> map = new HashMap<>();
 				String sql = "SELECT COUNT(ID) num FROM Praise WHERE P_STATUS = " + pStatus;
@@ -110,16 +110,16 @@ public class PraiseServiceImpl implements PraiseService {
 				map.put("pageSize", pageSize);
 				map.put("pageNumber", pageNumber);
 				map.put("hql", hql.toString());
-				List<PraiseEntity> list = praisedao.selectPraise(map);
+				List<Map<String, Object>> list = praisedao.selectPraise(map);
 				JSONArray array = new JSONArray();
 				for (int i = 0; i < list.size(); i++) {
 					JSONObject jsonObjectobj = new JSONObject();
-					if (list.get(i).getpTitle() == null || list.get(i).getpTitle() == "") {
+					if (list.get(i).get("P_TITLE") == null || list.get(i).get("P_TITLE") == "") {
 						continue;
 					}
 					jsonObjectobj.put("qacount", 1);
-					jsonObjectobj.put("question", list.get(i).getpTitle());
-					jsonObjectobj.put("createtime", list.get(i).getpDate());
+					jsonObjectobj.put("question", list.get(i).get("P_TITLE"));
+					jsonObjectobj.put("createtime", list.get(i).get("P_DATE"));
 					array.add(jsonObjectobj);
 				}
 				json.put("total", total);

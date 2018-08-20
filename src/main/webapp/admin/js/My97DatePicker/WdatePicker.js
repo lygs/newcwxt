@@ -14,7 +14,7 @@ $skinList:[
  {name:"ext",charset:"gb2312"},
  {name:"twoer",charset:"gb2312"}],
 $wdate:true,
-$crossFrame:true,
+$crossFrame:false,
 $preLoad:false,
 $dpPath:"",
 doubleCalendar:false,

@@ -77,6 +77,7 @@ function searchQuestion(){
                 if(content=="于会文" || content=="省环保厅厅长"|| content=="四川省环保厅厅长"|| content=="四川省环境保掮厅厅长"){
                     chlist = getchnnellist(channels,"厅长");
                 }else{
+
                     chlist = getchnnellist(channels,content);//完全匹配栏目
                 }
                 //var chlist = getchnnellist(channels,content);//完全匹配栏目
@@ -87,7 +88,9 @@ function searchQuestion(){
                 }else{
                     channelList = getChannelsByName(channels,content,list1.words);
                 }
-
+                if(content=="厅领导" || content=="省厅领导" || content=="领导"){
+                    list1.wordList = [];
+                }
                 if(list1.wordList && list1.wordList.length==0 && channelList.length==0){
                     var askdiv = $('<div class="ask"></div>');
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
@@ -336,6 +339,11 @@ function searchQuestion(){
                             }
                         }
                     }
+                    if(content=="厅领导" || content=="省厅领导" || content=="领导"){
+
+                    }else{
+
+
                     if(kum<8){
                         kum++;
                         var span = $('<span></span>')
@@ -348,63 +356,13 @@ function searchQuestion(){
                             $(this) .css("color","blue").css("cursor","pointer")
                         });
                         span.append("【"+kum+"】其他");
-                        /*if(list.length>0 && channelList.length>0){
-                            span.on("click",function(){
-                                var answerdiv1 = $('<div class="answer"></div>');
-                                var ansico1 = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
-                                answerdiv1.append(ansico1);
-                                var anscontent1 = $('<div class="text"></div>');
-                                var kum1=0;
-                                var contentdiv1 = $('<div></div>');
-                                contentdiv1.addClass("qcontent");
-                                anscontent1.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
-                                for(var j=0;j<list.length;j++){
-                                    if(kum1>7) break;
-                                    kum1++;
-                                    var span1 = $('<span></span>')
-                                        .css("color","blue")
-                                        .css("cursor","pointer");
-                                    span1.hover(function(){
-                                        $(this).css("color","red");
-                                    },function(){
-                                        $(this).removeAttr("style");
-                                        $(this) .css("color","blue").css("cursor","pointer")
-                                    });
-                                    var qtitle1 = list[j].qaQuestion;
-                                    if(qtitle1.length>26)
-                                        qtitle1 = qtitle1.substring(0,26)+"...";
-                                    qtitle1 = qtitle1.replace(content,content.fontcolor("red"));
-                                    span1.append("【"+kum1+"】"+qtitle1);
-                                    span1.attr("title",list[j].qaQuestion);
-                                    span1.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
-                                    span1.attr("qastyle",list[j].qaFormat);
-                                    span1.on("click",function(){
-                                        questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
-                                        saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
-                                    });
-                                    span1.append("<br>");
-                                    contentdiv1.append(span1);
-                                    anscontent1.append(contentdiv1);
-                                    anscontent1.append('<div class="jt"></div>');
-                                    answerdiv1.append(anscontent1);
-                                    $('#content').append(answerdiv1).append('<div style="height: 10px;"></div>');
-                                   // answerdiv1.append('<p class="clear"></p>');
-                                    if($("#content")[0].scrollHeight>521){
-                                        var scrollheight = $("#content")[0].scrollHeight-521;
-                                        $('#content').css("top",-scrollheight);
-                                    }
-                                    $('#content').append('<p class="clear"></p>');
-                                }
-                            });
-                        }else{*/
-                            span.on("click",function(){
+                        span.on("click",function(){
                                 window.open("http://www.schj.gov.cn/wzdt/");
-                            });
-                       // }
+                        });
                         span.append("<br>");
                         contentdiv.append(span);
                     }
-
+                    }
                     anscontent.append(contentdiv);
                     anscontent.append('<div class="jt"></div>');
                     answerdiv.append(anscontent);
