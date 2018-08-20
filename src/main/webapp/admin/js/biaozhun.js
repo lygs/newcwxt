@@ -174,6 +174,7 @@ function getData(){
 						var kname="无",know = parent.KnowAllList;
 						for(var m=0;m<know.length;m++){
 							if(know[m].id==question.knowId){
+								if(know[m].kname)
 								kname = know[m].kname;
 								break;
 							}

@@ -5,10 +5,7 @@ var knowlegeid;
 var flType;//知识点分类 类型
 var rcId;
 	$(function(){
-
-
 		islogin();
-
 		$("#rcAdd").on("click",function(){
 			addRC();
 		})
@@ -16,7 +13,6 @@ var rcId;
 			rcChange();
 			
 		})
-
 
 		$(".upfile").on("click",function(){
 			var fname = $(".fileval").val();
@@ -108,9 +104,6 @@ var rcId;
 				}
 				urls = "/eprobot/chnl/addChnl.action?kurl="+kurl;
 			}
-			alert(types);
-			alert(name);
-			alert(parentId);
 			$.ajax({
 				type:"post",
 				url:urls,
