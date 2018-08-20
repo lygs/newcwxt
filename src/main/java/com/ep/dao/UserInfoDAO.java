@@ -75,14 +75,14 @@ public class UserInfoDAO {
 	}
 	public int updataOrSaveUser(Sysuser obj) {
 		Session session = this.getSession();
-		Transaction transaction = session.beginTransaction();
+//		Transaction transaction = session.beginTransaction();
 		int num = 0;
 		try {
 			session.saveOrUpdate(obj);
-			transaction.commit();
+//			transaction.commit();
 			num = 1;
 		} catch (Exception e) {
-			transaction.rollback();
+//			transaction.rollback();
 			e.printStackTrace();
 		}finally {
 			//closeSess(session);
@@ -166,14 +166,14 @@ public class UserInfoDAO {
     
     public Integer save(Channels obj) {
 		Session session = this.getSession();
-		Transaction transaction = session.beginTransaction();
+//		Transaction transaction = session.beginTransaction();
 		try {
 			Serializable result = session.save(obj);
-			transaction.commit();
+//			transaction.commit();
 			Integer integer = (Integer) result;
 			return integer;
 		} catch (Exception e) {
-			transaction.rollback();
+//			transaction.rollback();
 			e.printStackTrace();
 			return 0;
 		}finally {

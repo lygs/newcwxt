@@ -98,6 +98,7 @@ var rcId;
 			var types =$("#types").val();  //0添加知识点    1添加栏目
 			var parentId = $("#parentId").val();
 			var urls ="";
+			
 			if(types==0){
 				urls = "/eprobot/know/addKnows.action";
 			}else{
@@ -107,6 +108,9 @@ var rcId;
 				}
 				urls = "/eprobot/chnl/addChnl.action?kurl="+kurl;
 			}
+			alert(types);
+			alert(name);
+			alert(parentId);
 			$.ajax({
 				type:"post",
 				url:urls,

@@ -13,6 +13,12 @@
  	input[type=text]{
  		height: 30px;
  	}
+ 	.textArea{
+ 		overflow:auto;
+  	}
+  	textarea{
+  		overflow:auto;
+  	}
  </style>
 </head>
 
@@ -225,7 +231,7 @@
             </div>
             
             <div class="textArea radio_div">
-                <textarea id="qaAnswer" name="qaAnswer" style="font-size:12px; font-family:'Microsoft YaHei',Arial,Helvetica,sans-serif;"></textarea>
+                <textarea id="qaAnswer" name="qaAnswer" style="font-size:12px; font-family:'Microsoft YaHei',Arial,Helvetica,sans-serif;overflow:auto;"></textarea>
             </div>
             <div class="radio_div" style="display:none;margin-left:40%;margin-top:20px;">
             	<input type="file" name="file">
@@ -271,7 +277,7 @@
             <div class="text knowledge">知识点：</div>
             <div class="text">标准答案</div>
             <div class="textArea answer">
-
+				
             </div>
         </div>
         <div class="submit">
@@ -319,7 +325,7 @@
             
             </div>
             <div class="textArea file_xgwt">
-                <textarea class="edit_answer" name="qaAnswer"></textarea>
+                <textarea class="edit_answer" name="qaAnswer" style="overflow:auto;"></textarea>
             </div>
             
             <div class="file_xgwt " style="display:none;margin-left:40%;margin-top:20px;">
@@ -367,7 +373,7 @@
             
             <div class="text">标准答案</div>
             <div class="textArea">
-                <textarea class="recordanswer" name="qaAnswer"></textarea>
+                <textarea class="recordanswer" name="qaAnswer" style="overflow:auto;"></textarea>
             </div>
            
         <input type="hidden" class="recordId" name="recordId"/>
@@ -591,7 +597,7 @@
            
             </div>
             <div class="textArea radio_div_r">
-                <textarea id="r1" name="qaAnswer" ></textarea>
+                <textarea id="r1" name="qaAnswer" style="overflow:auto;"></textarea>
             </div>
             <div class="radio_div_r" style="display:none;margin-left:40%;margin-top:20px;">
             	<input type="file" name="file">
@@ -633,7 +639,7 @@
            
             </div>
             <div class="textArea xgrc">
-                <textarea id="r3" name="qaAnswer"></textarea>
+                <textarea id="r3" name="qaAnswer" style="overflow:auto;"></textarea>
             </div>
             
             <div class="xgrc" style="display:none;margin-left:40%;margin-top:20px;">
