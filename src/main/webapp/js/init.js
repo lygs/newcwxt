@@ -140,10 +140,11 @@ function searchQuestion(){
                     contentdiv.addClass("qcontent");
 
                     if(chlist.length>0){
-                        if(!list){
+                       // if(!chlist){
                             anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
-                        }
-                        for(var i=0;i<chlist.length;i++){
+                      //  }
+                        var chalist = getChannelsByChnlid(chlist[0].channelId);
+                        for(var i=0;i<chalist.length;i++){
                             if(kum>7) break;
                             kum++;
                             var span = $('<span></span>')
@@ -155,12 +156,12 @@ function searchQuestion(){
                                 $(this).removeAttr("style");
                                 $(this) .css("color","blue").css("cursor","pointer")
                             });
-                            span.attr("chnlid",chlist[i].channelId);
-                            span.attr("pid",chlist[i].parentid);
-                            span.attr("title",chlist[i].chnlname);
+                            span.attr("chnlid",chalist[i].channelId);
+                            span.attr("pid",chalist[i].parentid);
+                            span.attr("title",chalist[i].chnlname);
                             span.attr("content",content);
-                            span.attr("url",chlist[i].chnlurl);
-                            var qstr = chlist[i].chnlname;
+                            span.attr("url",chalist[i].chnlurl);
+                            var qstr = chalist[i].chnlname;
                             qstr = qstr.replace(content,content.fontcolor("red"));
                             span.append("【"+kum+"】"+qstr);
                             span.on("click",function(e){

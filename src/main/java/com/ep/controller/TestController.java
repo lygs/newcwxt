@@ -1,5 +1,9 @@
 package com.ep.controller;
 
+import java.sql.Array;
+import java.util.Arrays;
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -21,5 +25,24 @@ public class TestController {
     	//System.out.println("-------------"+list.get(0).getUserName());
         return "test";
     }*/
+	public static void main(String[] args) {
+		double money= 0.55; int num=3;
+		int fen = (int) (100*money);
+		
+		int[] a = new int[num];
+		Arrays.fill(a, 1);
+		fen -= num;
+		int i=0;
+		Random r = new Random();
+		while (fen>1) {
+			int f = r.nextInt(fen);
+			a[i++ % num] += f;
+			fen -= f ;
+		}
+		a[0] +=fen;
+		for(int m:a) {
+			System.out.println(m);
+		}
+	}
 
 }
