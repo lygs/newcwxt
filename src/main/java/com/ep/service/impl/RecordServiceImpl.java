@@ -159,8 +159,11 @@ public class RecordServiceImpl implements RecordService {
 				sql = "select count(*) from RecordEntity where 1=1 and rCreatetime >= '" + week1 +"'"
 						+ " and rCreatetime < '" + week +"'";
 				int weekCount = recordDao.getRecordEntityAllCount(sql);
-				weekCountMap.put(week, weekCount);
+				//显示时间截止到今天 查数据时间截止到明天
+				String weekk = DateUtil.getSpecifiedDayBefore(date, "yyyy-MM-dd", i-1, "-");
+				weekCountMap.put(weekk, weekCount);
 			}
+			
 			//周总数
 			String week = DateUtil.getSpecifiedDayBefore(date, "yyyy-MM-dd", 7 , "-");
 			String weekSql = "select count(*) from RecordEntity where 1=1 and rCreatetime >= '" + week +"'"
