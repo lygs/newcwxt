@@ -10,6 +10,12 @@ var order = 0;
 $(function(){
 	order = 0;
     getData(1,order);//默认第一页
+    $(".shuaxinbtn").click(function(){
+		$("#searchTitle").val("");
+		$("#startDate").val("");
+		$("#endDate").val("");
+		 getData(1,order);//默认第一页
+	});
 });
 
 function pageNavCallBack(clickPage){

@@ -2,6 +2,12 @@ var pageSize=15;
 var pageNavObj,totalPage=0;
 var currentPage=1;
 $(function(){
+	$(".shuaxinbtn").click(function(){
+		$("#searchName").val("");
+		$("#startDate").val("");
+		$("#endDate").val("");
+		getData(1);
+	});
     $(".tj").on("click",function(){
         parent.$(".addR").show();
     })

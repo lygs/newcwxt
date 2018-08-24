@@ -10,7 +10,12 @@ var selectChanne,dragobj;
 var allData=0;
 $(function(){
 	loadChannel();
-
+	
+	$(".shuaxinbtn").click(function(){
+		$("#searchName").val("");
+		getData(1,chnlId);//默认第一页
+	});
+	
 	parent.$(".guanbi6").click(function(){
 		parent.$(".knowjg").hide();
 
@@ -64,7 +69,7 @@ $(function(){
 	$(".addChnl").on("click",function(){
 		if($("#parentId").val().length>0) {
 			$(parent.$(".addK")).find(".title").text("添加分类");
-			$($(parent.$(".addK")).find(".text")[0]).text("请输入类别名称");
+			$($(parent.$(".addK")).find(".text")[0]).html("<span class='allx'>*</span>请输入类别名称");
 			parent.$("#types").val(1);
 			parent.$(".addurl").val("");
 			parent.$(".addr").css("display","block");
@@ -78,7 +83,7 @@ $(function(){
 	$(".tj").on("click",function(){
 		if($("#parentId").val().length>0 && $("#parentId").val()!=0) {
 			$(parent.$(".addK")).find(".title").text("添加知识点");
-			$($(parent.$(".addK")).find(".text")[0]).text("请输入知识点名称");
+			$($(parent.$(".addK")).find(".text")[0]).html("<span class='allx'>*</span>请输入知识点名称");
 			parent.$(".addr").css("display","none");
 			parent.$(".addrval").css("display","none");
 			parent.$(".addK").show();

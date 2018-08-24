@@ -102,6 +102,11 @@ var rcId;
 					alert("请输入分类访问地址！！");
 					return;
 				}
+				var reg=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+				if(!reg.test(kurl)){
+					alert("不是正确的访问地址，请重新输入!");
+				    return;            
+				}
 				urls = "/eprobot/chnl/addChnl.action?kurl="+kurl;
 			}
 			$.ajax({
@@ -424,8 +429,12 @@ var rcId;
 				urls ="/eprobot/know/updateKnows.action";
 			}else{
 				chnlurl = $.trim($(".updateurl").val());
+				var reg=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
+				if(!reg.test(chnlurl)){
+					alert("不是正确的访问地址，请重新输入!");
+				    return;            
+				}
 				urls ="/eprobot/chnl/updateChnl.action?chnlurl="+chnlurl;
-				console.log(urls);
 			}
 		
 			$.ajax({

@@ -12,6 +12,16 @@ var totalPage;
  */
 $(function(){
 	 getData("",10,1);
+	 
+	 $(".shuaxinbtn").click(function(){
+		 $("#searchName").val("");
+		 getData("",10,1);
+	});
+	 
+	 $(".btn").click(function(){
+		 var searchName =$.trim($("#searchName").val());
+		 getData(searchName,10,1);
+	});
 })
 
 /**
