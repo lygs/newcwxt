@@ -7,6 +7,7 @@ var totalPage;
 var chnlIds="";
 var endTimes="";
 $(function(){
+	
 	parent.getKnowledge(-10);
     getData();
 	$("#changj").on("click",function(){
@@ -33,6 +34,12 @@ $(function(){
 		
 	$(".pl").on("click",function(){
 		parent.$(".piLiang").show();
+	});
+	$(".shuaxinbtn").click(function(){
+	    $("#searchName").val("");
+	    $(".startTime").val("");
+	    $(".endTime").val("");
+		getData();
 	});
 });
 
