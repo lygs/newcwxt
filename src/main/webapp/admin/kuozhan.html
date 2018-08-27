@@ -12,6 +12,13 @@
     <script type="text/javascript" src="js/echarts.common.min.js"></script>
     <script src="js/pageNav.js"></script>
     <script src="js/kuozhan.js"></script>
+    <style>
+        .allx{
+            color:red;
+            font-size:12px;
+            margin-right:3px;
+        }
+    </style>
 </head>
 <body>
 <div class="place">当前位置：<b>同义词管理</b></div>
@@ -120,7 +127,7 @@
     <div class="modelAskMain" style="height: 310px;">
         <div class="title">添加词语 <div class="close closeX"><a href="javascript:void(0);" onclick="">×</a></div></div>
         <div class="content"  style="height: 220px;overflow-y: hidden;">
-            <div class="text">词语内容 </div>
+            <div class="text"><span class="allx">*</span>词语内容 </div>
             <div class="textArea" id="r1" >
                 <textarea></textarea>
             </div>
@@ -149,7 +156,7 @@
     <div class="modelAskMain" style="height: 310px;">
         <div class="title">修改词语 <div class="close closeX"><a href="" >×</a></div></div>
         <div class="content"  style="height: 220px;overflow-y: hidden;">
-            <div class="text">词语内容 </div>
+            <div class="text"><span class="allx">*</span>词语内容 </div>
             <div class="textArea" class="textArea" >
                 <textarea></textarea>
                 <input type="hidden" class="editId">

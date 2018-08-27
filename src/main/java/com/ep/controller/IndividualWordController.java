@@ -143,7 +143,6 @@ public class IndividualWordController {
 		
 		//成功上传
 		if(flg) {
-			
 			if(obj != null) {
 				if(!CMyString.isEmpty(obj.getQaQuestion()) && !CMyString.isEmpty(obj.getQaAnswer())){
 					if(user != null) {

@@ -1032,7 +1032,7 @@ function addRC(){
     		contentType : false,
 			cache: false,
 			success: function (data) {
-				console.log(JSON.stringify(data))
+				//console.log(JSON.stringify(data))
 				if(data.status==1){
 					alert(data.msg);
 					$(".addR").hide();
@@ -1075,11 +1075,8 @@ function rcChange(){
 	
 	
 		var tempUrl = '/eprobot/individualWord/updataOrSave';
-		//var queryString = {"qaQuestion":title,"qaAnswer":content,"id":rcId};
-		var form = $("#xgRC");
-		form.append("<input  type='hidden' name='id' value='"+rcId+"'>");
-		//formData.append("file",$("#rcFile")[0].files[0]);
-		var formData = new FormData(form[0]);
+		//var form = $("#xgRC");
+		var formData = new FormData($("#xgRC")[0]);
 		$.ajax({
 			type: 'post',
 			url: tempUrl,
@@ -1089,7 +1086,7 @@ function rcChange(){
     		contentType : false,
 			cache: false,
 			success: function (data) {
-				console.log(JSON.stringify(data))
+				//console.log(JSON.stringify(data))
 				if(data.status==1){
 					alert(data.msg);
 					$(".editRC").hide();

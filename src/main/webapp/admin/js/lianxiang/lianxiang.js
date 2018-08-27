@@ -76,7 +76,7 @@ function getData(pageNumber){
         					var ids =   $(this).attr("rcId");
         					parent.$(".editRC .cRc").val(str1);
         					parent.$(".editRC #r3").val(str2);
-        					parent.rcId=ids;
+                            parent.$(".rcid").val(ids);
                         })
                         var spanedel = $("<span style='margin-right: 5px;'></span>").css("cursor","pointer");
                         spanedel.append("删除");
