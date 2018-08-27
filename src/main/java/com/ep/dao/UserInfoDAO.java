@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -184,7 +185,7 @@ public class UserInfoDAO {
 	public List<Sysuser> getUserAllList(String hql,
 			String pageSize, String pageNum) {
 			Session sess = this.getSession();
-			Query query =sess.createQuery(hql);
+			Query query =sess.createSQLQuery(hql).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 			query.setMaxResults(Integer.parseInt(pageSize));
 			query.setFirstResult((Integer.parseInt(pageNum)-1)*Integer.parseInt(pageSize));
 			 List list = query.list();

@@ -146,6 +146,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 		JSONObject obj = new JSONObject();
 		Sysuser user = (Sysuser) userInfoDAO.getObjectById(Sysuser.class,Integer.parseInt(ids));
 		if(user!=null){
+			user.setPassword("");
 			obj.put("results", "success");
 			obj.put("user", user);
 		}else{
@@ -158,13 +159,13 @@ public class UserInfoServiceImpl implements UserInfoService{
 	    * 查询所有的知识点
 	    */
 	    public String getUserAllList(String name,String pageSize,String pageNum,HttpServletRequest requests) {
-	        StringBuffer hql = new StringBuffer("from Sysuser where 1=1");
+	        StringBuffer hql = new StringBuffer("select USERID userId,USERNAME userName,EMAIL email,CREATETIME createTime,ROLEID roleId  from SYSUSER where 1=1");
 	        StringBuffer hql_ = new StringBuffer("select count(*) from Sysuser where 1=1");
 	        if(StringUtils.isNotBlank(name)){
-	        	hql.append(" and userName like '%"+name+"%'");
+	        	hql.append(" and USERNAME like '%"+name+"%'");
 	        	hql_.append(" and userName like '%"+name+"%'");
 	        }
-	        hql.append(" order by createTime desc");
+	        hql.append(" order by CREATETIME desc");
 	        List<Sysuser> list=userInfoDAO.getUserAllList(hql.toString(),pageSize,pageNum);
 	        int counts = userInfoDAO.getCount(hql_.toString());
 	        JSONObject obj=new JSONObject();

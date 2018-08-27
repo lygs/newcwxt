@@ -125,8 +125,15 @@ public class UserController {
 			String email = CMyString.filterForHTMLValue(request.getParameter("email"));
 			String str = "";
 			JSONObject obj = new JSONObject();
+			
 			if(!CMyString.isEmpty(name) &&!CMyString.isEmpty(pwd)&&!CMyString.isEmpty(roleId)) {
-				str = userInfoService.addUser(name,pwd,email,roleId);
+				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
+	    		if(user.getRoleId()==0) {
+	    			str = userInfoService.addUser(name,pwd,email,roleId);
+	    		}else {
+	    			//无权限
+	    			
+	    		}
 			}else{
 				obj.put("results", "null");
 				str = obj.toString();
@@ -179,7 +186,12 @@ public class UserController {
 			}
 			String str = "";
 			if(StringUtils.isNotBlank(ids)&&StringUtils.isNotBlank(oldPwd)&&StringUtils.isNotBlank(newPwd)){
-				str = userInfoService.updatePwd(ids,oldPwd,newPwd);
+				Sysuser user = (Sysuser) request.getSession().getAttribute("user");
+	    		if(user.getRoleId()==0) {
+	    			str = userInfoService.updatePwd(ids,oldPwd,newPwd);
+	    		}else {
+	    			//无权限
+	    		}
 			}else{
 				JSONObject objs = new JSONObject();
 				objs.put("results", "ERROR"); 
@@ -263,7 +275,14 @@ public class UserController {
 	        String str = "";
 	        
 	        if(result&&StringUtils.isNotBlank(pageSize)&&StringUtils.isNotBlank(pageNum)&&result1){
-	        	str=userInfoService.getUserAllList(name,pageSize,pageNum,request);
+	        	
+	        	Sysuser user = (Sysuser) request.getSession().getAttribute("user");
+	    		if(user.getRoleId()==0) {
+	    			str=userInfoService.getUserAllList(name,pageSize,pageNum,request);
+	    		}else {
+	    			//无权限
+	    		}
+	        	
 	        	response.getWriter().println(str);
 	        }else{
 	        	JSONObject obj = new JSONObject();
