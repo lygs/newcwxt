@@ -488,7 +488,7 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 	}
 	
 	public String getChnlNameByQid(String id) {
-		System.out.println(id);
+		//System.out.println(id);
 		String sql = "SELECT * FROM CHANNELS WHERE CHANNELID=(SELECT k_epcid FROM Knowledge WHERE id=(SELECT qa_knowledge FROM QuestionAnswer WHERE id="+id+"))";
 		List<Map<String, Object>> list = questionAnswerDao.getChnlBid(sql);
 		JSONObject obj = new JSONObject();

@@ -56,7 +56,7 @@ public class DBUtil2 {
 		for(int i=0;i<list.size();i++ ) {
 			cList = getData(list,list.get(i).getParentid(),list.get(i).getChannelid(),list.get(i).getChnlurl());
 		}
-		System.out.println(cList.size());
+		//System.out.println(cList.size());
 		JSONArray array =new JSONArray();
 		for(int i=0;i<cList.size();i++ ) {
 			JSONObject object = new JSONObject();
@@ -66,7 +66,7 @@ public class DBUtil2 {
 			object.put("chnlUrl", cList.get(i).getChnlurl());
 			array.add(object);
 		}
-		System.out.println(array.toString());
+		//System.out.println(array.toString());
 	}
 	
 	public static List<Channels> getData(List<Channels> list,int parentid,int channelid,String urls) {

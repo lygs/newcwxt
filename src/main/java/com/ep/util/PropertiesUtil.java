@@ -302,7 +302,7 @@ public class PropertiesUtil {
 	    	 String timess ="2018-05-09 00:00:00";//當前時間的value
 	    	 String keys = "currentTime"; //當前時間的key 
 	         Map maps =getProperties_4("/fileUrl.properties",keys,timess);
-	         System.out.println(maps.get("key"));
-	         System.out.println(maps.get("value"));
+	        // System.out.println(maps.get("key"));
+	         //System.out.println(maps.get("value"));
 	     }
 }

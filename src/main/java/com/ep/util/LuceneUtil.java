@@ -352,7 +352,7 @@ public class LuceneUtil {
 	public static void main(String[] args) throws Exception {
 		String words = "办工室";
 		String string = search(words,5);
-		System.out.println("------------" + string);
+		//System.out.println("------------" + string);
 		
 		// LuceneUtil.search("中华人民共和国", new String[] {"qaKeywords","qaQuestion"});
 		/*Analyzer analyzer = new JcsegAnalyzer5X(JcsegTaskConfig.COMPLEX_MODE);

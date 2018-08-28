@@ -74,8 +74,9 @@ function searchQuestion(){
                 $(".other").empty();
                 content = msg.data.searchContent;
                 var list1=msg.data,channelList=[],chlist=[];
-                if(content=="于会文" || content=="省环保厅厅长"|| content=="四川省环保厅厅长"|| content=="四川省环境保护厅厅长"){
-                    chlist = getchnnellist(channels,"厅长");
+                var tcontent;
+                if(content=="于会文" ||content=="厅长" ||content=="于厅长"|| content=="省环保厅厅长"|| content=="四川省环保厅厅长"|| content=="四川省环境保护厅厅长"){
+                    chlist = getchnnellist(channels,"厅长");tcontent="厅长";
                 }else{
                     //    chlist = getchnnellist(channels,content);//完全匹配栏目
                     if(content=="环境质量" ){
@@ -95,7 +96,7 @@ function searchQuestion(){
                 if(content=="厅领导" || content=="省厅领导" || content=="领导"){
                     list1.wordList = [];
                 }
-                if(list1.wordList && list1.wordList.length==0 && channelList.length==0){
+                if((list1.wordList && list1.wordList.length==0 && channelList.length==0)||(!list1.wordList&&channelList.length==0)){
                     var askdiv = $('<div class="ask"></div>');
                     var askico = $('<div class="ico"><img src="images/jqr_ico_02.png" width="46" height="60" alt=""></div>');
                     askdiv.append(askico);
@@ -147,7 +148,9 @@ function searchQuestion(){
                         // if(!chlist){
                         anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                         //  }
+
                         var chalist = getChannelsByChnlid(chlist[0].channelId);
+                        if(chalist.length==0) chalist = chlist;
                         for(var i=0;i<chalist.length;i++){
                             if(kum>7) break;
                             kum++;
@@ -186,7 +189,7 @@ function searchQuestion(){
                             span.append("<br>");
                             contentdiv.append(span);
                         }
-                        if(kum<8 && list && list.length>0){
+                       /* if(kum<8 && list && list.length>0 && tcontent!="厅长" ){
                             for(var j=0;j<list.length;j++){
                                 if(kum>7) break;
                                 kum++;
@@ -214,7 +217,7 @@ function searchQuestion(){
                                 span.append("<br>");
                                 contentdiv.append(span);
                             }
-                        }
+                        }*/
                     }else if(qwords){
                         kum++;
                         var span = $('<span></span>')

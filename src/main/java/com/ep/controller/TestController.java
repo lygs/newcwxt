@@ -40,9 +40,9 @@ public class TestController {
 			fen -= f ;
 		}
 		a[0] +=fen;
-		for(int m:a) {
+		/*for(int m:a) {
 			System.out.println(m);
-		}
+		}*/
 	}
 
 }
