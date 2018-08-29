@@ -568,6 +568,9 @@ function saveUser(){
 		success:function(data){
 			if(data.results=="success"){
 				alert("添加成功！！！");
+				$(".userForm").find('input[type=text],select,input[type=hidden],input[type=password]').each(function(){
+					$(this).val('');
+				});
 				$(".addU").hide();
 				$("iframe")[0].contentWindow.getData(1);
 			}else{
