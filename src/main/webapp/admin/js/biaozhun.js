@@ -9,6 +9,10 @@ var endTimes="";
 $(function(){
 	
 	parent.getKnowledge(-10);
+	$(".lmjgqx").click(function(){
+		chnlIds="";
+		getData();
+	});
     getData();
 	$("#changj").on("click",function(){
 		iscj = 1;
