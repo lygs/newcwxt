@@ -547,17 +547,41 @@ function editKnowlegeShow(id,title,chnlId,chnlurl){
 }
 
 function saveUser(){
-	var name=$("#name").val();
-	var pwd=$("#pwd").val();
-	var twoPwd=$("#twoPwd").val();
-	var email=$("#email").val();
-	var roleId=$("#roleId").val();
-	if(name==null || name == ""){
+	var name=trims($("#name").val());
+	var pwd=trims($("#pwd").val());
+	var twoPwd=trims($("#twoPwd").val());
+	var email=trims($("#email").val());
+	var roleId=trims($("#roleId").val());
+	if(isNull(name)){
 		alert("请输入名称！！");
+		$("#name").focus();
+		return;
+	}
+	if(isNull(pwd)){
+		alert("密码不能为空！");
+		$("#pwd").focus();
+		return;
+	}
+	if(isNull(twoPwd)){
+		alert("再次密码不能为空！");
+		$("#twoPwd").focus();
 		return;
 	}
 	if(pwd!=twoPwd){
 		alert("两次密码不一致！");
+		return;
+	}
+	if(isNull(email)){
+		alert("邮箱不能为空");
+		$("#email").focus();
+		return;
+	}
+	if(!/^\w+@\w+(\.\w+)+$/.test(email)){
+		alert("邮箱格式不正确！");
+		return;
+	}
+	if(roleId==-1){
+		alert("请选择角色！");
 		return;
 	}
 	$.ajax({
@@ -568,9 +592,10 @@ function saveUser(){
 		success:function(data){
 			if(data.results=="success"){
 				alert("添加成功！！！");
-				$(".userForm").find('input[type=text],select,input[type=hidden],input[type=password]').each(function(){
+				$(".userForm").find('input').each(function(){
 					$(this).val('');
 				});
+				$(".userForm").find('select').val("-1");
 				$(".addU").hide();
 				$("iframe")[0].contentWindow.getData(1);
 			}else{
@@ -582,6 +607,20 @@ function saveUser(){
 	});
 };
 
+//非空判断
+function isNull(params){
+	if(params.length==0 || params==null || params==""){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+//去掉两边的空格
+function trims(param){
+	param = param.replace(/^\s*$/,"");
+	return param;
+}
 
 //第一級欄目
 function firstChnles(chList){
