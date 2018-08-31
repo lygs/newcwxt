@@ -19,7 +19,7 @@ public class HighFrequencyWordsEntity {
 	private Integer id; 	//id
 	private String words;   //词
 	private Integer num;    //访问量
-	
+	private String createTime;//创建时间
 	
 	@Id
 	@Column(name = "H_ID")
@@ -49,6 +49,14 @@ public class HighFrequencyWordsEntity {
 	@Override
 	public String toString() {
 		return "HighFrequencyWordsEntity [id=" + id + ", words=" + words + ", num=" + num + "]";
+	}
+	
+	@Column(name = "CREATETIME")
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	
 	

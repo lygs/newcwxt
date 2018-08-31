@@ -61,11 +61,13 @@ public class HighFrequencyWordsController {
 			 String pageNum =CMyString.filterForHTMLValue( request.getParameter("pageNumber"));
 		        String pageSize =CMyString.filterForHTMLValue( request.getParameter("pageSize"));
 		        String name = CMyString.filterForHTMLValue(request.getParameter("searchName"));
+		        String startDate = CMyString.filterForHTMLValue(request.getParameter("startDate"));
+		        String endDate = CMyString.filterForHTMLValue(request.getParameter("endDate"));
 		        boolean result = pageSize.matches("[0-9]+");
 		        boolean result1 = pageNum.matches("[0-9]+");
 		        String str = "";
 		        if(result&&StringUtils.isNotBlank(pageSize)&&StringUtils.isNotBlank(pageNum)&&result1){
-		        	str=hfwService.getGpcAllList(name,pageSize,pageNum);
+		        	str=hfwService.getGpcAllList(name,pageSize,pageNum,startDate,endDate);
 		        	response.getWriter().println(str);
 		        }else{
 		        	JSONObject obj = new JSONObject();

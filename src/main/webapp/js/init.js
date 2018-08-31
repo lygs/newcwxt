@@ -108,7 +108,10 @@ function searchQuestion(){
                     var ansico = $('<div class="ico"><img src="images/jqr_ico_01.png" width="84" height="71" alt=""></div>');
                     answerdiv.append(ansico);
                     var anscontent = $('<div class="text"></div>');
-                    anscontent.append("亲，没能为您找到答案，您的问题已经记录，我们将为您提供其他咨询方式：<br>1、在线人工咨询，<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>请点击查看</a>；<br>2、通过电话方式，联系电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)。");
+//                    anscontent.append("亲，没能为您找到答案，您的问题已经记录，我们将为您提供其他咨询方式：<br>1、在线人工咨询，<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>请点击查看</a>；<br>2、通过电话方式，联系电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)。");
+                    anscontent.append("亲，没能为您找到答案，您的问题已经记录，我们将为您提供其他咨询方式：<br>1、在线人工咨询，<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>请点击查看</a>；<br>2、电话方式， 环保投诉热线：12369；办公室电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)；传真：028—80589008(昼)、80589101(夜/节假日)。");
+                   
+                    
                     // anscontent.append("亲，没能为您找到答案，您的问题已经记录，您还可以联系办公室电话：028—80589003；值班电话：028—80589003(昼)、80589100 (夜/节假日)；<a href='http://www.schj.gov.cn/zmhd/zxzx/' target='_blank' style='color:blue;text-decoration:underline'>在线咨询</a>");
                     anscontent.append('<div class="jt"></div>');
                     answerdiv.append(anscontent).append('<p class="clear"></p>');

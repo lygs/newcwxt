@@ -3,8 +3,25 @@ var totalPage;
 var pageNavObj;
 var pageSizes=15;//每页数量
 var prePageNum=10;
+var startDate="";
+var endDate="";
 $(function(){
-	getGpcData(1);
+	getGpcData(1,startDate,endDate);
+	$("#search").click(function() {
+		startDate = $("#startDate").val();
+		endDate = $("#endDate").val();
+		getGpcData(1,startDate, endDate);
+	});
+
+	$("#export").click(function() {
+		var options = {
+			fileName : '高频词列表'
+		};
+		$.extend(true, options, {
+			type : 'excel'
+		});
+		$("#tab").tableExport(options);
+	});
 });
 
 function pageNavCallBack(clickPage){
@@ -15,10 +32,10 @@ function pageNavCallBack(clickPage){
     });
     pageNavObj.afterClick(pageNavCallBack);
     searchPage = clickPage;
-    getGpcData(searchPage);
+    getGpcData(searchPage,startDate,endDate);
 }
-function getGpcData(pageNumber){
-	 var queryString = "pageSize="+pageSizes+"&pageNumber="+pageNumber+"&searchName="+queryName+"";
+function getGpcData(pageNumber,startDate,endDate){
+	 var queryString = "pageSize="+pageSizes+"&pageNumber="+pageNumber+"&searchName="+queryName+"&startDate="+startDate+"&endDate="+endDate+"";
 	 $.ajax({
  	    type:"post",
  	    url : "/eprobot/hfw/getAllHighFre",

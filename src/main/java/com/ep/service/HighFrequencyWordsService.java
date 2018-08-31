@@ -17,6 +17,6 @@ public interface HighFrequencyWordsService {
 	
 	public  List<HighFrequencyWordsEntity> getTopEleven() ;
 
-	public String getGpcAllList(String name, String pageSize, String pageNum);
+	public String getGpcAllList(String name, String pageSize, String pageNum,String startDate,String endDate);
 	
 }

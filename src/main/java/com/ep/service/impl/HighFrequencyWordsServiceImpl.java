@@ -1,6 +1,7 @@
 package com.ep.service.impl;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.ep.dao.HighFrequencyWordsDao;
 import com.ep.entity.HighFrequencyWordsEntity;
 import com.ep.entity.Sysuser;
 import com.ep.service.HighFrequencyWordsService;
+import com.ep.util.DateUtil;
 
 import net.sf.json.JSONObject;
 
@@ -42,7 +44,8 @@ public class HighFrequencyWordsServiceImpl implements HighFrequencyWordsService 
 			 HighFrequencyWordsEntity obj1 = new HighFrequencyWordsEntity();
 			 obj1.setNum(1);
 			 obj1.setWords(words);
-			 
+			 String times = DateUtil.paseDate(new Date(), "yyyy-MM-dd");
+			 obj1.setCreateTime(times);
 			 int resutl = hfwsDao.updataOrSaveHFW(obj1);
 			 return resutl;
 		 }
@@ -59,12 +62,20 @@ public class HighFrequencyWordsServiceImpl implements HighFrequencyWordsService 
 	}
 
 	@Override
-	public String getGpcAllList(String name, String pageSize, String pageNum) {
+	public String getGpcAllList(String name, String pageSize, String pageNum,String startDate,String endDate) {
 		  StringBuffer hql = new StringBuffer("from HighFrequencyWordsEntity where 1=1");
 	        StringBuffer hql_ = new StringBuffer("select count(*) from HighFrequencyWordsEntity where 1=1");
 	        if(StringUtils.isNotBlank(name)){
 	        	hql.append(" and words like '%"+name+"%'");
 	        	hql_.append(" and words like '%"+name+"%'");
+	        }
+	        if(StringUtils.isNotBlank(startDate)){
+	        	hql.append(" and createTime >= '"+startDate+"'");
+	        	hql_.append(" and createTime >= '"+startDate+"'");
+	        }
+	        if(StringUtils.isNotBlank(endDate)){
+	        	hql.append(" and createTime <= '"+endDate+"'");
+	        	hql_.append(" and createTime <= '"+endDate+"'");
 	        }
 	        hql.append(" order by num desc");
 	        List<Sysuser> list=hfwsDao.getGpcAllList(hql.toString(),pageSize,pageNum);
