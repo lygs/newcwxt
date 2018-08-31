@@ -267,6 +267,10 @@ var rcId;
 			//关闭或x
 			$(".guanbi2").click(function(){
 				$(".editU").hide();
+				$(".userForm").find('input').each(function(){
+					$(this).val('');
+				});
+				$(".userForm").find('select').val("-1");
 				$(".addU").hide();
 			});
 			//关闭或x
@@ -598,6 +602,13 @@ function saveUser(){
 				$(".userForm").find('select').val("-1");
 				$(".addU").hide();
 				$("iframe")[0].contentWindow.getData(1);
+			}else if(data.results=='has'){
+				alert("用户已存在！");
+				$(".userForm").find('input').each(function(){
+					$(this).val('');
+				});
+				$(".userForm").find('select').val("-1");
+				$("#name").focus();
 			}else{
 				alert("添加失败！！！");
 			}
