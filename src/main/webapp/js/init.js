@@ -75,24 +75,35 @@ function searchQuestion(){
                 content = msg.data.searchContent;
                 var list1=msg.data,channelList=[],chlist=[];
                 var tcontent;
+                
+                if(content=="人事") content="招聘";
+                if(content=="环评") content="环境影响评价";
                 if(content=="于会文" ||content=="厅长" ||content=="于厅长"|| content=="省环保厅厅长"|| content=="四川省环保厅厅长"|| content=="四川省环境保护厅厅长"){
                     chlist = getchnnellist(channels,"厅长");tcontent="厅长";
                 }else{
-                    //    chlist = getchnnellist(channels,content);//完全匹配栏目
                     if(content=="环境质量" ){
                         chlist = getchnnellist(channels,"环境监测与调查");
                     }else{
-                        chlist = getchnnellist(channels,content);//完全匹配栏目
+                    	if(content=="监测数据") {
+                        	var chlist = getchnnellist(channels,"大气环境质量");
+                        }else{
+                        	chlist = getchnnellist(channels,content);//完全匹配栏目
+                        }
+                        
                     }
+                    
                 }
                 //var chlist = getchnnellist(channels,content);//完全匹配栏目
                 //栏目完全匹配
-                if(chlist>0){
-                    //channels = channelList
-                    channelList = getChannelsByName(chlist,content,list1.words);
-                }else{
-                    channelList = getChannelsByName(channels,content,list1.words);
+                if(content!="招聘"){
+                	if(chlist>0){
+                        //channels = channelList
+                        channelList = getChannelsByName(chlist,content,list1.words);
+                    }else{
+                        channelList = getChannelsByName(channels,content,list1.words);
+                    }
                 }
+                
                 if(content=="厅领导" || content=="省厅领导" || content=="领导"){
                     list1.wordList = [];
                 }
@@ -151,8 +162,19 @@ function searchQuestion(){
                         // if(!chlist){
                         anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                         //  }
-
-                        var chalist = getChannelsByChnlid(chlist[0].channelId);
+                      //大气环境质量、水环境质量、综合数据
+                        var chalist=[];
+                        if(content=="监测数据"){
+                        	chalist=[{channelId:"363",chnlname:"公众服务平台-数据专题",chnlurl:"http://182.148.109.15:82/PublishService/nav/naviGation.vm",parentid:0}];
+                        	var chalist1 = getChannelsByChnlid(327);
+                        	chalist = chalist.concat(chalist1);
+                        	var chalist2 = getChannelsByChnlid(315);
+                        	chalist = chalist.concat(chalist2);
+                        	var chalist3 = getChannelsByChnlid(278);
+                        	chalist = chalist.concat(chalist3);
+                        }else{
+                        	chalist = getChannelsByChnlid(chlist[0].channelId);
+                        }
                         if(chalist.length==0) chalist = chlist;
                         for(var i=0;i<chalist.length;i++){
                             if(kum>7) break;
