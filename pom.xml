@@ -184,11 +184,11 @@
       <version>${c3p0Version}</version>
     </dependency> 
     
-    <dependency>
+    <!-- <dependency>
     <groupId>com.oracle</groupId>
     <artifactId>ojdbc6</artifactId>
     <version>11.2.0.3</version>
-    </dependency>
+    </dependency> -->
         
 
     <!-- json数据 使springMVC可以返回json值 ,视情况添加-->

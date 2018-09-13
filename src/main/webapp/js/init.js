@@ -89,9 +89,7 @@ function searchQuestion(){
                         }else{
                         	chlist = getchnnellist(channels,content);//完全匹配栏目
                         }
-                        
                     }
-                    
                 }
                 //var chlist = getchnnellist(channels,content);//完全匹配栏目
                 //栏目完全匹配
@@ -158,7 +156,7 @@ function searchQuestion(){
                     var contentdiv = $('<div></div>');
                     contentdiv.addClass("qcontent");
 
-                    if(chlist.length>0){
+                    if(chlist.length>0 && content!="办公室"){
                         // if(!chlist){
                         anscontent.append('<span style="font-weight: normal;">根据您的提问，为您筛选出以下情况，您可以点击查看：<br></span>');
                         //  }
@@ -210,40 +208,11 @@ function searchQuestion(){
                                     getQAByCid(thisid,chnlurl,thischnlname);
                                 }
                             });
-
                             span.append("<br>");
                             contentdiv.append(span);
                         }
-                       /* if(kum<8 && list && list.length>0 && tcontent!="厅长" ){
-                            for(var j=0;j<list.length;j++){
-                                if(kum>7) break;
-                                kum++;
-                                var span = $('<span></span>')
-                                    .css("color","blue")
-                                    .css("cursor","pointer");
-                                span.hover(function(){
-                                    $(this).css("color","red");
-                                },function(){
-                                    $(this).removeAttr("style");
-                                    $(this) .css("color","blue").css("cursor","pointer")
-                                });
-                                var qtitle = list[j].qaQuestion;
-                                if(qtitle.length>26)
-                                    qtitle = qtitle.substring(0,26)+"...";
-                                qtitle = qtitle.replace(content,content.fontcolor("red"));
-                                span.append("【"+kum+"】"+qtitle);
-                                span.attr("title",list[j].qaQuestion);
-                                span.attr("lid","q"+list[j].id).attr("answer",list[j].qaAnswer);
-                                span.attr("qastyle",list[j].qaFormat);
-                                span.on("click",function(){
-                                    questionAnswer($(this).attr("lid"), $(this).attr("title"), $(this).attr("answer"),0,inputVal, $(this).attr("qastyle"));
-                                    // saveRecord($(this).attr("lid").substring(1),$(this).attr("title"),$(this).attr("href"),inputVal);
-                                });
-                                span.append("<br>");
-                                contentdiv.append(span);
-                            }
-                        }*/
                     }else if(qwords){
+                        console.log(".....")
                         kum++;
                         var span = $('<span></span>')
                             .css("color","blue")
@@ -275,7 +244,7 @@ function searchQuestion(){
                             }
                             for(var i=0;i<channelList.length;i++){
                                 if(kum>7) break;
-                                kum++;
+
                                 var span = $('<span></span>')
                                     .css("color","blue")
                                     .css("cursor","pointer");
@@ -291,6 +260,9 @@ function searchQuestion(){
                                 span.attr("content",content);
                                 span.attr("url",channelList[i].chnlurl);
                                 var qstr = channelList[i].chnlname;
+                                if(content=="办公室"){
+                                    if(qstr!="办公室公告" &&qstr!="办公室" ) continue;
+                                }
                                 qstr = qstr.replace(content,content.fontcolor("red"));
                                 span.append("【"+kum+"】"+qstr);
                                 span.on("click",function(e){
@@ -309,6 +281,7 @@ function searchQuestion(){
                                 });
                                 span.append("<br>");
                                 contentdiv.append(span);
+                                kum++;
                             }
                             if(kum<8 && list && list.length>0){
                                 for(var j=0;j<list.length;j++){
@@ -375,7 +348,6 @@ function searchQuestion(){
                     if(content=="厅领导" || content=="省厅领导" || content=="领导"){
 
                     }else{
-
 
                         if(kum<8){
                             kum++;
