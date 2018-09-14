@@ -61,17 +61,20 @@ public class RecordController {
 			String rAnswer = CMyString.filterForHTMLValue(request.getParameter("rAnswer"));// 答
 			String ips = CMyString.filterForHTMLValue(request.getParameter("ips"));// ip
 			String keyword = CMyString.filterForHTMLValue(request.getParameter("keyword"));//关键词
-
 			String rQuestionId = CMyString.filterForHTMLValue(request.getParameter("rQuestionId"));// 问题id
 			
-			if (StringUtils.isNotBlank(rQuestion) &&StringUtils.isNotBlank(rAnswer)){
+			if (StringUtils.isNotBlank(rQuestion) && StringUtils.isNotBlank(rAnswer)){
+				boolean flag = false;
 				if(StringUtils.isNotBlank(rQuestionId)) {
 					String s = rQuestionId.substring(0, 1);
-					if(s.equals("c")) {
-						rEntity.setrChnnelid(rQuestionId.substring(1));
-					}
-					if(s.equals("q")) {
-						rEntity.setrQuestionId(rQuestionId.substring(1));
+					String qid = rQuestionId.substring(1);
+					if(qid.matches("[0-9]+")) {
+						flag = true;
+						if(s.equals("c")) {
+							rEntity.setrChnnelid(qid);
+						}else if(s.equals("q")) {
+							rEntity.setrQuestionId(qid);
+						}
 					}
 				}
 				
@@ -81,12 +84,16 @@ public class RecordController {
 				rEntity.setrCreatetime(date);
 				rEntity.setUserIp(ips); //网友IP
 				rEntity.setKeyword(keyword);
-				int resutl = recordService.saveRecord(rEntity);
-				if(resutl > 0) {
-					json.put("result", "success");
+				if(flag) {
+					int resutl = recordService.saveRecord(rEntity);
+					if(resutl > 0) {
+						json.put("result", "success");
+					}else {
+						json.put("result", "error");
+						System.out.println("保存记录失败！");
+					}
 				}else {
 					json.put("result", "error");
-					System.out.println("保存记录失败！");
 				}
 			} else {
 				json.put("result", "error");
