@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ep.entity.QuestionAnswerEntity;
@@ -51,7 +52,7 @@ public class RecordController {
 	 * 插入聊天记录
 	 */
 	@ResponseBody
-	@RequestMapping("/saveRecord")
+	@RequestMapping(value="/saveRecord",method=RequestMethod.POST)
 	public JSONObject saveRecord() {
 		RecordEntity rEntity = new RecordEntity();
 		JSONObject json = new JSONObject();
