@@ -88,6 +88,16 @@ public class RecordController {
 					int resutl = recordService.saveRecord(rEntity);
 					if(resutl > 0) {
 						json.put("result", "success");
+						//关键字保存
+						if(keyword.length() >0) {
+							List<String> words = LuceneUtil.getStrinsByWords(keyword);
+							if(words.size() > 0) {
+								for(int i=0; i<words.size(); i++) {
+									hfwService.updataOrSaveHFW(words.get(i));
+								}
+							}
+								
+						}
 					}else {
 						json.put("result", "error");
 						System.out.println("保存记录失败！");
@@ -99,16 +109,7 @@ public class RecordController {
 				json.put("result", "error");
 			}
 			
-			//关键字保存
-			if(keyword.length() >0) {
-				List<String> words = LuceneUtil.getStrinsByWords(keyword);
-				if(words.size() > 0) {
-					for(int i=0; i<words.size(); i++) {
-						hfwService.updataOrSaveHFW(words.get(i));
-					}
-				}
-					
-			}
+			
 			
 
 		} catch (Exception e) {

@@ -40,18 +40,24 @@ public class PraiseServiceImpl implements PraiseService {
 			String pTitle = CMyString.filterForHTMLValue(request.getParameter("pTitle"));// 标题
 			String pDate = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
 			if (StringUtils.isNotBlank(pQaId) && pStatus != null && pStatus != "") {
-				String s = pQaId.substring(0, 1);
-				praise.setPtype(s);
-				praise.setpQaId(Integer.parseInt(pQaId.substring(1)));
-				praise.setpStatus(pStatus);
-				praise.setpDate(pDate);
-				praise.setpTitle(pTitle);
-				int i = praisedao.updataOrSavePraise(praise);
-				if (i < 0) {
+				String qid = pQaId.substring(1);
+				if(qid.matches("[0-9]+")) {
+					String s = pQaId.substring(0, 1);
+					praise.setPtype(s);
+					praise.setpQaId(Integer.parseInt(pQaId.substring(1)));
+					praise.setpStatus(pStatus);
+					praise.setpDate(pDate);
+					praise.setpTitle(pTitle);
+					int i = praisedao.updataOrSavePraise(praise);
+					if (i < 0) {
+						json.put("result", "error");
+					} else {
+						json.put("result", "success");
+					}
+				}else {
 					json.put("result", "error");
-				} else {
-					json.put("result", "success");
 				}
+				
 			} else {
 				json.put("result", "error");
 			}
