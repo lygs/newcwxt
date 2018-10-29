@@ -463,6 +463,11 @@ public class QuestionAnswerController {
 			}
 		}
 	}
+	public static void main(String[] args) {
+		String pageNumber = CMyString.filterForHTMLValue("01");
+		boolean num = pageNumber.matches("[0-9]+");
+		//System.out.println(num);
+	}
 
 	/*
 	 * 前端查询常见问题 author:刘瑶
@@ -471,13 +476,12 @@ public class QuestionAnswerController {
 	public void getQuestionByComm() {
 		JSONObject json = new JSONObject();
 		try {
-			String pageNumber = CMyString.filterForHTMLValue(request.getParameter("pageNumber"));
-			String pageSize = CMyString.filterForHTMLValue(request.getParameter("pageSize"));
+			String pageNumber = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pageNumber")));
+			String pageSize = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pageSize")));
 			boolean num = pageSize.matches("[0-9]+");
 			boolean pagesize = pageNumber.matches("[0-9]+");
-			if (num && pagesize) {
-				List<QuestionAnswerEntity> list = qaService.getQuestionByComm(Integer.valueOf(pageSize),
-						Integer.valueOf(pageNumber), "");
+			if (num && pagesize && Integer.valueOf(pageNumber)<1000 && Integer.valueOf(pageSize)<1000) {
+				List<QuestionAnswerEntity> list = qaService.getQuestionByComm(Integer.valueOf(pageSize),Integer.valueOf(pageNumber), "");
 				// String str = qaService.getQuestionByClick(pageSize);
 				json.put("result", list);
 
@@ -764,12 +768,12 @@ public class QuestionAnswerController {
 	@RequestMapping(value="/getQuestionByClick",method=RequestMethod.POST)
 	public void getQuestionByClick() {
 		try {
-			String pageSize = CMyString.filterForHTMLValue(request.getParameter("pageSize"));//
+			String pageSize = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pageSize")));//
 			String str = "";
 			JSONObject obj = new JSONObject();
 			if (StringUtils.isNotBlank(pageSize)) {
 				boolean flag2 = pageSize.matches("[0-9]+");
-				if (flag2) {
+				if (flag2 && Integer.parseInt(pageSize)<2000) {
 					str = qaService.getQuestionByClick(pageSize);
 					obj.put("results", str);
 				} else {
@@ -873,8 +877,4 @@ public class QuestionAnswerController {
 		}
 	}
 
-	public static void main(String[] args) {
-		Map<String, String> filemap = PropertiesUtil.getProperties_3("/fileUrl.properties");
-		System.out.println(filemap.get("value"));
-	}
 }

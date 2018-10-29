@@ -324,4 +324,14 @@ public class CMyString {
 		 }
 		 return flag;
    }
+	
+	/*****
+	 * 防止 XXE漏洞 注入实体攻击
+	 * @param xmlStr
+	 * @return
+	 */
+	public static String filterXXE(String xmlStr){
+		xmlStr = xmlStr.replace("DOCTYPE", "").replace("SYSTEM", "").replace("ENTITY", "").replace("PUBLIC", "");
+		return xmlStr;
+	}
 }

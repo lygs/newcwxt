@@ -35,13 +35,13 @@ public class PraiseServiceImpl implements PraiseService {
 		PraiseEntity praise = new PraiseEntity();
 		JSONObject json = new JSONObject();
 		try {
-			String pQaId = CMyString.filterForHTMLValue(request.getParameter("pQaId"));// 问题ID
-			String pStatus = CMyString.filterForHTMLValue(request.getParameter("pStatus"));// 状态 0 赞 1 不满意
-			String pTitle = CMyString.filterForHTMLValue(request.getParameter("pTitle"));// 标题
+			String pQaId = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pQaId")));// 问题ID
+			String pStatus = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pStatus")));// 状态 0 赞 1 不满意
+			String pTitle = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("pTitle")));// 标题
 			String pDate = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
 			if (StringUtils.isNotBlank(pQaId) && pStatus != null && pStatus != "") {
 				String qid = pQaId.substring(1);
-				if(qid.matches("[0-9]+")) {
+				if(qid.matches("[0-9]+")&& qid.length()<8) {
 					String s = pQaId.substring(0, 1);
 					praise.setPtype(s);
 					praise.setpQaId(Integer.parseInt(pQaId.substring(1)));

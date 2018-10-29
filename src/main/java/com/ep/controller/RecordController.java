@@ -57,18 +57,18 @@ public class RecordController {
 		RecordEntity rEntity = new RecordEntity();
 		JSONObject json = new JSONObject();
 		try {
-			String rQuestion = CMyString.filterForHTMLValue(request.getParameter("rQuestion"));// 问
-			String rAnswer = CMyString.filterForHTMLValue(request.getParameter("rAnswer"));// 答
-			String ips = CMyString.filterForHTMLValue(request.getParameter("ips"));// ip
-			String keyword = CMyString.filterForHTMLValue(request.getParameter("keyword"));//关键词
-			String rQuestionId = CMyString.filterForHTMLValue(request.getParameter("rQuestionId"));// 问题id
+			String rQuestion = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("rQuestion")));// 问
+			String rAnswer = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("rAnswer")));// 答
+			String ips = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("ips")));// ip
+			String keyword = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("keyword")));//关键词
+			String rQuestionId = CMyString.filterXXE(CMyString.filterForHTMLValue(request.getParameter("rQuestionId")));// 问题id
 			
 			if (StringUtils.isNotBlank(rQuestion) && StringUtils.isNotBlank(rAnswer)){
 				boolean flag = false;
 				if(StringUtils.isNotBlank(rQuestionId)) {
 					String s = rQuestionId.substring(0, 1);
 					String qid = rQuestionId.substring(1);
-					if(qid.matches("[0-9]+")) {
+					if(qid.matches("[0-9]+") && qid.length()<8) {
 						flag = true;
 						if(s.equals("c")) {
 							rEntity.setrChnnelid(qid);
@@ -78,13 +78,13 @@ public class RecordController {
 					}
 				}
 				
-				rEntity.setrQuestion(rQuestion);
-				rEntity.setrAnswer(rAnswer);
-				String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
-				rEntity.setrCreatetime(date);
-				rEntity.setUserIp(ips); //网友IP
-				rEntity.setKeyword(keyword);
 				if(flag) {
+					rEntity.setrQuestion(rQuestion);
+					rEntity.setrAnswer(rAnswer);
+					String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
+					rEntity.setrCreatetime(date);
+					rEntity.setUserIp(ips); //网友IP
+					rEntity.setKeyword(keyword);
 					int resutl = recordService.saveRecord(rEntity);
 					if(resutl > 0) {
 						json.put("result", "success");

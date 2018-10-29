@@ -9,14 +9,24 @@
       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-  <ctx:component-scan base-package="com.ep.controller" />
-  <ctx:component-scan base-package="com.ep.filter" />
+   <ctx:component-scan base-package="com.ep.controller" /> 
+   <!-- <ctx:component-scan base-package="com.ep.filter" /> -->
+   <!-- 拦截器 -->  
+<mvc:interceptors>  
+    <!-- 多个拦截器，顺序执行 -->  
+    <!-- 登录认证拦截器 -->  
+    <mvc:interceptor>  
+        <mvc:mapping path="/**"/>  
+        <bean class="com.ep.filter.HandlerInterceptor"/>  
+    </mvc:interceptor>  
+</mvc:interceptors>    
   <mvc:annotation-driven>
     <mvc:message-converters>
       <bean class="org.springframework.http.converter.StringHttpMessageConverter" p:supportedMediaTypes="text/plain;charset=UTF-8" />
     </mvc:message-converters>
    
   </mvc:annotation-driven>
+  
   <mvc:cors>
     <mvc:mapping path="/**" allowed-methods="*" allow-credentials="true" allowed-headers="*" allowed-origins="*" />
   </mvc:cors>
