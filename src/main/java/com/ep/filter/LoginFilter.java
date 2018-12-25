@@ -26,7 +26,7 @@ public class LoginFilter implements Filter {
 			+ "/questionAnswer/getQuestionByKnowledge;/questionAnswer/getQaByChnlid;"
 			+ "/record;/praise;/questionAnswer/getQuestionByClick;/template/getSelectedTemp";
 	//过滤
-	public String includeStrings=".action;.jsp;.html;/know/;/questionAnswer/;/user/";
+	public String includeStrings=".action;.jsp;.html;/know/;/questionAnswer/;/user/;/logs/";
 	public LoginFilter() {
     	
     }

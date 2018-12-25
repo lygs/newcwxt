@@ -1,23 +1,31 @@
 package com.ep.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ep.dao.LogsDao;
 import com.ep.entity.Channels;
 import com.ep.entity.IndividualWord;
+import com.ep.entity.LogMessage;
 import com.ep.entity.QuestionAnswerEntity;
 import com.ep.service.ChannelService;
 import com.ep.service.IndividualWordService;
 import com.ep.service.LuceneService;
 import com.ep.service.QuestionAnswerService;
+import com.ep.util.DateUtil;
 
 @Service("luceneService")
 public class LuceneServiceImpl implements LuceneService {
 	@Resource
 	private QuestionAnswerService questionAnswerService;
+	
+	@Autowired
+    public LogsDao logsDao;
 	
 	@Resource
 	private ChannelService channelService;
@@ -39,6 +47,12 @@ public class LuceneServiceImpl implements LuceneService {
 		//分词栏目完全匹配
 		//List<Channels> fcList  = channelService.getQuestionAnswerListByWords(wordsList);
 		//3.分词匹配单个栏目
+		LogMessage logs = new LogMessage();
+		logs.setClassMethod("getData");
+		logs.setClassName("luceneService");
+		logs.setContent("智能查询问题成功");
+		logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		logsDao.saveDao(logs);
 		return qList;
 		
 		

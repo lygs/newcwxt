@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ep.entity.Sysuser;
+import com.ep.util.CMyString;
 
 public class HandlerInterceptor implements org.springframework.web.servlet.HandlerInterceptor{
 
@@ -47,7 +49,7 @@ public class HandlerInterceptor implements org.springframework.web.servlet.Handl
     			+ "/questionAnswer/getChnlNameByQid;/questionAnswer/addQuestionByExcel;"
     			+ "/know/getHotKnowledge;/questionAnswer/getQuestionByComm;"
     			+ "/questionAnswer/getQuestionByKnowledge;/questionAnswer/getQaByChnlid;"
-    			+ "/record;/praise;/questionAnswer/getQuestionByClick;/template/getSelectedTemp";
+    			+ "/record;/praise;/questionAnswer/getQuestionByClick;/template/getSelectedTemp;/logs/";
     	//过滤
         String includeStrings ="/know/;/questionAnswer/;/user/;/wordExpansion/;/admin/;/individualWord/;/hfw/;/praise/;/record/;/template/";
         //判断url是否是公开地址(实际使用时将公开地址配置到配置文件中)  
@@ -65,15 +67,23 @@ public class HandlerInterceptor implements org.springframework.web.servlet.Handl
               
             if(user!=null){  
                 //身份存在，放行  
-            	//response.sendRedirect(url);
-                return true;  
+            	try {
+            		String userName = user.getUserName();
+            		if(StringUtils.isNotEmpty(userName)) {
+            			return true; 
+            		}else {
+            			return false; 
+            		}
+            		
+				} catch (Exception e) {
+					return false; 
+				}
             }else {
             	 return false;
             }
            
         } 
-        
-          
+
         //执行这里表示用户身份需要验证，跳转到登录界面  
         response.sendRedirect(request.getContextPath()+"/login.html");
        // request.getRequestDispatcher("/login.html").forward(request, response);  

@@ -75,6 +75,9 @@ var rcId;
 			if($(".ul1 li:eq(7)").hasClass("on")){
 				$("iframe").attr("src","muban.html");
 			}
+			if($(".ul1 li:eq(8)").hasClass("on")){
+				$("iframe").attr("src","rizi.html");
+			}
 		});
 		
 		$(".passWord").on("click",function(){

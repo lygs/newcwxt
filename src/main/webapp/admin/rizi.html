@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>问答记录</title>
+    <link rel="stylesheet" type="text/css" href="style/global.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../css/pageNav.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.source.js"></script>
+    <script type="text/javascript" src="js/zUI.js"></script>
+    <script src="js/pageNav.js"></script>
+    <script type="text/javascript" src="js/rizi.js"></script>
+</head>
+<body>
+<div class="place">当前位置：<b>日志记录</b></div>
+<div class="pageMain">
+    <div class="title">
+        <div class="text">日志记录</div>
+    </div>
+    
+    <div class="tableMain">
+        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+            <thead>
+            <tr style="font-size: 14px; font-weight: bold;">
+                <td width="3%" height="50" align="center" bgcolor="#F2F2F2">序号</td>
+                <td width="10%" height="50" align="center" bgcolor="#F2F2F2">类名</td>
+                <td width="10%" height="50" align="center" bgcolor="#F2F2F2">方法</td>
+                <td width="50%" height="50" align="center" bgcolor="#F2F2F2">内容</td>
+                <td width="20%" height="50" align="center" bgcolor="#F2F2F2">时间</td>
+            </tr>
+            </thead>
+            <tbody id="listShow">
+
+            </tbody>
+
+        </table>
+    </div>
+    <div class="pages">
+    	总数：<span class="total" style="color:red;"></span>
+        <ul>
+            <nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+        </ul>
+    </div>
+</div>
+<!--footer-->
+<!--添加成功-->
+<div class="modelSuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-emizhifeiji"></i>
+    </div>
+    <div class="text">添加成功</div>
+</div>
+<!--添加成功 end-->
+<!--删除提示-->
+<div class="modelDel" style="display: none">
+    <div class="content">
+        <div class="pic">
+            <i class="iconfont icon-shanchu1"></i>
+        </div>
+        <div class="text">确定删除所选数据？</div>
+        <div class="close"><a href="#">×</a></div>
+    </div>
+    <div class="submit">
+        <ul>
+            <li class="on"><a href="#">确 定</a></li>
+            <li><a href="#">取 消</a></li>
+        </ul>
+    </div>
+</div>
+<!--删除提示 end-->
+<!--删除成功-->
+<div class="modelSuccess" style="display: none">
+    <div class="pic">
+        <i class="iconfont icon-shanchu1"></i>
+    </div>
+    <div class="text">删除成功</div>
+</div>
+<!--删除成功 end-->
+<!--添加问题-->
+<div style="display: none" class="addE">
+    <div class="modelAskBg"></div>
+    <div class="modelAskMain">
+        <div class="title">添加问题 <div class="close"><a href="#">×</a></div></div>
+        <div class="content">
+            <div class="text">问题描述</div>
+            <div class="textInput"><input type="text" class="inputs"></div>
+            <div class="text">关键字</div>
+            <div class="textInput"><input type="text" class="inputs"></div>
+            <div class="text">关键字</div>
+            <div class="textInput">
+                <select>
+                    <option>大气、水、土地</option>
+                </select>
+            </div>
+            <div class="text">标准答案</div>
+            <div class="textArea">
+                <textarea></textarea>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li class="on">
+                    <a href="#">
+                        <i class="iconfont icon-emizhifeiji"></i> 添 加
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="iconfont icon-guanbi"></i> 取消
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--添加问题 end-->
+<!--栏目结构-->
+<div style="display: none" class ="lm">
+    <div class="modelAskBg"></div>
+    <div class="modelLanmu">
+        <div class="title">栏目结构 <div class="close"><a href="#">×</a></div></div>
+        <div class="content" id="lm_slide">
+            <div class="lm_menu fl hd" id="lm_menu">
+                <ul>
+                    <li class="on"><a href="#">四川省环保厅</a></li>
+                    <li><a href="#">市州环保局</a></li>
+                    <li><a href="#">四川省环境检测总站</a></li>
+                    <li><a href="#">四川省环境保护厅机关服务中心</a></li>
+                    <li><a href="#">四川省环境保护科学研究院</a></li>
+                </ul>
+            </div>
+            <div class="bd">
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_01">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_02">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_03">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_04">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_05">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_06">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_07">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_08">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_09">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_10">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_11">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_12">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="lm_cont" id="lm_cont_13">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_14">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                    <div class="lm_cont" id="lm_cont_15">
+                        <ul>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                            <li><a href="#">成都市</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="submit">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="iconfont icon-guanbi"></i> 返 回
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--footer end-->
+</body>
+</html>

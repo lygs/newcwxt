@@ -2,6 +2,7 @@ package com.ep.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ep.dao.ChannelDao;
+import com.ep.dao.LogsDao;
 import com.ep.entity.Channels;
+import com.ep.entity.LogMessage;
 import com.ep.entity.QuestionAnswerEntity;
 import com.ep.service.ChannelService;
+import com.ep.util.DateUtil;
 @Service("channelService")
 public class ChannelServiceImpl implements ChannelService{
 	@Autowired
 	public ChannelDao cdao;
+	
+	@Autowired
+    public LogsDao logsDao;
+	
 	@Override
 	public String getAllChnl() {
 		String str = "";
@@ -41,6 +49,12 @@ public class ChannelServiceImpl implements ChannelService{
 				//obj.put("siteDesc", list.get(i).getSiteDesc());
 				array.add(obj);
 			}
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("getAllChnl");
+			logs.setClassName("Channel");
+			logs.setContent("查询所有知识点");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
 			objes.put("list", array);
 			objes.put("results", "success");
 			str = objes.toString();
@@ -66,6 +80,12 @@ public class ChannelServiceImpl implements ChannelService{
 		int nums = cdao.saveDao(chnl);
 		JSONObject obj = new JSONObject();
 		if(nums>0) {
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("add");
+			logs.setClassName("Channel");
+			logs.setContent("添加知识点");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
 			obj.put("results","SUCCESS");
 			obj.put("chnlId", nums);
 		}else {
@@ -82,6 +102,12 @@ public class ChannelServiceImpl implements ChannelService{
         String str=""; 
 		JSONObject obj = new JSONObject();
 		if(nums>0){
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("update");
+			logs.setClassName("Channel");
+			logs.setContent("修改知识点");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
 			obj.put("results", "SUCCESS");
 		}else{
 			obj.put("results", "ERROR");
@@ -111,6 +137,12 @@ public class ChannelServiceImpl implements ChannelService{
     	String str=""; 
 		JSONObject obj = new JSONObject();
 		if(nums>0){
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("delChnlById");
+			logs.setClassName("Channel");
+			logs.setContent("删除知识点");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
 			obj.put("results", "SUCCESS");
 		}else{
 			obj.put("results", "ERROR");
@@ -124,6 +156,12 @@ public class ChannelServiceImpl implements ChannelService{
 		// TODO Auto-generated method stub
 		String hql = "from Channels where channelid=?0";
 		Channels channels = cdao.getById(hql,id);
+		LogMessage logs = new LogMessage();
+		logs.setClassMethod("findById");
+		logs.setClassName("Channel");
+		logs.setContent("ID查询知识点");
+		logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		logsDao.saveDao(logs);
 		return channels;
 	}
 	
@@ -140,6 +178,12 @@ public class ChannelServiceImpl implements ChannelService{
 		// TODO Auto-generated method stub
 		String hql = "from Channels where chnlname like ?0";
 		List<Channels> list = cdao.getAllChannelList(hql,channelName);
+		LogMessage logs = new LogMessage();
+		logs.setClassMethod("findByName");
+		logs.setClassName("Channel");
+		logs.setContent("根据名称查询知识点");
+		logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		logsDao.saveDao(logs);
 		return list;
 	}
 	
@@ -158,7 +202,12 @@ public class ChannelServiceImpl implements ChannelService{
 			}
 
 		}
-		
+		LogMessage logs = new LogMessage();
+		logs.setClassMethod("getQuestionAnswerListByWords");
+		logs.setClassName("Channel");
+		logs.setContent("根据名称查询知识点");
+		logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		logsDao.saveDao(logs);
 		return cdao.getAllList(hqlString.toString());
 
 	}

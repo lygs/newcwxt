@@ -2,6 +2,8 @@ package com.ep.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,9 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ep.entity.LogMessage;
 import com.ep.entity.Sysuser;
 import com.ep.service.KnowledgePointService;
 import com.ep.util.CMyString;
+import com.ep.util.DateUtil;
 
 @Controller
 @RequestMapping("/know")

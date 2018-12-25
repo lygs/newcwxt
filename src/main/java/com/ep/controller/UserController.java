@@ -2,9 +2,16 @@ package com.ep.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
@@ -14,9 +21,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ep.entity.LogMessage;
 import com.ep.entity.Sysuser;
+import com.ep.service.LogsService;
 import com.ep.service.UserInfoService;
 import com.ep.util.CMyString;
+import com.ep.util.DateUtil;
 
 /**
  * 
@@ -28,6 +38,10 @@ import com.ep.util.CMyString;
 public class UserController {
 	@Autowired
     public UserInfoService userInfoService;
+	
+	@Autowired
+    public LogsService logService;
+	
 	HttpServletRequest request;
 	HttpServletResponse response;
 	@ModelAttribute
@@ -66,6 +80,335 @@ public class UserController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	/*response.setContentType("text/html;charset=utf-8");//设置编码
+		String username = request.getParameter("username");
+		String password = request.getParameter("userpwd");
+		String validateCode = request.getParameter("validateCode");
+		//String isHouTai = request.getParameter("isHouTai");//是否是后台登陆判断
+		String ipRemoteHost = Struts2Utils.getIpAddrByRequest(request);
+		String key = this.request.getParameter("key");
+		ServletContext application = request.getSession().getServletContext();
+		String validateCodeServer = (String) request.getSession().getAttribute("logincode");
+		String str="";
+	    List<HttpSession> sessions = new ArrayList<HttpSession>();
+	    String login_=request.getParameter("login_");
+	    
+	    if(login_!=null&&login_.equals("1")){//强行登录
+            ipRemoteHost=Struts2Utils.getIpAddrByRequest(request);//ip地址
+            sessions = (List)application.getAttribute("sessionList");
+            if(sessions!=null){
+                for(int si = 0; si < sessions.size(); si++){
+                    HttpSession s=(HttpSession) sessions.get(si);   
+                    Sysuser _Usertemp =  (Sysuser)s.getAttribute("user");
+                    Sysuser usernow = userInfoService.login(username, password);
+                    String ipRemoteHosteTemp = (String)s.getAttribute("ipRemoteHost");
+                    if(_Usertemp!=null&&_Usertemp.getUserName().equals(username)&&!ipRemoteHosteTemp.equals(ipRemoteHost)){
+                        if(usernow!=null){
+                        sessions.remove(si);
+                        s.invalidate();
+                        HttpSession session=request.getSession();
+                           request.getSession().setAttribute("user", usernow);
+                           request.getSession().setAttribute("username", username);
+                           session.setAttribute("ipRemoteHost",ipRemoteHost);
+                           sessions.add(session);
+                           application.setAttribute("sessionList",sessions);
+                           //登陆成功后清空错误登录次数
+                           String hql="from Sysuser  where username='"+username+"'";
+                           Sysuser u=new  Sysuser();
+                           u= (Sysuser) ibs.findObject(hql);
+                           u.setLogin_num(null);
+                           ibs.update(u);
+                           String isAdmin="";
+		    					isAdmin=userInfoService.isAdmin(u.getUserId());
+                           if(si==0){
+                           	this.ibs.savelog("用户登录", u.getUserName(),String.valueOf(u.getUserId()),request);
+                           }
+                           str = "success";
+                       }else{
+                           //用户名或密码错误
+                           String hql="from Sysuser  where username='"+username+"'";
+                           Sysuser u=new  Sysuser();
+                           u= (Sysuser) ibs.findObject(hql);
+                           if(u!=null){//密码错误
+                               List userlist = new ArrayList();//存放用户map的list
+                               userlist= (List) application.getAttribute("userList");//用户最后一次密码错误信息
+                               Date errordate=new Date();
+                               Long errortime=errordate.getTime();//本次密码输错的时间
+                               Integer log=u.getLogin_num();
+                               if(log==null){
+                                   log=0;
+                               }
+                               //同一账号，同一ip在1分钟内连续错误登录10次 账号被锁定
+                               if(userlist!=null){
+                                   for (int i = 0; i < userlist.size(); i++) {
+                                       Map map =(Map) userlist.get(i);
+                                      if(map.get("username").equals(u.getUserName())&&map.get("ip").equals(ipRemoteHost)&&errortime-(Long) map.get("time")<600000L){
+
+                                          if(log>=10){
+                                              str = "max_login";
+                                          }
+                                          else{
+                                            userlist.remove(i);
+                                            u.setLogin_num(log+1);
+                                            ibs.update(u);
+                                            Map userMap=new HashMap();//存放用户错误登录信息，记录最新一次错误时间和错误ip地址
+                                            userMap.put("time", errortime);
+                                            userMap.put("ip",ipRemoteHost);
+                                            userMap.put("username",u.getUserName());
+                                            userlist.add(userMap);
+                                            application.setAttribute("userList", userlist);
+                                            str = "ERROR";
+                                           
+                                          }
+                                      }else{//在不同ip密码错误，或是2次错误登录时间相差10分钟以上，此时只保存最新一次登录错误信息
+                                          userlist.remove(i);
+                                          Map userMap=new HashMap();//存放用户错误登录信息，记录最新一次错误时间和错误ip地址
+                                          userMap.put("time", errortime);
+                                          userMap.put("ip",ipRemoteHost);
+                                          userMap.put("username",u.getUserName());
+                                          userlist.add(userMap);
+                                          application.setAttribute("userList", userlist);
+                                          str = "ERROR";
+                                      }
+                                       
+                                   }
+                               }else{
+                                   
+                                   if(log>=10){
+                                       str = "max_login";
+                                       return;
+                                   }
+                                   u.setLogin_num(log+1);
+                                   ibs.update(u);
+                                   Map userMap=new HashMap();//存放用户错误登录信息，记录最新一次错误时间和错误ip地址
+                                   userMap.put("time", errortime);
+                                   userMap.put("ip",ipRemoteHost);
+                                   userMap.put("username",u.getUserName());
+                                   List userlist_temp = new ArrayList();//存放用户map的list
+                                   userlist_temp.add(userMap);
+                                   application.setAttribute("userList", userlist_temp);
+                                   str = "ERROR";
+                               }
+
+                           }
+                           else{//用户名错误
+                               
+                               str = ERROR;  
+                           }
+                       }
+ 
+                    }
+                }
+            }
+        }else{
+	    if (key==null){
+	    	if (validateCode!=null && validateCode.equals(validateCodeServer)) {
+	    		user=userInfoService.login(username, password);
+	    		if(user!=null){
+	    			Integer num=user.getLogin_num();
+	    			if(user.getLogin_num()!=null&&(user.getLogin_num().intValue()>=10)){
+	    				str="max_login";
+	    				this.request.setAttribute("user", null);
+	    			}else {
+	    				 if(application.getAttribute("sessionList")!=null){
+                             sessions = (List)application.getAttribute("sessionList");
+                             if(sessions.size()>0){
+                                 for(int si = 0; si < sessions.size(); si++){
+                                     HttpSession ses = null;    
+                                     try{
+                                         ses = (HttpSession)sessions.get(si);
+                                         Sysuser _Usertemp =  (Sysuser)ses.getAttribute("user");
+                                         String ipRemoteHosteTemp = (String)ses.getAttribute("ipRemoteHost");
+                                         
+                                         //提示用户是否强制登录
+                                         if(_Usertemp!=null&&_Usertemp.getUserName().equals(username)&&!ipRemoteHosteTemp.equals(ipRemoteHost)){
+                                             str = "loginin";  
+                                         //该账号已经在相同ip登录 
+                                         }else if(_Usertemp!=null&&_Usertemp.getUserName().equals(username)&&ipRemoteHosteTemp.equals(ipRemoteHost)){
+                                             System.out.println("该账号已经在相同ip登录");
+                                        
+                                            sessions = (List)application.getAttribute("sessionList");
+                                            Sysuser usernow = userInfoService.login(username, password);
+                                            if(sessions!=null){
+                                                for(int si1 = 0; si1 < sessions.size(); si1++){
+                                                    HttpSession s=(HttpSession) sessions.get(si1);   
+
+                                                    if(_Usertemp!=null&&_Usertemp.getUserName().equals(username)){
+                                                       if(usernow!=null){
+                                                           sessions.remove(si1);
+                                                           s.invalidate();
+                                                           HttpSession session=request.getSession();
+                                                           request.getSession().setAttribute("user", usernow);
+                                                           request.getSession().setAttribute("username", username);
+                                                           session.setAttribute("ipRemoteHost",ipRemoteHost);
+                                                           sessions.add(session);
+                                                           application.setAttribute("sessionList",sessions);
+                                                           
+                                                           //登陆成功后清空错误登录次数
+                                                           String hql="from Sysuser  where username='"+username+"'";
+                                                           Sysuser u=new  Sysuser();
+                                                           u= (Sysuser) ibs.findObject(hql);
+                                                           u.setLogin_num(null);
+                                                           ibs.update(u);
+                                                           String isAdmin="";
+                               		    					isAdmin=userInfoService.isAdmin(u.getUserId());
+                               		    				
+	                               							if(si1==0){
+	                			                            	this.ibs.savelog("用户登录", u.getUserName(),String.valueOf(u.getUserid()),request);
+	                			                            }
+                                                           str = "SUCCESS";
+                                                          break;
+                                                       }else{
+                                                           str = "ERROR";
+                                                       }
+                                 
+                                                    }
+                                                }
+                                            }
+                                         }else{//其他意外情况（导致applycation没有移除）
+                                             str = "success";
+                                             request.getSession().setAttribute("user", user);
+                                             request.getSession().setAttribute("username", username);
+                                           //登录后把用户session放入applycation
+                                             HttpSession session=request.getSession();
+                                             session.setAttribute("ipRemoteHost",ipRemoteHost);
+                                             sessions.add(session);              
+                                             application.setAttribute("sessionList",sessions); 
+                                             
+                                             //登陆成功后清空错误登录次数
+                                             String hql="from Sysuser  where username='"+username+"'";
+                                             Sysuser u=new  Sysuser();
+                                             u= (Sysuser) ibs.findObject(hql);
+                                             u.setLogin_num(null);
+                                             ibs.update(u);
+                                             String isAdmin="";
+                 		    				isAdmin=userService.isAdmin(u.getUserid());
+                 		    				
+                 							this.ibs.savelog("用户登录", u.getUserName(),String.valueOf(u.getUserId()),request);
+                                             break;
+                                         }
+                                                    
+                                     }catch(Exception e){
+                                         //System.out.println("sessions.remove(si)========================");
+                                         sessions.remove(si);
+                                     }
+                                     
+                                 }
+                                 
+                             }else{
+                                 
+                                 str = "success";
+                                 request.getSession().setAttribute("user", user);
+                                 request.getSession().setAttribute("username", username);
+                               //登录后把用户session放入applycation
+                                 HttpSession session=request.getSession();
+                                 session.setAttribute("ipRemoteHost",ipRemoteHost);
+                                 sessions.add(session);              
+                                 application.setAttribute("sessionList",sessions);       
+                                 
+                                 //登陆成功后清空错误登录次数
+                                 String hql="from Sysuser  where username='"+username+"'";
+                                 Sysuser u=new  Sysuser();
+                                 u= (Sysuser) ibs.findObject(hql);
+                                 u.setLogin_num(null);
+                                 ibs.update(u);
+                                 String isAdmin="";
+     		    				isAdmin=userInfoService.isAdmin(u.getUserId());
+     		    				
+     							this.ibs.savelog("用户登录", u.getUserName(),String.valueOf(u.getUserid()),request);
+                             }
+                         }else{
+		    				this.request.getSession().setAttribute("user", user);
+		    				request.getSession().setAttribute("username", username);
+		    				String hql="from Sysuser where username='"+username+"'";
+		    				//登录后把用户session放入applycation
+                            HttpSession session=request.getSession();
+                            session.setAttribute("ipRemoteHost",ipRemoteHost);
+                            sessions.add(session);              
+                            application.setAttribute("sessionList",sessions);   
+		    				Sysuser u=new Sysuser();
+		    				u=(Sysuser) this.ibs.findObject(hql);
+		    				u.setLogin_num(null);
+		    				this.ibs.update(u);
+		    				String isAdmin="";
+		    				isAdmin=userInfoService.isAdmin(u.getUserId());
+		    				
+							this.ibs.savelog("用户登录", u.getUsername(),String.valueOf(u.getUserid()),request);
+							str="success";
+		    			}
+	    			    
+	    			}
+	    		}else{
+	    			如果用户登录不成功
+	    			String hql="from Sysuser where username='"+username+"'";
+	    			Sysuser u=new Sysuser();
+	    			u=(Sysuser) this.ibs.findObject(hql);
+		    			//密码错误
+		    			if(u!=null){
+		    				Date errordate=new Date();
+		    				Long errortime=Long.valueOf(errordate.getTime());
+		    				Integer log=u.getLogin_num();
+		    				if(log==null){
+		    					log=Integer.valueOf(0);
+		    				}
+		    				List userlist=new ArrayList();
+		    				userlist =(List)application.getAttribute("userList");
+		    				//判断用户是否登录过
+		    				if(userlist!=null){
+		    					for(int i=0;i<userlist.size();i++){
+		    					    Map map=(Map) userlist.get(i);
+		    					    if((map.get("usernmae").equals(u.getUserName()))&&(map.get("ip").equals(ipRemoteHost)) && (errortime.longValue() - ((Long)map.get("time")).longValue() < 600000L)){
+		    					    	if (log.intValue() >= 10) {
+		    			                    str = "max_login";
+		    			                  }else {
+		    			                    userlist.remove(i);
+		    			                    u.setLogin_num(Integer.valueOf(log.intValue() + 1));
+		    			                    this.ibs.update(u);
+		    			                    Map userMap = new HashMap();
+		    			                    userMap.put("time", errortime);
+		    			                    userMap.put("ip", ipRemoteHost);
+		    			                    userMap.put("username", u.getUserName());
+		    			                    userlist.add(userMap);
+		    			                    application.setAttribute("userList", userlist);
+		    			                    str = "error";
+		    			                  }
+		    					    }else{
+		    					    	userlist.remove(i);
+		    			                  Map userMap = new HashMap();
+		    			                  userMap.put("time", errortime);
+		    			                  userMap.put("ip", ipRemoteHost);
+		    			                  userMap.put("username", u.getUserName());
+		    			                  userlist.add(userMap);
+		    			                  application.setAttribute("userList", userlist);
+		    			                  str = "error";
+		    					    }
+		    					}
+		    				}else{
+		    					if (log.intValue() >= 10) {
+		    		                str = "max_login";
+		    		                return;
+		    		              }
+		    		              u.setLogin_num(Integer.valueOf(log.intValue() + 1));
+		    		              this.ibs.update(u);
+		    		              Map userMap = new HashMap();
+		    		              userMap.put("time", errortime);
+		    		              userMap.put("ip", ipRemoteHost);
+		    		              userMap.put("username", u.getUserName());
+		    		              List userlist_temp = new ArrayList();
+		    		              userlist_temp.add(userMap);
+		    		              application.setAttribute("userList", userlist_temp);
+		    		              str = "error";
+		    		            }
+		    			}else{
+		    			    str = "error";//用户不存在
+		    				}
+	    			}
+	    		}	
+	    	}else {
+	    		str="codeerror";//验证码错误
+	    	}
+        }
+	      this.response.getWriter().println(str);*/
     }
     
     /**
@@ -78,6 +421,12 @@ public class UserController {
         String str = "";
         if(user!=null){
             request.getSession().setAttribute("user", null);
+            LogMessage logs = new LogMessage();
+			logs.setClassMethod("loginOut");
+			logs.setClassName("UserInfo");
+			logs.setContent(user.getUserName()+"退出");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logService.save(logs);
             str = "success";
         }else{
             str ="null";
