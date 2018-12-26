@@ -1,5 +1,7 @@
 package com.ep.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,28 +9,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * Sysuser entity. @author MyEclipse Persistence Tools
- */
-@Entity
-@Table(name = "SYSUSER")
-public class Sysuser implements java.io.Serializable {
-	/**
-	 * 
-	 */
+
+//@Entity
+//@Table(name = "SYSUSER")
+public class Sysuser1 implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	private int userId;
 	private String userName;// 用户名
 	private String password;// 密码
 	private String email;// 邮箱
 	private String createTime;//创建时间
 	private int roleId;//角色    0管理員    1普通用戶
-	private Integer login_num;//登录失败次数
-	// Constructors
-
-	/** default constructor */
-	public Sysuser() {
-	}
+	
 	@Column(name="ROLEID")
 	public int getRoleId() {
 		return roleId;
@@ -36,6 +29,7 @@ public class Sysuser implements java.io.Serializable {
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
 	}
+	
 	@Id
 	@Column(name = "USERID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -72,14 +66,17 @@ public class Sysuser implements java.io.Serializable {
 	}
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}// 创建时间
+	public Sysuser1(int userId, String userName, String password, String email,
+			String createTime) {
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.email = email;
+		this.createTime = createTime;
 	}
-	
-	@Column(name = "LOGIN_NUM")
-	public Integer getLogin_num() {
-		return login_num;
+	public Sysuser1() {
 	}
 
-	public void setLogin_num(Integer login_num) {
-		this.login_num = login_num;
-	}
+	
 }

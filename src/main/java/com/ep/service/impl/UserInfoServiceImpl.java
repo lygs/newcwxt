@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,8 @@ import com.ep.service.UserInfoService;
 import com.ep.util.DateUtil;
 import com.ep.util.MD5;
 
+import net.sf.json.JSONObject;
+
 @Service("userInfoService")
 public class UserInfoServiceImpl implements UserInfoService{
 
@@ -27,10 +27,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 	@Autowired
     public LogsDao logsDao;
 	
-	@Override
-	public List<Sysuser> findAll() {
-		return userInfoDAO.getUserInfoDatas();
-	}
+	
 	@Override
 	public String login(String name, String pwd, HttpServletRequest request) {
 	/*	try {
@@ -74,6 +71,41 @@ public class UserInfoServiceImpl implements UserInfoService{
 		}
 		return obj.toString();
 	}
+	
+	@Override
+	public Sysuser login(String name, String pwd) {
+		String hql = "from Sysuser where userName =?0 and password=?1";
+		Object[] param ={name,MD5.crypt(pwd)};
+		Sysuser user = (Sysuser) userInfoDAO.getObj(hql, param);
+		if (user!=null) {
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("userLogin");
+			logs.setClassName("UserInfo");
+			logs.setContent(name+":登录成功");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
+			return user;
+		}else {
+			LogMessage logs = new LogMessage();
+			logs.setClassMethod("userLogin");
+			logs.setClassName("UserInfo");
+			logs.setContent(name+":登录失败");
+			logs.setCreatedate(DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			logsDao.saveDao(logs);
+			return null;
+		}
+	}
+	
+	@Override
+	public Object findObject(String hql) throws Exception {
+		Object o = userInfoDAO.getObj(hql, new Object[] {});
+		if (o!=null) {
+			return o;
+		}else {
+			return null;
+		}
+	}
+	
 	@Override
 	public String addUser(String name, String pwd, String email,String roleId) {
 		String hql = "from Sysuser where userName=?0";
@@ -229,4 +261,14 @@ public class UserInfoServiceImpl implements UserInfoService{
 			logsDao.saveDao(logs);
 	        return obj.toString();
 	    }
+	    
+	    @Override
+	    public void update(Object obj) throws Exception{
+			 userInfoDAO.update(obj);
+		}
+	    
+		@Override
+		public List<Sysuser> findAll() {
+			return userInfoDAO.getUserInfoDatas();
+		}
 }

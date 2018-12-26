@@ -18,6 +18,12 @@ public interface UserInfoService {
 	public String getUserAllList(String name, String pageSize, String pageNum,
 			HttpServletRequest request);
 	public String updateUser(String ids, String edt_roleId, String edt_roleId2);
+	public Sysuser login(String name, String pwd);
+	public Object findObject(String hql) throws Exception;
+	public void update(Object u) throws Exception;
+	
+	
+	
 	
 	
 }

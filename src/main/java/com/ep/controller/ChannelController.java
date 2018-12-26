@@ -70,8 +70,8 @@ public class ChannelController {
 	        try {
 	        	String str = "";
 	        	if(StringUtils.isNotBlank(name) && StringUtils.isNotBlank(channelId)&&StringUtils.isNotBlank(kurl)){
-	        		Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
-	        		str= chnlService.addChnl(name, channelId, sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),kurl);
+	        		Sysuser Sysuser = (Sysuser) request.getSession().getAttribute("user");
+	        		str= chnlService.addChnl(name, channelId, Sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),kurl);
 	        	}else{
 	        		JSONObject obj = new JSONObject();
 	        		obj.put("results", "error");//知识点为空

@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -191,5 +190,15 @@ public class UserInfoDAO {
 			 List list = query.list();
 			 //closeSess(sess);
 			 return list;
+	}
+	
+	public Object update(Object obj) throws Exception {
+		try {
+			Session session = this.getSession();
+		    session.update(obj);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

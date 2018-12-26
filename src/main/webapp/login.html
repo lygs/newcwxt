@@ -6,6 +6,7 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <META HTTP-EQUIV="expires" CONTENT="0">
 <script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/jquery.form.js"></script>
 <script type="text/javascript" src="admin/login.js"></script>
 <title>四川环保厅智能问答管理平台</title>
 <style>
@@ -122,12 +123,12 @@
 <body style="background:url(images/bg.jpg) repeat-x center top;background-color: #099fde;">
   <div id="login_wiap">
      <div id="login_main">
-      <form class="form">
+      <form class="form" id="loginForm">
          <ul>
             <li class="t1">
             	<input type="text" value="" id="name" autocomplete="off"/>
             </li>
-            <li class="t2"><input type="password" id="pwd" value="" autocomplete="off"/></li>
+            <li class="t2"><input type="password" id="pwd"  autocomplete="off"/></li>
             <li class="t3"><input  name="code" id="validateCode" type="text" /></li>
             <li class="t3e">
             <a href="#">

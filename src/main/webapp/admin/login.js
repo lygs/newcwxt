@@ -28,7 +28,7 @@ function logins(){
 		dataType:"json",
 		data:{"name":name,"pwd":pwd,"validateCode":validateCode},
 		success:function(data){
-			if(data.results=='success'){
+			/*if(data.results=='success'){
 				window.location.href="/eprobot/admin/indexManager.html";
 			}else if(data.results=="error"){
 				changeCode();
@@ -39,7 +39,41 @@ function logins(){
 			}else if(data.results =="null"){
 				changeCode();
 				alert("用户名或密码为空");
-			}
+			}*/
+			var tempUrl;
+			 if(data.results!=null && (data.results=="success" || data.results=="SUCCESS")){
+				 tempUrl = "/eprobot/admin/indexManager.html";
+	            	window.location.href=tempUrl;
+				 window.location.href="/eprobot/admin/indexManager.html";
+	         }else if(data.results && data.results.indexOf("codeerror")>-1){
+	                   alert("验证码错误！");
+	            	   changeCode();
+	            	   $("#validateCode").val("");
+	         }else if(data.results && data.results.indexOf("max_login")>-1){
+	            	alert("错误登录次数超过10次，请30分钟后重试！");
+	            	changeCode();
+	         }else if(data.results && data.results.indexOf("loginin")>-1){
+	            	if(confirm("该用户已经登录，是否强行登录?")){
+	            		var queryString ="";
+	           			 queryString += $('#loginForm').formSerialize();
+	            			$.ajax({
+	           				type : 'post',
+	           				data:queryString,
+	           				dataType:"text",
+	           				url : "/eprobot/user/login.action?login_=1",
+	           				cache : false,
+	           				success : function(data) {
+	           					tempUrl = "/eprobot/admin/indexManager.html";
+	           	            	window.location.href=tempUrl;
+	           				}
+	           			});
+	            	}
+	            }else{
+	                 alert("用户名或密码错误！");   
+	                	changeCode();
+	                	$("#name").val("");
+	                	$("#pwd").val("");
+		        }
 		}
 	});
 }

@@ -239,11 +239,11 @@ public class QuestionAnswerController {
 				if (!CMyString.isEmpty(qaQuestion) && !CMyString.isEmpty(qaAnswer) && !CMyString.isEmpty(knowledgePoint)
 						&& !CMyString.isEmpty(kewwords) && StringUtils.isNotBlank(resource)) {
 					String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
-					Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
+					Sysuser Sysuser = (Sysuser) request.getSession().getAttribute("user");
 					qaEntity.setQaAnswer(qaAnswer);
 					qaEntity.setQaQuestion(qaQuestion);
 					qaEntity.setQaCreatetime(date);
-					qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
+					qaEntity.setQaCreator(String.valueOf(Sysuser.getUserId()));
 					qaEntity.setQaKnowledge(Integer.parseInt(knowledgePoint));
 					qaEntity.setQaType(0); // 0普通 1常见问题
 					qaEntity.setQaResource(resource); // 信息来源
@@ -412,8 +412,8 @@ public class QuestionAnswerController {
 						&& StringUtils.isNotBlank(resources1)) {
 					QuestionAnswerEntity qaEntity = qaService.getQuestionAnswerById(Integer.valueOf(id));
 					if (qaEntity != null) {
-						Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
-						qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
+						Sysuser Sysuser = (Sysuser) request.getSession().getAttribute("user");
+						qaEntity.setQaCreator(String.valueOf(Sysuser.getUserId()));
 						qaEntity.setQaAnswer(qaAnswer);
 						qaEntity.setQaQuestion(qaQuestion);
 						qaEntity.setQaKnowledge(Integer.valueOf(qaKnowledge));
@@ -571,7 +571,7 @@ public class QuestionAnswerController {
 	@RequestMapping("/addQuestionByExcel")
 	public void addQuestionByExcel(@RequestParam("file") MultipartFile file) throws IOException {
 		JSONObject json = new JSONObject();
-		Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
+		Sysuser Sysuser = (Sysuser) request.getSession().getAttribute("user");
 		try {
 			List<Map<String, String>> list = ReadExcel.getExcelDate(file);
 			if (list != null) {
@@ -628,7 +628,7 @@ public class QuestionAnswerController {
 								if (clist.size() > 0) {
 									chnnelid = clist.get(0).getChannelid().toString();
 								} else {
-									String channelobj = channelService.addChnl(epcid1, "0", sysuser.getUserName(),
+									String channelobj = channelService.addChnl(epcid1, "0", Sysuser.getUserName(),
 											new Timestamp(System.currentTimeMillis()), epcid1url);
 									JSONObject obj = JSONObject.fromObject(channelobj);
 									chnnelid = obj.getString("chnlId");
@@ -641,7 +641,7 @@ public class QuestionAnswerController {
 
 									} else {
 										String channelobj1 = channelService.addChnl(epcid2, chnnelid,
-												sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
+												Sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
 												epcid2url);
 										JSONObject obj1 = JSONObject.fromObject(channelobj1);
 										chnnelid = obj1.getString("chnlId");
@@ -654,7 +654,7 @@ public class QuestionAnswerController {
 										chnnelid = clist2.get(0).getChannelid().toString();
 									} else {
 										String channelobj2 = channelService.addChnl(epcid3, chnnelid,
-												sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
+												Sysuser.getUserName(), new Timestamp(System.currentTimeMillis()),
 												epcid3url);
 										JSONObject obj2 = JSONObject.fromObject(channelobj2);
 										chnnelid = obj2.getString("chnlId");
@@ -672,13 +672,13 @@ public class QuestionAnswerController {
 								kid = kList.get(0).getId();
 							} else {
 								String string = knowledgePointService.addKnows(qaKnowledge, chnnelid,
-										sysuser.getUserId());
+										Sysuser.getUserId());
 								JSONObject object = JSONObject.fromObject(string);
 								kid = Integer.parseInt(object.getString("kid"));
 							}
 							String date = DateUtil.paseDate(new Date(), "yyyy-MM-dd HH:mm:ss");
 							QuestionAnswerEntity qaEntity = new QuestionAnswerEntity();
-							qaEntity.setQaCreator(String.valueOf(sysuser.getUserId()));
+							qaEntity.setQaCreator(String.valueOf(Sysuser.getUserId()));
 							qaEntity.setQaAnswer(qaAnswer);
 							qaEntity.setQaQuestion(qaQuestion);
 							qaEntity.setQaCreatetime(date);

@@ -118,8 +118,8 @@ public class KnowPointController {
         String channelId = request.getParameter("channelId");//栏目名称 暂未使用
         try {
         	if(StringUtils.isNotBlank(name)){
-        		Sysuser sysuser = (Sysuser) request.getSession().getAttribute("user");
-        		int id = sysuser.getUserId();
+        		Sysuser Sysuser = (Sysuser) request.getSession().getAttribute("user");
+        		int id = Sysuser.getUserId();
         		String str= knowledgePointService.addKnows(name,channelId,id);
                 response.getWriter().print(str);
         	}else{
