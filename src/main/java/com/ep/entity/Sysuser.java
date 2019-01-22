@@ -24,12 +24,12 @@ public class Sysuser implements java.io.Serializable {
 	private String createTime;//创建时间
 	private int roleId;//角色    0管理員    1普通用戶
 	private Integer login_num;//登录失败次数
-	// Constructors
 
 	/** default constructor */
 	public Sysuser() {
+		
 	}
-	@Column(name="ROLEID")
+	@Column(name = "ROLEID")
 	public int getRoleId() {
 		return roleId;
 	}

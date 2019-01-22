@@ -201,7 +201,6 @@ public class UserController {
 									application.setAttribute("userList",userlist_temp);
 									obj.put("results", "ERROR");
 								}
-
 							} else {// 用户名错误
 								obj.put("results", "ERROR");
 							}

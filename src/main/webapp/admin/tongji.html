@@ -168,7 +168,7 @@
     	    async:false,
     	    success:function(data){
     	    	for(var i=0; i<data.length; i++){
-    	    	$(".hfw").append("<span>"+data[i].words+"</span>&emsp;");
+    	    		$(".hfw").append("<span>"+data[i].words+"</span>&emsp;");
     	    	}
     	    }
     	});
@@ -344,7 +344,6 @@
         if (option1 && typeof option1 === "object") {
         	manyiduChart.setOption(option1, true);
         }
-     
         // 增加监听事件
         manyiduChart.on("click", eConsole);
         
@@ -360,13 +359,10 @@
     	  var pStatus;
     	  if(param.name == "满意"){
     		  pStatus = 1;
-    		  
     	  }else{
     		  pStatus = 0;
     	  }
     	  $('#mainright iframe', window.parent.document).attr("src","praise.html?"+pStatus);
-    	  
-    	  
     	//everyClick(param); // 对应触发事件
       }
     }

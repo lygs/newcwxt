@@ -9,8 +9,8 @@ $(function(){
 });
 
 function logins(){
-	var name=$("#name").val();
-	var pwd = $("#pwd").val();
+	var name=$.trim($("#name").val());
+	var pwd =$.trim( $("#pwd").val());
 	 var validateCode = $.trim($("#validateCode").val());
 	if(name =="" || name ==null){
 		alert("请输入用户名");
@@ -26,7 +26,7 @@ function logins(){
 	$.ajax({
 		url:"/eprobot/user/login.action",
 		dataType:"json",
-		data:{"name":name,"pwd":pwd,"validateCode":validateCode},
+		data:{"name":name,"pwd":MD5(pwd),"validateCode":validateCode},
 		success:function(data){
 			/*if(data.results=='success'){
 				window.location.href="/eprobot/admin/indexManager.html";

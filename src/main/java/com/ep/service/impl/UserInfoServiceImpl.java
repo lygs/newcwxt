@@ -76,6 +76,7 @@ public class UserInfoServiceImpl implements UserInfoService{
 	public Sysuser login(String name, String pwd) {
 		String hql = "from Sysuser where userName =?0 and password=?1";
 		Object[] param ={name,MD5.crypt(pwd)};
+		System.out.println("------------"+MD5.crypt(pwd));
 		Sysuser user = (Sysuser) userInfoDAO.getObj(hql, param);
 		if (user!=null) {
 			LogMessage logs = new LogMessage();

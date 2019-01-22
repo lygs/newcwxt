@@ -164,7 +164,7 @@ var rcId;
 			        success:function(data){
 			          if(data.results=="success"){
 			        	 alert("成功退出");
-			        	 window.location.href="/eprobot/login.jsp";
+			        	 window.location.href="/eprobot/login.html";
 			          }
 			        }
 				});
@@ -186,7 +186,7 @@ var rcId;
 				}
 				$.ajax({
 			        url:"/eprobot/user/updatePwd",
-			        data:{"oldPwd":oldPwd,"newPwd":newPwd,"ids":"1"},
+			        data:{"oldPwd":MD5(oldPwd),"newPwd":MD5(newPwd),"ids":"1"},
 			        dataType:'json',
 			        success:function(data){
 			          if(data.results=="ERROR" || data.results == 'error'){
@@ -594,7 +594,7 @@ function saveUser(){
 	$.ajax({
 		type:"post",
 		url:"/eprobot/user/addUser.action",
-		data:{"name":name,"pwd":pwd,"email":email,"roleId":roleId},
+		data:{"name":name,"pwd":MD5(pwd),"email":email,"roleId":roleId},
 		dataType:"json",
 		success:function(data){
 			if(data.results=="success"){
