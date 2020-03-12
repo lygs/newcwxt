@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src=" <%=basePath%>static/vue2.6.7/vue.js"></script>
-<title>测试</title>
+<title>欢迎进入财务系统</title>
 </head>
 <body>
 <a href="http://127.0.0.1:8080/Maven_Demo/user/test/">User Login</a>
@@ -30,9 +30,9 @@ new Vue({
   el: '#app',
   data: {
     todos: [
-      { text: '菜鸟教程' },
-      { text: 'www.runoob.com' },
-      { text: 'www.w3cschool.cc' }
+      { text: '欢迎' },
+      { text: '你好' },
+      { text: 'good' }
     ]
   }
 })
