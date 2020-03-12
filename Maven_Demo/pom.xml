@@ -3,7 +3,6 @@
   <groupId>com.li</groupId>
   <artifactId>Maven_Demo</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
      <properties>
         <!-- spring版本号 -->
         <spring.version>4.1.5.RELEASE</spring.version>
